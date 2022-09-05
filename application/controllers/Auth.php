@@ -84,7 +84,7 @@ class Auth extends CI_Controller
           'divisi_id'           => $row->divisi_id,
           'divisi_name'         => $divisi_id->divisi_name,
           'photo'               => $row->photo,
-          'photo_thumb'         => $row->photo_thumb,          
+          'photo_thumb'         => $row->photo_thumb,
           'created_at'          => $row->created_at,
         );
 
@@ -412,7 +412,7 @@ class Auth extends CI_Controller
           ];
 
           $this->load->library('email', $config);
-        
+
           // sender / from
           $this->email->from($this->data['company_data']->company_email, $this->data['company_data']->company_name);
           // target / mail receiver
