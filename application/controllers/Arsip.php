@@ -13,7 +13,7 @@ class Arsip extends CI_Controller
     $this->load->helper(array('highlight'));
 
     $this->load->model(array('Arsip_model', 'File_model', 'Rak_model', 'Baris_model', 'Kategori_model'));
-    
+
     $this->data['company_data']      = $this->Company_model->company_profile();
     $this->data['footer']            = $this->Footer_model->footer();
 
@@ -37,7 +37,7 @@ class Arsip extends CI_Controller
     $instansi_id  = $this->input->get('instansi_id');
     $cabang_id    = $this->input->get('cabang_id');
     $divisi_id    = $this->input->get('divisi_id');
-    
+
     $this->data['instansi']   = $this->Instansi_model->get_by_id($instansi_id);
     $this->data['cabang']     = $this->Cabang_model->get_by_id($cabang_id);
     $this->data['divisi']     = $this->Divisi_model->get_by_id($divisi_id);
@@ -120,5 +120,10 @@ class Arsip extends CI_Controller
       $this->session->set_flashdata('message', '<div class="alert alert-danger"><i class="fa fa-bullhorn"></i> Arsip yang Anda cari tidak ditemukan!</div>');
       redirect('home');
     }
+  }
+
+  function pdf_frame()
+  {
+    $this->load->view('front/arsip/pdf_frame', $this->data);
   }
 }

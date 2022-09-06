@@ -239,15 +239,15 @@
             <div class="col-lg-10">
               <p>
                 <?php foreach ($get_all_jenis_arsip as $jenisArsipId) { ?>
-                  <div class="pretty p-icon p-smooth">
-                    <input type="checkbox" name="jenis_arsip_id[]" value="<?php echo $jenisArsipId->id_jenis ?>">
-                    <div class="state p-success">
-                      <i class="icon fa fa-check"></i>
-                      <label><?php echo $jenisArsipId->jenis_name ?></label>
-                    </div>
-                  </div>
-                <?php } ?>
-              </p>
+              <div class="pretty p-icon p-smooth">
+                <input type="checkbox" name="jenis_arsip_id[]" value="<?php echo $jenisArsipId->id_jenis ?>">
+                <div class="state p-success">
+                  <i class="icon fa fa-check"></i>
+                  <label><?php echo $jenisArsipId->jenis_name ?></label>
+                </div>
+              </div>
+            <?php } ?>
+            </p>
             </div>
           </div>
 
@@ -256,7 +256,7 @@
             <div class="col-lg-10">
               <?php echo form_input($masa_retensi) ?>
             </div>
-          </div>          
+          </div>
 
           <div class="form-group">
             <label class="col-lg-2 control-label">Upload File</label>
@@ -335,11 +335,11 @@
         </div>
         <div class="box-footer">
           <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-3">
               <button type="submit" name="button" class="btn btn-success"><i class="fa fa-save"></i> <?php echo $btn_submit ?></button>
               <button type="reset" name="button" class="btn btn-danger"><i class="fa fa-refresh"></i> <?php echo $btn_reset ?></button>
             </div>
-            <div class="col-md-10" style="margin-top:7px; padding-right:35px">
+            <div class="col-md-9" style="margin-top:7px; padding-right:35px">
               <div class="progress" style="display:none">
                 <div id="file-progress-bar" class="progress-bar"></div>
               </div>
@@ -356,7 +356,7 @@
   </div>
   <!-- /.content-wrapper -->
 
-  <?php $this->load->view('back/template/footer'); ?>  
+  <?php $this->load->view('back/template/footer'); ?>
   <!-- multifile -->
   <script src="<?php echo base_url('assets/plugins/multifile/') ?>jquery.MultiFile.js" type="text/javascript" language="javascript"></script>
   <!-- Jquery Validation -->
@@ -370,82 +370,82 @@
   <!-- bootstrap datepicker -->
   <link rel="stylesheet" href="<?php echo base_url('assets/plugins/') ?>bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
   <script src="<?php echo base_url('assets/plugins/') ?>bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-  
+
   <script type="text/javascript">
     $(document).ready(function() {
       $("#map_id").select2({
         // placeholder: "Silahkan Pilih Peminjam",
       });
-      
+
       $("#box_id").select2({
         // placeholder: "Silahkan Pilih Peminjam",
       });
     });
-    
+
     //Progress Bar-----------------------------------------------
-    jQuery(document).on('submit', '#add_form', function(e){
-        //jQuery("#chk-error").html('');
-        var checkValue = $(".file-upload").val();
-        // console.log(checkValue);
-        if(checkValue) {
-            
-            jQuery('.progress').show();
-            e.preventDefault();
-            $.ajax({
-                xhr: function() {
-                    var xhr = new window.XMLHttpRequest();         
-                    xhr.upload.addEventListener("progress", function(element) {
-                        if (element.lengthComputable) {
-                            var percentComplete = ((element.loaded / element.total) * 100);
-                            $("#file-progress-bar").width(percentComplete + '%');
-                            $("#file-progress-bar").html(Math.round(percentComplete)+'% Uploaded...Please wait.');
-                        
-                        }
-                    }, false);
-                    return xhr;
-                },
-                type: 'POST',
-                url:"<?php echo base_url(); ?>admin/arsip/create_action",
-                data: new FormData(this),
-                contentType: false,
-                cache: false,
-                processData:false,
-                dataType:'json',
-                beforeSend: function(){
-                    $("#file-progress-bar").width('0%');
-                },
+    jQuery(document).on('submit', '#add_form', function(e) {
+      //jQuery("#chk-error").html('');
+      var checkValue = $(".file-upload").val();
+      // console.log(checkValue);
+      if (checkValue) {
 
-                success: function(json){
-                    console.log(json);
-                    if (json == 'success') {
-                        window.location = 'https://arsip.eduarsip.id/admin/arsip';
-                    }
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-                }
-            });
-        }else{
-          
-          e.preventDefault();
-          $.ajax({
-              
-              type: 'POST',
-              url:"<?php echo base_url(); ?>admin/arsip/create_action",
-              data: new FormData(this),
-              contentType: false,
-              cache: false,
-              processData:false,
-              // dataType:'json',
+        jQuery('.progress').show();
+        e.preventDefault();
+        $.ajax({
+          xhr: function() {
+            var xhr = new window.XMLHttpRequest();
+            xhr.upload.addEventListener("progress", function(element) {
+              if (element.lengthComputable) {
+                var percentComplete = ((element.loaded / element.total) * 100);
+                $("#file-progress-bar").width(percentComplete + '%');
+                $("#file-progress-bar").html(Math.round(percentComplete) + '% Uploaded...Please wait.');
 
-              success: function(){
-                window.location = 'https://arsip.eduarsip.id/admin/arsip';
-              },
-              error: function (xhr, ajaxOptions, thrownError) {
-                console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
               }
-          });
-        }
+            }, false);
+            return xhr;
+          },
+          type: 'POST',
+          url: "<?php echo base_url(); ?>admin/arsip/create_action",
+          data: new FormData(this),
+          contentType: false,
+          cache: false,
+          processData: false,
+          dataType: 'json',
+          beforeSend: function() {
+            $("#file-progress-bar").width('0%');
+          },
+
+          success: function(json) {
+            console.log(json);
+            if (json == 'success') {
+              window.location = '<?php echo base_url(); ?>admin/arsip';
+            }
+          },
+          error: function(xhr, ajaxOptions, thrownError) {
+            console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+          }
+        });
+      } else {
+
+        e.preventDefault();
+        $.ajax({
+
+          type: 'POST',
+          url: "<?php echo base_url(); ?>admin/arsip/create_action",
+          data: new FormData(this),
+          contentType: false,
+          cache: false,
+          processData: false,
+          // dataType:'json',
+
+          success: function() {
+            window.location = '<?php echo base_url(); ?>admin/arsip';
+          },
+          error: function(xhr, ajaxOptions, thrownError) {
+            console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+          }
+        });
+      }
     });
     //End Progress Bar------------------------------------------
   </script>
