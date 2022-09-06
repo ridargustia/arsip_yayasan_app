@@ -9,7 +9,7 @@
 </head>
 
 <body style="overflow: hidden;">
-    <embed src="http://localhost/yayasan_app/assets/file_arsip/EduArsip/9738-31254-1-PB.pdf#toolbar=0" height="100000px" width="100%">
+    <embed src="http://localhost/yayasan_app/assets/file_arsip/EduArsip/131401029.pdf#toolbar=0" height="110000px" width="100%">
 </body>
 
 </html>

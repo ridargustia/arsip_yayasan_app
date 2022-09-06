@@ -126,4 +126,9 @@ class Arsip extends CI_Controller
   {
     $this->load->view('front/arsip/pdf_frame', $this->data);
   }
+
+  function ajax_preview_cover($id)
+  {
+    $this->load->view('back/arsip/preview_cover', $this->data);
+  }
 }

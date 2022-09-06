@@ -25,6 +25,9 @@
               <div class="row">
                 <div class="col-sm-3">
                   <iframe src="http://localhost/yayasan_app/arsip/pdf_frame" width="100%" height="300px"></iframe>
+                  <center>
+                    <a href="#" onclick="previewCover(<?php echo $detail_arsip->id_arsip ?>)" title="Preview Cover" class="btn btn-success" style="padding-left: 40%; padding-right:40%;">Preview</a>
+                  </center>
                 </div>
                 <div class="col-sm-9">
                   <table class="table">
@@ -108,6 +111,11 @@
 
           <a href="<?php echo base_url('home') ?>" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Kembali ke halaman sebelumnya</a>
 
+          <div class="modal fade" id="ModalPreview" role="dialog" style="min-width: 100%;margin-left:0px">
+            <div class="modal-dialog" style="min-width: 100%;">
+              <div id="dataPreview"></div>
+            </div><!-- /.modal-dialog -->
+          </div>
         </section>
         <!-- /.content -->
       </div>
@@ -117,6 +125,31 @@
 
     <?php $this->load->view('front/template/footer'); ?>
 
+    <script>
+      function previewCover(id) {
+        $("#id").val(id);
+        $('#ModalPreview').modal("show");
+        loadPreview(id);
+      }
+
+      function loadPreview(id_arsip) {
+        // var url = "buku/ajax_label/" + id + "/";
+        $.ajax({
+          url: "<?php echo base_url(); ?>arsip/ajax_preview_cover/" + id_arsip + "",
+          type: "GET",
+          async: true,
+          data: {
+
+          },
+          success: function(data) {
+            $('#dataPreview').html(data);
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            alert('Error adding / update data');
+          }
+        });
+      }
+    </script>
 </body>
 
 </html>
