@@ -179,7 +179,7 @@
 
                   $arsip_name = !empty($search_form) ? highlightWords($hasil->arsip_name, $search_form) : $hasil->arsip_name;
                   $deskripsi_arsip = !empty($search_form) ? highlightWords($hasil->deskripsi_arsip, $search_form) : $hasil->deskripsi_arsip;
-                  
+
                   // status peminjaman
                   if ($hasil->is_available == '0') {
                     $is_available = "<button type='button' name='button' class='btn btn-xs btn-danger'>DIPINJAM</button> ";
@@ -189,9 +189,12 @@
                 ?>
                   <li class="item">
                     <div class="product-img">
-                      <img src="<?php echo base_url('assets/images/arsip.jpg') ?>">
+                      <iframe src="<?php echo base_url() ?>arsip/pdf_frame/<?php echo $hasil->id_arsip ?>" width="200px" height="100%"></iframe>
+                      <center>
+                        <a href="#" onclick="previewCover(<?php echo $hasil->id_arsip ?>)" title="Preview Cover" class="btn btn-success" style="width: 100%;">Preview</a>
+                      </center>
                     </div>
-                    <div class="product-info">
+                    <div class="product-info" style="padding-left: 160px;">
                       <font style="font-size: 15px; font-weight: bold"><?php echo $hasil->no_arsip ?></font><br>
                       <a class="product-title">
                         <font style="font-size: 18px"><?php echo $arsip_name ?></font>
@@ -223,6 +226,11 @@
             </div>
           </div>
           <!-- /.box -->
+          <div class="modal fade" id="ModalPreview" role="dialog" style="min-width: 100%;margin-left:0px">
+            <div class="modal-dialog" style="min-width: 100%;">
+              <div id="dataPreview"></div>
+            </div><!-- /.modal-dialog -->
+          </div>
         </section>
         <!-- /.content -->
       </div>
@@ -231,6 +239,32 @@
     <!-- /.content-wrapper -->
 
     <?php $this->load->view('front/template/footer'); ?>
+
+    <script>
+      function previewCover(id) {
+        $("#id").val(id);
+        $('#ModalPreview').modal("show");
+        loadPreview(id);
+      }
+
+      function loadPreview(id_arsip) {
+        // var url = "buku/ajax_label/" + id + "/";
+        $.ajax({
+          url: "<?php echo base_url(); ?>arsip/ajax_preview_cover/" + id_arsip + "",
+          type: "GET",
+          async: true,
+          data: {
+
+          },
+          success: function(data) {
+            $('#dataPreview').html(data);
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            alert('Error adding / update data');
+          }
+        });
+      }
+    </script>
 
 </body>
 

@@ -22,7 +22,7 @@
         <div class="modal-content" style="min-width: 100px;">
             <div class="modal-header" style='text-align:center'>
                 <center>
-                    <iframe src="http://localhost/yayasan_app/arsip/pdf_frame" width="100%" height="500px"></iframe>
+                    <iframe src="<?php echo base_url(); ?>arsip/pdf_frame/<?php echo $id_arsip ?>" width="100%" height="500px"></iframe>
                 </center>
             </div>
         </div>

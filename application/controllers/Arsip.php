@@ -1,4 +1,7 @@
 <?php
+
+use SebastianBergmann\Environment\Console;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Arsip extends CI_Controller
@@ -122,13 +125,18 @@ class Arsip extends CI_Controller
     }
   }
 
-  function pdf_frame()
+  function pdf_frame($id_arsip)
   {
+    $this->data['arsip'] = $this->Arsip_model->get_by_id_front($id_arsip);
+    $this->data['file_upload'] = $this->File_model->get_by_arsip_id($id_arsip);
+
     $this->load->view('front/arsip/pdf_frame', $this->data);
   }
 
-  function ajax_preview_cover($id)
+  function ajax_preview_cover($id_arsip)
   {
+    $this->data['id_arsip'] = $id_arsip;
+
     $this->load->view('back/arsip/preview_cover', $this->data);
   }
 }

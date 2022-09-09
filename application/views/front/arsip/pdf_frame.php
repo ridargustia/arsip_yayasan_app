@@ -9,7 +9,7 @@
 </head>
 
 <body style="overflow: hidden;">
-    <embed src="http://localhost/yayasan_app/assets/file_arsip/EduArsip/131401029.pdf#toolbar=0" height="110000px" width="100%">
+    <embed src="<?php echo base_url('assets/file_arsip/' . $arsip->instansi_name . '/') . $file_upload->file_upload; ?>#toolbar=0" height="110000px" width="100%">
 </body>
 
 </html>

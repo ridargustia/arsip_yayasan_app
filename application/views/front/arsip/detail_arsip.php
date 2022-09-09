@@ -24,9 +24,9 @@
             <div class="box-body">
               <div class="row">
                 <div class="col-sm-3">
-                  <iframe src="http://localhost/yayasan_app/arsip/pdf_frame" width="100%" height="300px"></iframe>
+                  <iframe src="<?php echo base_url() ?>arsip/pdf_frame/<?php echo $detail_arsip->id_arsip ?>" width="100%" height="300px"></iframe>
                   <center>
-                    <a href="#" onclick="previewCover(<?php echo $detail_arsip->id_arsip ?>)" title="Preview Cover" class="btn btn-success" style="padding-left: 40%; padding-right:40%;">Preview</a>
+                    <a href="#" onclick="previewCover(<?php echo $detail_arsip->id_arsip ?>)" title="Preview Cover" class="btn btn-success" style="width: 100%;">Preview</a>
                   </center>
                 </div>
                 <div class="col-sm-9">

@@ -90,7 +90,7 @@ class File_model extends CI_Model
 		$this->db->join('arsip', 'arsip_files.arsip_id = arsip.id_arsip', 'LEFT');
 		$this->db->where('arsip_id', $arsip_id);
 
-		return $this->db->get($this->table)->result();
+		return $this->db->get($this->table)->row();
 	}
 
 	public function save($data)
