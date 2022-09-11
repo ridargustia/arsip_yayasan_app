@@ -136,6 +136,7 @@ class Arsip extends CI_Controller
   function ajax_preview_cover($id_arsip)
   {
     $this->data['id_arsip'] = $id_arsip;
+    $this->data['file_upload'] = $this->Arsip_model->get_cover_by_id($id_arsip);
 
     $this->load->view('back/arsip/preview_cover', $this->data);
   }

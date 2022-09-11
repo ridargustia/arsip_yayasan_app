@@ -188,25 +188,39 @@
                   }
                 ?>
                   <li class="item">
-                    <div class="product-img">
-                      <iframe src="<?php echo base_url() ?>arsip/pdf_frame/<?php echo $hasil->id_arsip ?>" width="200px" height="100%"></iframe>
-                      <center>
-                        <a href="#" onclick="previewCover(<?php echo $hasil->id_arsip ?>)" title="Preview Cover" class="btn btn-success" style="width: 100%;">Preview</a>
-                      </center>
-                    </div>
-                    <div class="product-info" style="padding-left: 160px;">
-                      <font style="font-size: 15px; font-weight: bold"><?php echo $hasil->no_arsip ?></font><br>
-                      <a class="product-title">
-                        <font style="font-size: 18px"><?php echo $arsip_name ?></font>
-                      </a>
-                      <span class="label label-danger pull-right"><i class="fa fa-tag"></i> <?php echo $hasil->divisi_name ?></span>
-                      <p>
-                        <?php if ($hasil->deskripsi_arsip != NULL) {
-                          echo '<font style="font-size: 15px">' . $deskripsi_arsip . '</font>';
-                        } else {
-                          echo "Belum ada deskripsi";
-                        } ?>
-                      </p>
+                    <div class="row">
+                      <div class="col-md-2">
+                        <?php
+                        $ext_file = explode(".", $hasil->file_upload);
+                        if ($ext_file[1] == "jpg" || $ext_file[1] == "PNG" || $ext_file[1] == "jpeg") {
+                        ?>
+                          <img src="<?php echo base_url('assets/file_arsip/' . $hasil->instansi_name . '/') . $hasil->file_upload; ?>" width="100%">
+                        <?php } ?>
+                        <div class="product-img" style="width: 100%;">
+                          <?php if ($ext_file[1] == "pdf") { ?>
+                            <iframe src="<?php echo base_url(); ?>arsip/pdf_frame/<?php echo $hasil->id_arsip ?>" width="100%" height="100%"></iframe>
+                          <?php } ?>
+                          <center>
+                            <a href="#" onclick="previewCover(<?php echo $hasil->id_arsip ?>)" title="Preview Cover" class="btn btn-success" style="padding-left:34%; padding-right:34%;">Preview</a>
+                          </center>
+                        </div>
+                      </div>
+                      <div class="col-md-10">
+                        <div class="product-info" style="margin-left: 10px">
+                          <font style="font-size: 15px; font-weight: bold"><?php echo $hasil->no_arsip ?></font><br>
+                          <a class="product-title">
+                            <font style="font-size: 18px"><?php echo $arsip_name ?></font>
+                          </a>
+                          <span class="label label-danger pull-right"><i class="fa fa-tag"></i> <?php echo $hasil->divisi_name ?></span>
+                          <p>
+                            <?php if ($hasil->deskripsi_arsip != NULL) {
+                              echo '<font style="font-size: 15px">' . $deskripsi_arsip . '</font>';
+                            } else {
+                              echo "Belum ada deskripsi";
+                            } ?>
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </li>
                   <br>

@@ -16,7 +16,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -42,7 +42,7 @@ class Arsip_model extends CI_Model
 
     return $this->db->get($this->table)->result();
   }
-  
+
   function get_all_laporan()
   {
     $this->db->select('
@@ -51,7 +51,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -78,6 +78,19 @@ class Arsip_model extends CI_Model
     return $this->db->get($this->table)->result();
   }
 
+  function get_cover_by_id($id_arsip)
+  {
+    $this->db->select('arsip.id_arsip, arsip_files.file_upload, instansi.instansi_name');
+
+    $this->db->join('arsip_files', 'arsip.id_arsip = arsip_files.arsip_id', 'LEFT');
+    $this->db->join('instansi', 'arsip.instansi_id = instansi.id_instansi', 'LEFT');
+
+    $this->db->where('arsip.is_delete', '0');
+    $this->db->where($this->id, $id_arsip);
+
+    return $this->db->get($this->table)->row();
+  }
+
   function get_all_front()
   {
     $this->db->select('
@@ -86,14 +99,15 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
       divisi.divisi_name,
-      jenis_arsip.jenis_name,
+      jenis_arsip.jenis_name, arsip_files.file_upload
     ');
 
+    $this->db->join('arsip_files', 'arsip.id_arsip = arsip_files.arsip_id', 'LEFT');
     $this->db->join('arsip_jenis', 'arsip.id_arsip = arsip_jenis.arsip_id', 'LEFT');
     $this->db->join('jenis_arsip', 'arsip_jenis.jenis_arsip_id = jenis_arsip.id_jenis', 'LEFT');
     $this->db->join('instansi', 'arsip.instansi_id = instansi.id_instansi', 'LEFT');
@@ -164,7 +178,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -193,7 +207,7 @@ class Arsip_model extends CI_Model
 
     return $this->db->get($this->table)->result();
   }
-  
+
   function get_all_by_instansi_laporan()
   {
     $this->db->select('
@@ -202,7 +216,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -240,7 +254,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -277,7 +291,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -304,7 +318,7 @@ class Arsip_model extends CI_Model
 
     return $this->db->get($this->table)->result();
   }
-  
+
   function get_all_by_cabang_laporan()
   {
     $this->db->select('
@@ -313,7 +327,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -349,7 +363,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -387,7 +401,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -413,7 +427,7 @@ class Arsip_model extends CI_Model
 
     return $this->db->get($this->table)->result();
   }
-  
+
   function get_all_by_divisi_laporan()
   {
     $this->db->select('
@@ -422,7 +436,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -457,7 +471,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -495,7 +509,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -531,7 +545,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -567,7 +581,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -604,7 +618,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -641,7 +655,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -677,7 +691,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -713,7 +727,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -750,7 +764,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -800,7 +814,7 @@ class Arsip_model extends CI_Model
     $this->db->join('cabang', 'arsip.cabang_id = cabang.id_cabang', 'LEFT');
     $this->db->join('instansi', 'arsip.instansi_id = instansi.id_instansi', 'LEFT');
     $this->db->join('baris', 'arsip.baris_id = baris.id_baris', 'LEFT');
-    $this->db->join('box', 'arsip.box_id = box.id_box', 'LEFT');    
+    $this->db->join('box', 'arsip.box_id = box.id_box', 'LEFT');
     $this->db->join('map', 'arsip.map_id = map.id_map', 'LEFT');
     $this->db->join('rak', 'arsip.rak_id = rak.id_rak', 'LEFT');
     $this->db->join('lokasi', 'arsip.lokasi_id = lokasi.id_lokasi', 'LEFT');
@@ -826,7 +840,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -862,7 +876,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -899,7 +913,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -936,7 +950,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -972,7 +986,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -1008,7 +1022,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -1045,7 +1059,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -1215,7 +1229,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -1247,7 +1261,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -1282,7 +1296,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -1316,7 +1330,7 @@ class Arsip_model extends CI_Model
       baris.baris_name,
       rak.rak_name,
       box.box_name,
-      map.map_name,      
+      map.map_name,
       lokasi.lokasi_name,
       instansi.instansi_name,
       cabang.cabang_name,
@@ -1418,16 +1432,16 @@ class Arsip_model extends CI_Model
     $this->db->select('arsip.no_arsip, instansi.id_instansi');
 
     $this->db->join('instansi', 'arsip.instansi_id = instansi.id_instansi');
-    
+
     $this->db->where('arsip.instansi_id', $this->session->instansi_id);
-    if(is_superadmin() or is_admin()) {
-        $this->db->where('arsip.cabang_id', $this->session->cabang_id);
+    if (is_superadmin() or is_admin()) {
+      $this->db->where('arsip.cabang_id', $this->session->cabang_id);
     }
     $this->db->where('no_arsip', $id);
 
     return $this->db->get($this->table)->row();
   }
-  
+
   function get_no_arsip_by_cabang($id, $cabang_id, $instansi_id)
   {
     $this->db->select('arsip.no_arsip, instansi.id_instansi');
@@ -1452,7 +1466,7 @@ class Arsip_model extends CI_Model
 
     return $this->db->get($this->table)->row();
   }
-  
+
   function get_arsip_name_by_instansi_and_cabang($arsip_name, $cabang_id, $instansi_id)
   {
     $this->db->select('arsip.arsip_name, instansi.id_instansi');
@@ -1465,7 +1479,7 @@ class Arsip_model extends CI_Model
 
     return $this->db->get($this->table)->row();
   }
-  
+
   function get_arsip_name_by_cabang($arsip_name)
   {
     $this->db->select('arsip.arsip_name, cabang.id_cabang');
@@ -1791,7 +1805,7 @@ class Arsip_model extends CI_Model
     $this->db->join('jenis_arsip', 'arsip_jenis.jenis_arsip_id = jenis_arsip.id_jenis', 'LEFT');
 
     $this->db->like('arsip_name', $search_form);
-    // $this->db->or_like('deskripsi_arsip', $search_form);    
+    // $this->db->or_like('deskripsi_arsip', $search_form);
 
     $this->db->where('arsip.instansi_id', $this->session->instansi_id);
     $this->db->where('arsip.cabang_id', $cabang_id);
@@ -1833,7 +1847,7 @@ class Arsip_model extends CI_Model
     $this->db->join('map', 'arsip.map_id = map.id_map', 'LEFT');
     $this->db->join('rak', 'arsip.rak_id = rak.id_rak', 'LEFT');
     $this->db->join('arsip_jenis', 'arsip.id_arsip = arsip_jenis.arsip_id', 'LEFT');
-    $this->db->join('jenis_arsip', 'arsip_jenis.jenis_arsip_id = jenis_arsip.id_jenis', 'LEFT');    
+    $this->db->join('jenis_arsip', 'arsip_jenis.jenis_arsip_id = jenis_arsip.id_jenis', 'LEFT');
 
     $this->db->where('arsip.divisi_id', $divisi_id);
     $this->db->where('arsip.is_delete', '0');
@@ -1877,7 +1891,7 @@ class Arsip_model extends CI_Model
     $this->db->like('arsip_name', $search_form);
     // $this->db->or_like('deskripsi_arsip', $search_form);
 
-    $this->db->where('arsip.instansi_id', $this->session->instansi_id);    
+    $this->db->where('arsip.instansi_id', $this->session->instansi_id);
     $this->db->where('arsip.is_delete', '0');
 
     $this->db->group_by('arsip.arsip_name');
@@ -1917,7 +1931,7 @@ class Arsip_model extends CI_Model
     $this->db->join('jenis_arsip', 'arsip_jenis.jenis_arsip_id = jenis_arsip.id_jenis', 'LEFT');
 
     $this->db->like('arsip_name', $search_form);
-    // $this->db->or_like('deskripsi_arsip', $search_form);    
+    // $this->db->or_like('deskripsi_arsip', $search_form);
 
     $this->db->where('arsip.instansi_id', $this->session->instansi_id);
     $this->db->where('arsip.divisi_id', $divisi_id);
@@ -2322,10 +2336,10 @@ class Arsip_model extends CI_Model
   }
 
   public function delete_by_id($id)
-	{
-		$this->db->where($this->id, $id);
-		$this->db->delete($this->table);
-	}
+  {
+    $this->db->where($this->id, $id);
+    $this->db->delete($this->table);
+  }
 
   function del_files_by_id_files($id)
   {
