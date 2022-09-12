@@ -140,4 +140,53 @@ class Arsip extends CI_Controller
 
     $this->load->view('back/arsip/preview_cover', $this->data);
   }
+
+  function form_telusur_arsip($id_arsip)
+  {
+    $this->data['page_title'] = 'Konfirmasi Pembayaran Arsip';
+    $this->data['action']     = 'arsip/create_order';
+
+    $this->data['id_arsip'] = $id_arsip;
+
+    $this->data['id_arsip'] = [
+      'name'          => 'id_arsip',
+      'type'          => 'hidden',
+    ];
+    $this->data['name'] = [
+      'name'          => 'name',
+      'id'            => 'name',
+      'class'         => 'form-control',
+      'autocomplete'  => 'off',
+      'required'      => '',
+    ];
+    $this->data['email'] = [
+      'name'          => 'email',
+      'id'            => 'email',
+      'class'         => 'form-control',
+      'autocomplete'  => 'off',
+      'required'      => '',
+    ];
+    $this->data['no_wa'] = [
+      'name'          => 'no_wa',
+      'id'            => 'no_wa',
+      'class'         => 'form-control',
+      'autocomplete'  => 'off',
+      'required'      => '',
+    ];
+
+    $this->load->view('front/arsip/form_telusur_arsip', $this->data);
+  }
+
+  function create_order()
+  {
+    $this->form_validation->set_rules('name', 'Nama', 'trim|required');
+    $this->form_validation->set_rules('email', 'Email', 'valid_email|required');
+    $this->form_validation->set_rules('no_wa', 'No. WhatsApp', 'is_numeric|required');
+
+    $this->form_validation->set_message('required', '{field} wajib diisi');
+    $this->form_validation->set_message('valid_email', 'Format {field} salah');
+    $this->form_validation->set_message('is_numeric', '{field} wajib berisi angka');
+
+    $this->form_validation->set_error_delimiters('<div class="alert alert-danger">', '</div>');
+  }
 }

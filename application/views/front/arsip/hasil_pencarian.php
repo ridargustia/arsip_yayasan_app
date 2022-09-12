@@ -211,7 +211,7 @@
                           <a class="product-title">
                             <font style="font-size: 18px"><?php echo $arsip_name ?></font>
                           </a>
-                          <span class="label label-danger pull-right"><i class="fa fa-tag"></i> <?php echo $hasil->divisi_name ?></span>
+                          <span class="label label-danger pull-right" style="padding: 10px 15px;"><i class="fa fa-tag"></i> <?php echo $hasil->divisi_name ?></span>
                           <p>
                             <?php if ($hasil->deskripsi_arsip != NULL) {
                               echo '<font style="font-size: 15px">' . $deskripsi_arsip . '</font>';
@@ -231,7 +231,7 @@
                       <?php echo $is_available ?>
                     </div>
                     <div class="col-sm-4 text-right">
-                      <a href="<?php echo base_url('arsip/detail/' . $hasil->id_arsip) ?>" class="btn btn-sm btn-success"><i class="fa fa-search"></i> PREVIEW</a>
+                      <a href="<?php echo base_url('arsip/detail/' . $hasil->id_arsip) ?>" class="btn btn-sm btn-success"><i class="fa fa-search"></i> Detail</a>
                     </div>
                   </div>
                   <hr>

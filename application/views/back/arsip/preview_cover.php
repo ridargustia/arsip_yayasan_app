@@ -35,7 +35,7 @@
         </div>
         <!-- /.modal-content -->
         <div class="modal-footer">
-
+            <a href="<?php echo base_url('arsip/form_telusur_arsip/' . $id_arsip); ?>" class="btn btn-success"><i class="fa fa-send"></i> Telusur Arsip</a>
         </div>
     </div>
 </div>
