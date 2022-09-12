@@ -201,7 +201,7 @@
                             <iframe src="<?php echo base_url(); ?>arsip/pdf_frame/<?php echo $hasil->id_arsip ?>" width="100%" height="100%"></iframe>
                           <?php } ?>
                           <center>
-                            <a href="#" onclick="previewCover(<?php echo $hasil->id_arsip ?>)" title="Preview Cover" class="btn btn-success" style="padding-left:34%; padding-right:34%;">Preview</a>
+                            <a href="#" onclick="previewCover(<?php echo $hasil->id_arsip ?>)" title="Preview Cover" class="btn btn-success" style="width: 100%;">Preview</a>
                           </center>
                         </div>
                       </div>

@@ -24,7 +24,14 @@
             <div class="box-body">
               <div class="row">
                 <div class="col-sm-3">
-                  <iframe src="<?php echo base_url() ?>arsip/pdf_frame/<?php echo $detail_arsip->id_arsip ?>" width="100%" height="300px"></iframe>
+                  <?php
+                  $ext_file = explode(".", $file_upload->file_upload);
+                  if ($ext_file[1] == "jpg" || $ext_file[1] == "PNG" || $ext_file[1] == "jpeg") {
+                  ?>
+                    <img src="<?php echo base_url('assets/file_arsip/' . $instansiName . '/') . $file_upload->file_upload; ?>" width="100%">
+                  <?php } elseif ($ext_file[1] == "pdf") { ?>
+                    <iframe src="<?php echo base_url() ?>arsip/pdf_frame/<?php echo $detail_arsip->id_arsip ?>" width="100%" height="300px"></iframe>
+                  <?php } ?>
                   <center>
                     <a href="#" onclick="previewCover(<?php echo $detail_arsip->id_arsip ?>)" title="Preview Cover" class="btn btn-success" style="width: 100%;">Preview</a>
                   </center>
