@@ -146,10 +146,10 @@ class Arsip extends CI_Controller
     $this->data['page_title'] = 'Konfirmasi Pembayaran Arsip';
     $this->data['action']     = 'arsip/create_order';
 
-    $this->data['id_arsip'] = $id_arsip;
+    $this->data['arsip'] = $this->Arsip_model->get_by_id($id_arsip);
 
-    $this->data['id_arsip'] = [
-      'name'          => 'id_arsip',
+    $this->data['arsip_id'] = [
+      'name'          => 'arsip_id',
       'type'          => 'hidden',
     ];
     $this->data['name'] = [
@@ -157,6 +157,7 @@ class Arsip extends CI_Controller
       'id'            => 'name',
       'class'         => 'form-control',
       'autocomplete'  => 'off',
+      'value'         => $this->form_validation->set_value('name'),
       'required'      => '',
     ];
     $this->data['email'] = [
@@ -164,6 +165,7 @@ class Arsip extends CI_Controller
       'id'            => 'email',
       'class'         => 'form-control',
       'autocomplete'  => 'off',
+      'value'         => $this->form_validation->set_value('email'),
       'required'      => '',
     ];
     $this->data['no_wa'] = [
@@ -171,6 +173,7 @@ class Arsip extends CI_Controller
       'id'            => 'no_wa',
       'class'         => 'form-control',
       'autocomplete'  => 'off',
+      'value'         => $this->form_validation->set_value('no_wa'),
       'required'      => '',
     ];
 
@@ -188,5 +191,52 @@ class Arsip extends CI_Controller
     $this->form_validation->set_message('is_numeric', '{field} wajib berisi angka');
 
     $this->form_validation->set_error_delimiters('<div class="alert alert-danger">', '</div>');
+
+    if ($this->form_validation->run() === FALSE) {
+      $this->form_telusur_arsip($this->input->post('arsip_id'));
+    } else {
+      if (!empty($_FILES['file_upload']['name'])) {
+        $nmfile = strtolower(url_title($this->input->post('name'))) . date('YmdHis');
+
+        $arsip = $this->Arsip_model->get_by_id($this->input->post('arsip_id'));
+        $instansi = $this->Instansi_model->get_by_id($arsip->instansi_id);
+
+        $config['upload_path']      = './assets/images/bukti_tf/' . $instansi->instansi_name;
+
+        if (!is_dir($config['upload_path'])) {
+          mkdir($config['upload_path'], 0777, TRUE);
+        }
+
+        $config['allowed_types']    = 'jpg|jpeg|png|pdf';
+        $config['max_size']         = 2048; // 2Mb
+        $config['file_name']        = $nmfile;
+
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('file_upload')) {
+          $error = array('error' => $this->upload->display_errors());
+          $this->session->set_flashdata('message', '<div class="alert alert-danger">' . $error['error'] . '</div>');
+
+          $this->form_telusur_arsip($this->input->post('arsip_id'));
+        } else {
+          $this->upload->data();
+
+          $data = array(
+            'name'              => $this->input->post('name'),
+            'email'             => $this->input->post('email'),
+            'no_wa'             => $this->input->post('no_wa'),
+            'arsip_id'          => $this->input->post('arsip_id'),
+            'bukti_tf'          => $this->upload->data('file_name'),
+            'created_by'        => $this->session->username,
+          );
+
+          $this->Orders_model->insert($data);
+
+          write_log();
+        }
+      }
+      $this->session->set_flashdata('message', 'Sukses');
+      redirect('arsip/form_telusur_arsip/' . $this->input->post('arsip_id'));
+    }
   }
 }

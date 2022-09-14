@@ -116,7 +116,7 @@
             </div>
           </div>
 
-          <a href="<?php echo base_url('home') ?>" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Kembali ke halaman sebelumnya</a>
+          <a href="<?php echo base_url('home') ?>" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Kembali</a>
 
           <div class="modal fade" id="ModalPreview" role="dialog" style="min-width: 100%;margin-left:0px">
             <div class="modal-dialog" style="min-width: 100%;">
