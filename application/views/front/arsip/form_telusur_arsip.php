@@ -26,7 +26,7 @@
                             <h3 class="box-title">Biaya Telusur Arsip</h3>
                         </div>
                         <div class="box-body" style="text-align: center;">
-                            <h4><b><?php echo rupiah($arsip->harga) ?></b></h4>
+                            <h4><b><?php echo $arsip->harga ?>,00</b></h4>
                             <span>Silahkan transfer ke :</span>
                             <strong>
                                 <span>Bank BSI</span>
@@ -36,19 +36,19 @@
                         </div>
                     </div>
 
+                    <?php echo form_open_multipart($action) ?>
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">Form Data Diri</h3>
                         </div>
-                        <?php echo form_open_multipart($action) ?>
                         <div class="box-body">
                             <?php echo validation_errors() ?>
-                            <p style="margin-bottom: 15px;">*Pastikan anda sudah mentransfer uang pembayaran sebelum mengisi form di bawah ini.</p>
+                            <p style="margin-bottom: 15px;">*Pastikan anda sudah mentransfer uang pembayaran sebelum melakukan konfirmasi dengan mengirim form di bawah ini.</p>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="control-label">Nama *</label>
-                                        <?php echo form_input($name) ?>
+                                        <?php echo form_input($name, $this->session->name) ?>
                                     </div>
                                 </div>
                             </div>
@@ -56,21 +56,29 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Email *</label>
-                                        <?php echo form_input($email) ?>
+                                        <?php echo form_input($email, $this->session->email) ?>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="control-label">No. WhatsApp *</label>
-                                        <?php echo form_input($no_wa) ?>
+                                        <label class="control-label">No. Telephone/HP/WhatsApp *</label>
+                                        <?php echo form_input($no_wa, $this->session->phone) ?>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Upload Bukti Transfer</h3>
+                        </div>
+                        <div class="box-body">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label class="control-label">Upload Bukti Transfer *</label>
                                         <input type="file" name="file_upload" class="file-upload" required>
+                                        <p class="help-block">Ukuran maksimal 2Mb. Ekstensi file yang diijinkan: .jpg, .jpeg, .png, .pdf</p>
                                     </div>
                                 </div>
                             </div>
@@ -79,12 +87,12 @@
                         <div class="box-footer">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <button type="submit" name="button" class="btn btn-success" style="width: 100%; font-size: 15px;"><i class="fa fa-check"></i> Submit</button>
+                                    <button type="submit" name="button" class="btn btn-success" style="width: 100%; font-size: 15px;"><i class="fa fa-check"></i> Kirim</button>
                                 </div>
                             </div>
                         </div>
-                        <?php echo form_close() ?>
                     </div>
+                    <?php echo form_close() ?>
 
                     <a href="<?php echo base_url('home') ?>" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Kembali</a>
                 </section>

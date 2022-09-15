@@ -28,55 +28,55 @@
         <div class="box-body">
           <?php if (is_grandadmin()) { ?>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Instansi</label>
+              <label class="col-lg-2 control-label">Instansi *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', $get_all_combobox_instansi, '', $instansi_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Cabang</label>
+              <label class="col-lg-2 control-label">Cabang *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', array('' => '- Pilih Instansi Dulu -'), '', $cabang_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Divisi</label>
+              <label class="col-lg-2 control-label">Divisi *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', array('' => '- Pilih Cabang Dulu -'), '', $divisi_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Lokasi Arsip</label>
+              <label class="col-lg-2 control-label">Lokasi Arsip *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', array('' => '- Pilih Cabang Dulu -'), '', $lokasi_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Kepemilikan Arsip</label>
+              <label class="col-lg-2 control-label">Kepemilikan Arsip *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', array('' => '- Pilih Divisi Dulu -'), '', $user_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Rak</label>
+              <label class="col-lg-2 control-label">Rak *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', array('' => '- Pilih Cabang Dulu -'), '', $rak_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Box</label>
+              <label class="col-lg-2 control-label">Box *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', array('' => '- Pilih Cabang Dulu -'), '', $box_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Map</label>
+              <label class="col-lg-2 control-label">Map *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', array('' => '- Pilih Cabang Dulu -'), '', $map_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Baris</label>
+              <label class="col-lg-2 control-label">Baris *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', array('' => '- Pilih Cabang Dulu -'), '', $baris_id) ?>
               </div>
@@ -84,93 +84,93 @@
 
           <?php } elseif (is_masteradmin()) { ?>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Cabang</label>
+              <label class="col-lg-2 control-label">Cabang *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', $get_all_combobox_cabang, '', $cabang_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Divisi</label>
+              <label class="col-lg-2 control-label">Divisi *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', array('' => '- Pilih Cabang Dulu -'), '', $divisi_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Lokasi Arsip</label>
+              <label class="col-lg-2 control-label">Lokasi Arsip *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', array('' => '- Pilih Cabang Dulu -'), '', $lokasi_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Kepemilikan Arsip</label>
+              <label class="col-lg-2 control-label">Kepemilikan Arsip *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', array('' => '- Pilih Divisi Dulu -'), '', $user_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Rak</label>
+              <label class="col-lg-2 control-label">Rak *</label>
               <div class="col-lg-10">
-                <?php echo form_dropdown('', array('' => '- Pilih Divisi Dulu -'), '', $rak_id) ?>
+                <?php echo form_dropdown('', array('' => '- Pilih Cabang Dulu -'), '', $rak_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Box</label>
+              <label class="col-lg-2 control-label">Box *</label>
               <div class="col-lg-10">
-                <?php echo form_dropdown('', array('' => '- Pilih Divisi Dulu -'), '', $box_id) ?>
+                <?php echo form_dropdown('', array('' => '- Pilih Cabang Dulu -'), '', $box_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Map</label>
+              <label class="col-lg-2 control-label">Map *</label>
               <div class="col-lg-10">
-                <?php echo form_dropdown('', array('' => '- Pilih Divisi Dulu -'), '', $map_id) ?>
+                <?php echo form_dropdown('', array('' => '- Pilih Cabang Dulu -'), '', $map_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Baris</label>
+              <label class="col-lg-2 control-label">Baris *</label>
               <div class="col-lg-10">
-                <?php echo form_dropdown('', array('' => '- Pilih Divisi Dulu -'), '', $baris_id) ?>
+                <?php echo form_dropdown('', array('' => '- Pilih Cabang Dulu -'), '', $baris_id) ?>
               </div>
             </div>
 
           <?php } elseif (is_superadmin()) { ?>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Divisi</label>
+              <label class="col-lg-2 control-label">Divisi *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', $get_all_combobox_divisi, '', $divisi_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Lokasi Arsip</label>
+              <label class="col-lg-2 control-label">Lokasi Arsip *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', $get_all_combobox_lokasi, '', $lokasi_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Kepemilikan Arsip</label>
+              <label class="col-lg-2 control-label">Kepemilikan Arsip *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', array('' => '- Pilih Divisi Dulu -'), '', $user_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Rak</label>
+              <label class="col-lg-2 control-label">Rak *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', $get_all_combobox_rak, '', $rak_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Box</label>
+              <label class="col-lg-2 control-label">Box *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', $get_all_combobox_box, '', $box_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Map</label>
+              <label class="col-lg-2 control-label">Map *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', $get_all_combobox_map, '', $map_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Baris</label>
+              <label class="col-lg-2 control-label">Baris *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', $get_all_combobox_baris, '', $baris_id) ?>
               </div>
@@ -178,31 +178,31 @@
 
           <?php } elseif (is_admin()) { ?>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Lokasi Arsip</label>
+              <label class="col-lg-2 control-label">Lokasi Arsip *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', $get_all_combobox_lokasi, '', $lokasi_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Rak</label>
+              <label class="col-lg-2 control-label">Rak *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', $get_all_combobox_rak, '', $rak_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Box</label>
+              <label class="col-lg-2 control-label">Box *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', $get_all_combobox_box, '', $box_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Map</label>
+              <label class="col-lg-2 control-label">Map *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', $get_all_combobox_map, '', $map_id) ?>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-2 control-label">Baris</label>
+              <label class="col-lg-2 control-label">Baris *</label>
               <div class="col-lg-10">
                 <?php echo form_dropdown('', $get_all_combobox_baris, '', $baris_id) ?>
               </div>
@@ -210,7 +210,7 @@
           <?php } ?>
 
           <div class="form-group">
-            <label class="col-lg-2 control-label">Nomor Arsip</label>
+            <label class="col-lg-2 control-label">Nomor Arsip *</label>
             <div class="col-lg-10">
               <?php echo form_input($no_arsip) ?>
               <span id="no_arsip-availability-status"></span>
@@ -219,7 +219,7 @@
           </div>
 
           <div class="form-group">
-            <label class="col-lg-2 control-label">Nama Arsip</label>
+            <label class="col-lg-2 control-label">Nama Arsip *</label>
             <div class="col-lg-10">
               <?php echo form_input($arsip_name) ?>
               <span id="arsip_name-availability-status"></span>
@@ -228,14 +228,21 @@
           </div>
 
           <div class="form-group">
-            <label class="col-lg-2 control-label">Deskripsi</label>
+            <label class="col-lg-2 control-label">Deskripsi *</label>
             <div class="col-lg-10">
               <?php echo form_textarea($deskripsi_arsip) ?>
             </div>
           </div>
 
           <div class="form-group">
-            <label class="col-lg-2 control-label">Jenis Arsip</label>
+            <label class="col-lg-2 control-label">Harga *</label>
+            <div class="col-lg-10">
+              <?php echo form_input($price) ?>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-2 control-label">Jenis Arsip *</label>
             <div class="col-lg-10">
               <p>
                 <?php foreach ($get_all_jenis_arsip as $jenisArsipId) { ?>
@@ -252,7 +259,7 @@
           </div>
 
           <div class="form-group">
-            <label class="col-lg-2 control-label">Masa Retensi</label>
+            <label class="col-lg-2 control-label">Masa Retensi *</label>
             <div class="col-lg-10">
               <?php echo form_input($masa_retensi) ?>
             </div>
@@ -266,7 +273,7 @@
           </div>
 
           <div class="form-group">
-            <label class="col-lg-2 control-label">Status Akses File</label>
+            <label class="col-lg-2 control-label">Status Akses File *</label>
             <div class="col-lg-10">
               <div class="pretty p-icon p-smooth">
                 <input type="radio" name="status_file" value="3" />
@@ -300,7 +307,7 @@
           </div>
 
           <div class="form-group">
-            <label class="col-lg-2 control-label">Keterangan</label>
+            <label class="col-lg-2 control-label">Keterangan *</label>
             <div class="col-lg-10">
               <div class="pretty p-icon p-smooth">
                 <input type="radio" name="keterangan" value="0" required />
@@ -323,6 +330,7 @@
 
           <h3><b>CATATAN:</b></h3>
           <ul>
+            <li>* Wajib diisi</li>
             <li>Jenis File yang boleh diupload:
               <br><b>TEXT</b>: txt, pdf, ppt, pptx, xls, xlsx, doc, docx.
               <br><b>AUDIO</b>: mp3, flac, wav, m4a.
@@ -370,8 +378,19 @@
   <!-- bootstrap datepicker -->
   <link rel="stylesheet" href="<?php echo base_url('assets/plugins/') ?>bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
   <script src="<?php echo base_url('assets/plugins/') ?>bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+  <!-- maskMoney -->
+  <script src="<?php echo base_url('assets/plugins/') ?>maskMoney/jquery.maskMoney.min.js"></script>
 
   <script type="text/javascript">
+    $(document).ready(function() {
+      $('#price').maskMoney({
+        prefix: 'Rp. ',
+        thousands: '.',
+        decimal: ',',
+        precision: 0
+      });
+    });
+
     $(document).ready(function() {
       $("#map_id").select2({
         // placeholder: "Silahkan Pilih Peminjam",
@@ -416,7 +435,6 @@
           },
 
           success: function(json) {
-            console.log(json);
             if (json == 'success') {
               window.location = '<?php echo base_url(); ?>admin/arsip';
             }

@@ -107,7 +107,7 @@ class Arsip extends CI_Controller
   {
     $this->data['detail_arsip']   = $this->Arsip_model->get_detail($id);
     $this->data['file_upload']    = $this->File_model->get_by_arsip_id($id);
-    
+
     $instansi                     = $this->Instansi_model->get_by_id($this->data['detail_arsip']->instansi_id);
     $this->data['instansiName']   = $instansi->instansi_name;
 
@@ -261,6 +261,14 @@ class Arsip extends CI_Controller
       'required'      => '',
       'value'         => $this->form_validation->set_value('deskripsi_arsip'),
     ];
+    $this->data['price'] = [
+      'name'          => 'price',
+      'id'            => 'price',
+      'class'         => 'form-control',
+      'autocomplete'  => 'off',
+      'required'      => '',
+      'value'         => $this->form_validation->set_value('price'),
+    ];
     $this->data['jenis_arsip_id'] = [
       'name'          => 'jenis_arsip_id[]',
       'id'            => 'jenis_arsip_id',
@@ -274,27 +282,19 @@ class Arsip extends CI_Controller
       'class'         => 'form-control',
       'autocomplete'  => 'off',
       'value'         => $this->form_validation->set_value('masa_retensi'),
+      'required'      => '',
     ];
     $this->data['status_file'] = [
       'name'          => 'status_file',
       'id'            => 'status_file',
       'class'         => 'form-control',
-    ];
-    $this->data['email'] = [
-      'name'          => 'email',
-      'id'            => 'email',
-      'class'         => 'form-control',
-    ];
-    $this->data['folder_name'] = [
-      'name'          => 'folder_name',
-      'id'            => 'folder_name',
-      'class'         => 'form-control',
-      'readonly'      => '',
+      'required'      => '',
     ];
     $this->data['keterangan'] = [
       'name'          => 'keterangan',
       'id'            => 'keterangan',
       'class'         => 'form-control',
+      'required'      => '',
     ];
     $this->data['keterangan_value'] = [
       '1'          => 'Permanen',
@@ -306,24 +306,27 @@ class Arsip extends CI_Controller
 
   function create_action()
   {
-    $this->form_validation->set_rules('no_arsip', 'Nomor Arsip', 'trim|required');
-    $this->form_validation->set_rules('arsip_name', 'Nama Arsip', 'trim|required');
-
     $this->form_validation->set_rules('lokasi_id', 'Lokasi Arsip', 'required');
     $this->form_validation->set_rules('rak_id', 'Rak', 'required');
     $this->form_validation->set_rules('box_id', 'Box', 'required');
     $this->form_validation->set_rules('map_id', 'Map', 'required');
     $this->form_validation->set_rules('baris_id', 'Baris', 'required');
+    $this->form_validation->set_rules('no_arsip', 'Nomor Arsip', 'trim|required');
+    $this->form_validation->set_rules('arsip_name', 'Nama Arsip', 'trim|required');
+    $this->form_validation->set_rules('deskripsi_arsip', 'Deskripsi Arsip', 'trim|required');
+    $this->form_validation->set_rules('price', 'Harga', 'required');
+    $this->form_validation->set_rules('masa_retensi', 'Masa Retensi', 'required');
+    $this->form_validation->set_rules('status_file', 'Status File', 'required');
+    $this->form_validation->set_rules('keterangan', 'Keterangan', 'required');
 
     $this->form_validation->set_message('required', '{field} wajib diisi');
-    $this->form_validation->set_message('is_unique', '{field} sudah ada, ganti dengan yang lain');
 
     $this->form_validation->set_error_delimiters('<div class="alert alert-danger">', '</div>');
 
     if (is_grandadmin()) {
       $instansi_id  = $this->input->post('instansi_id');
-      $divisi_id    = $this->input->post('divisi_id');
       $cabang_id    = $this->input->post('cabang_id');
+      $divisi_id    = $this->input->post('divisi_id');
       $user_id      = $this->input->post('user_id');
     } elseif (is_masteradmin()) {
       $instansi_id  = $this->session->instansi_id;
@@ -341,21 +344,19 @@ class Arsip extends CI_Controller
       $divisi_id    = $this->session->divisi_id;
       $user_id      = $this->session->id_users;
     }
-    
+
     $no_arsip = $this->input->post('no_arsip');
     $arsip_name = $this->input->post('arsip_name');
     $check_no_arsip     = $this->Arsip_model->get_no_arsip_by_cabang($no_arsip, $cabang_id, $instansi_id);
     $check_arsip_name     = $this->Arsip_model->get_arsip_name_by_instansi_and_cabang($arsip_name, $cabang_id, $instansi_id);
 
-     
     if ($this->form_validation->run() === FALSE || $check_no_arsip || $check_arsip_name) {
-        $json = 'success';
-        
-        header('Content-Type: application/json');
-        echo json_encode($json);
-        
-        $this->session->set_flashdata('message', '<div class="alert alert-danger alert">Nama Arsip atau No Arsip telah ada ya, silahkan ganti yang lain</div>');
-      //$this->create();
+      $json = 'success';
+
+      header('Content-Type: application/json');
+      echo json_encode($json);
+
+      $this->session->set_flashdata('message', '<div class="alert alert-danger alert">Nama Arsip atau No Arsip telah ada ya, silahkan ganti yang lain</div>');
     } else {
       if ($this->input->post('masa_retensi') == NULL) {
         $masa_retensi = NULL;
@@ -370,12 +371,13 @@ class Arsip extends CI_Controller
         'user_id'                         => $user_id,
         'lokasi_id'                       => $this->input->post('lokasi_id'),
         'rak_id'                          => $this->input->post('rak_id'),
+        'baris_id'                        => $this->input->post('baris_id'),
         'box_id'                          => $this->input->post('box_id'),
         'map_id'                          => $this->input->post('map_id'),
-        'baris_id'                        => $this->input->post('baris_id'),
         'no_arsip'                        => $this->input->post('no_arsip'),
         'arsip_name'                      => $this->input->post('arsip_name'),
         'deskripsi_arsip'                 => $this->input->post('deskripsi_arsip'),
+        'harga'                           => $this->input->post('price'),
         'keterangan'                      => $this->input->post('keterangan'),
         'masa_retensi'                    => $masa_retensi,
         'status_file'                     => $this->input->post('status_file'),
@@ -407,7 +409,6 @@ class Arsip extends CI_Controller
           }
 
           $config2['allowed_types']  = '*';
-          
 
           $_FILES['file']['name']       = $_FILES['file_upload']['name'][$i];
           $_FILES['file']['type']       = $_FILES['file_upload']['type'][$i];
@@ -421,17 +422,14 @@ class Arsip extends CI_Controller
 
           // Upload file to server
           if (!$this->upload->do_upload('file')) {
-            
             //file gagal diupload -> kembali ke form tambah
             $error = array('error' => $this->upload->display_errors());
             $this->session->set_flashdata('message', '<div class="col-lg-12"><div class="alert alert-danger alert">' . $error['error'] . '</div></div>');
-            
+
             $json = 'failed';
             header('Content-Type: application/json');
             echo json_encode($error['error']);
-            // $this->create();
           } else {
-            
             // Uploaded file data
             $fileData = $this->upload->data();
 
@@ -441,7 +439,7 @@ class Arsip extends CI_Controller
               'created_by'      => $this->session->userdata('username'),
             );
 
-            
+
             // Insert files data into the database
             $this->Arsip_model->insert_files($datas);
           }
@@ -461,20 +459,14 @@ class Arsip extends CI_Controller
 
           write_log();
         }
-      }      
-      
-    //   header('Content-Type: application/json');
-    //   echo json_encode($fileData['file_name']);
+      }
 
-      
       if ($fileData['file_name'] != NULL) {
         $json = 'success';
         header('Content-Type: application/json');
         echo json_encode($json);
-        
       }
       $this->session->set_flashdata('message', '<div class="alert alert-success alert">Data berhasil disimpan</div>');
-      //redirect(base_url('admin/arsip'));
     }
   }
 
@@ -751,7 +743,7 @@ class Arsip extends CI_Controller
         $filesCount = count($_FILES['file_upload']['name']);
 
         for ($i = 0; $i < $filesCount; $i++) {
-          // File upload configuration          
+          // File upload configuration
           // atur lokasi upload berdasarkan nama instansi
           $config2['upload_path'] = './assets/file_arsip/' . $instansiName;
           if (!is_dir($config2['upload_path'])) {
@@ -854,7 +846,7 @@ class Arsip extends CI_Controller
         $instansi     = $this->Instansi_model->get_by_id($row->instansi_id);
         $instansiName = $instansi->instansi_name;
 
-        // ambil detail arsip_files        
+        // ambil detail arsip_files
         $this->db->from('arsip_files');
         $this->db->where('arsip_id', $id);
         $query = $this->db->get();

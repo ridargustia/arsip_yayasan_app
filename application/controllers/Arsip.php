@@ -157,7 +157,6 @@ class Arsip extends CI_Controller
       'id'            => 'name',
       'class'         => 'form-control',
       'autocomplete'  => 'off',
-      'value'         => $this->form_validation->set_value('name'),
       'required'      => '',
     ];
     $this->data['email'] = [
@@ -165,7 +164,6 @@ class Arsip extends CI_Controller
       'id'            => 'email',
       'class'         => 'form-control',
       'autocomplete'  => 'off',
-      'value'         => $this->form_validation->set_value('email'),
       'required'      => '',
     ];
     $this->data['no_wa'] = [
@@ -173,7 +171,6 @@ class Arsip extends CI_Controller
       'id'            => 'no_wa',
       'class'         => 'form-control',
       'autocomplete'  => 'off',
-      'value'         => $this->form_validation->set_value('no_wa'),
       'required'      => '',
     ];
 
@@ -198,8 +195,7 @@ class Arsip extends CI_Controller
       if (!empty($_FILES['file_upload']['name'])) {
         $nmfile = strtolower(url_title($this->input->post('name'))) . date('YmdHis');
 
-        $arsip = $this->Arsip_model->get_by_id($this->input->post('arsip_id'));
-        $instansi = $this->Instansi_model->get_by_id($arsip->instansi_id);
+        $instansi = $this->Instansi_model->get_by_id($this->session->instansi_id);
 
         $config['upload_path']      = './assets/images/bukti_tf/' . $instansi->instansi_name;
 
@@ -226,6 +222,9 @@ class Arsip extends CI_Controller
             'email'             => $this->input->post('email'),
             'no_wa'             => $this->input->post('no_wa'),
             'arsip_id'          => $this->input->post('arsip_id'),
+            'instansi_id'       => $this->session->instansi_id,
+            'cabang_id'         => $this->session->cabang_id,
+            'divisi_id'         => $this->session->divisi_id,
             'bukti_tf'          => $this->upload->data('file_name'),
             'created_by'        => $this->session->username,
           );

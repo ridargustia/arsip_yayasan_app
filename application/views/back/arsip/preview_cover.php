@@ -24,7 +24,7 @@
                 <center>
                     <?php
                     $ext_file = explode(".", $file_upload->file_upload);
-                    if ($ext_file[1] == "jpg" || $ext_file[1] == "PNG" || $ext_file[1] == "jpeg") {
+                    if ($ext_file[1] == "jpg" || $ext_file[1] == "PNG" || $ext_file[1] == "jpeg" || $ext_file[1] == "png") {
                     ?>
                         <img src="<?php echo base_url('assets/file_arsip/' . $file_upload->instansi_name . '/') . $file_upload->file_upload; ?>" width="100%">
                     <?php } elseif ($ext_file[1] == "pdf") { ?>

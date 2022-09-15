@@ -183,9 +183,10 @@ class Arsip_model extends CI_Model
       instansi.instansi_name,
       cabang.cabang_name,
       divisi.divisi_name,
-      jenis_arsip.jenis_name, arsip.created_by as created_by_arsip
+      jenis_arsip.jenis_name, arsip.created_by as created_by_arsip, arsip_files.file_upload
     ');
 
+    $this->db->join('arsip_files', 'arsip.id_arsip = arsip_files.arsip_id', 'LEFT');
     $this->db->join('arsip_jenis', 'arsip.id_arsip = arsip_jenis.arsip_id', 'LEFT');
     $this->db->join('jenis_arsip', 'arsip_jenis.jenis_arsip_id = jenis_arsip.id_jenis', 'LEFT');
     $this->db->join('instansi', 'arsip.instansi_id = instansi.id_instansi', 'LEFT');
@@ -1579,9 +1580,10 @@ class Arsip_model extends CI_Model
       instansi.instansi_name,
       cabang.cabang_name,
       divisi.divisi_name,
-      lokasi.lokasi_name, arsip.is_available
+      lokasi.lokasi_name, arsip.is_available, arsip_files.file_upload
     ');
 
+    $this->db->join('arsip_files', 'arsip.id_arsip = arsip_files.arsip_id', 'LEFT');
     $this->db->join('instansi', 'arsip.instansi_id = instansi.id_instansi', 'LEFT');
     $this->db->join('cabang', 'arsip.cabang_id = cabang.id_cabang', 'LEFT');
     $this->db->join('divisi', 'arsip.divisi_id = divisi.id_divisi', 'LEFT');
@@ -1622,9 +1624,10 @@ class Arsip_model extends CI_Model
       instansi.instansi_name,
       cabang.cabang_name,
       divisi.divisi_name,
-      lokasi.lokasi_name, arsip.is_available
+      lokasi.lokasi_name, arsip.is_available, arsip_files.file_upload
     ');
 
+    $this->db->join('arsip_files', 'arsip.id_arsip = arsip_files.arsip_id', 'LEFT');
     $this->db->join('instansi', 'arsip.instansi_id = instansi.id_instansi', 'LEFT');
     $this->db->join('cabang', 'arsip.cabang_id = cabang.id_cabang', 'LEFT');
     $this->db->join('divisi', 'arsip.divisi_id = divisi.id_divisi', 'LEFT');
@@ -1663,9 +1666,10 @@ class Arsip_model extends CI_Model
       instansi.instansi_name,
       cabang.cabang_name,
       divisi.divisi_name,
-      lokasi.lokasi_name, arsip.is_available
+      lokasi.lokasi_name, arsip.is_available, arsip_files.file_upload
     ');
 
+    $this->db->join('arsip_files', 'arsip.id_arsip = arsip_files.arsip_id', 'LEFT');
     $this->db->join('instansi', 'arsip.instansi_id = instansi.id_instansi', 'LEFT');
     $this->db->join('cabang', 'arsip.cabang_id = cabang.id_cabang', 'LEFT');
     $this->db->join('divisi', 'arsip.divisi_id = divisi.id_divisi', 'LEFT');
@@ -1708,9 +1712,10 @@ class Arsip_model extends CI_Model
       instansi.instansi_name,
       cabang.cabang_name,
       divisi.divisi_name,
-      lokasi.lokasi_name, arsip.is_available
+      lokasi.lokasi_name, arsip.is_available, arsip_files.file_upload
     ');
 
+    $this->db->join('arsip_files', 'arsip.id_arsip = arsip_files.arsip_id', 'LEFT');
     $this->db->join('instansi', 'arsip.instansi_id = instansi.id_instansi', 'LEFT');
     $this->db->join('cabang', 'arsip.cabang_id = cabang.id_cabang', 'LEFT');
     $this->db->join('divisi', 'arsip.divisi_id = divisi.id_divisi', 'LEFT');
@@ -1747,9 +1752,10 @@ class Arsip_model extends CI_Model
       instansi.instansi_name,
       cabang.cabang_name,
       divisi.divisi_name,
-      lokasi.lokasi_name, arsip.is_available
+      lokasi.lokasi_name, arsip.is_available, arsip_files.file_upload
     ');
 
+    $this->db->join('arsip_files', 'arsip.id_arsip = arsip_files.arsip_id', 'LEFT');
     $this->db->join('instansi', 'arsip.instansi_id = instansi.id_instansi', 'LEFT');
     $this->db->join('cabang', 'arsip.cabang_id = cabang.id_cabang', 'LEFT');
     $this->db->join('divisi', 'arsip.divisi_id = divisi.id_divisi', 'LEFT');
@@ -1789,9 +1795,10 @@ class Arsip_model extends CI_Model
       instansi.instansi_name,
       cabang.cabang_name,
       divisi.divisi_name,
-      lokasi.lokasi_name, arsip.is_available
+      lokasi.lokasi_name, arsip.is_available, arsip_files.file_upload
     ');
 
+    $this->db->join('arsip_files', 'arsip.id_arsip = arsip_files.arsip_id', 'LEFT');
     $this->db->join('instansi', 'arsip.instansi_id = instansi.id_instansi', 'LEFT');
     $this->db->join('cabang', 'arsip.cabang_id = cabang.id_cabang', 'LEFT');
     $this->db->join('divisi', 'arsip.divisi_id = divisi.id_divisi', 'LEFT');
@@ -1834,9 +1841,10 @@ class Arsip_model extends CI_Model
       instansi.instansi_name,
       cabang.cabang_name,
       divisi.divisi_name,
-      lokasi.lokasi_name, arsip.is_available
+      lokasi.lokasi_name, arsip.is_available, arsip_files.file_upload
     ');
 
+    $this->db->join('arsip_files', 'arsip.id_arsip = arsip_files.arsip_id', 'LEFT');
     $this->db->join('instansi', 'arsip.instansi_id = instansi.id_instansi', 'LEFT');
     $this->db->join('cabang', 'arsip.cabang_id = cabang.id_cabang', 'LEFT');
     $this->db->join('divisi', 'arsip.divisi_id = divisi.id_divisi', 'LEFT');
@@ -1873,9 +1881,10 @@ class Arsip_model extends CI_Model
       instansi.instansi_name,
       cabang.cabang_name,
       divisi.divisi_name,
-      lokasi.lokasi_name, arsip.is_available
+      lokasi.lokasi_name, arsip.is_available, arsip_files.file_upload
     ');
 
+    $this->db->join('arsip_files', 'arsip.id_arsip = arsip_files.arsip_id', 'LEFT');
     $this->db->join('instansi', 'arsip.instansi_id = instansi.id_instansi', 'LEFT');
     $this->db->join('cabang', 'arsip.cabang_id = cabang.id_cabang', 'LEFT');
     $this->db->join('divisi', 'arsip.divisi_id = divisi.id_divisi', 'LEFT');
@@ -1915,9 +1924,10 @@ class Arsip_model extends CI_Model
       instansi.instansi_name,
       cabang.cabang_name,
       divisi.divisi_name,
-      lokasi.lokasi_name, arsip.is_available
+      lokasi.lokasi_name, arsip.is_available, arsip_files.file_upload
     ');
 
+    $this->db->join('arsip_files', 'arsip.id_arsip = arsip_files.arsip_id', 'LEFT');
     $this->db->join('instansi', 'arsip.instansi_id = instansi.id_instansi', 'LEFT');
     $this->db->join('cabang', 'arsip.cabang_id = cabang.id_cabang', 'LEFT');
     $this->db->join('divisi', 'arsip.divisi_id = divisi.id_divisi', 'LEFT');
