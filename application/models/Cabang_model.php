@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Cabang_model extends CI_Model{
+class Cabang_model extends CI_Model
+{
 
   public $table = 'cabang';
   public $id    = 'id_cabang';
@@ -38,10 +39,8 @@ class Cabang_model extends CI_Model{
 
     $data = $this->db->get($this->table);
 
-    if($data->num_rows() > 0)
-    {
-      foreach($data->result_array() as $row)
-      {
+    if ($data->num_rows() > 0) {
+      foreach ($data->result_array() as $row) {
         $result[''] = '- Silahkan Pilih Cabang -';
         $result[$row['id_cabang']] = $row['cabang_name'];
       }
@@ -51,26 +50,22 @@ class Cabang_model extends CI_Model{
 
   function get_cabang_by_instansi_combobox($instansi_id)
   {
-    $this->db->where('is_delete_cabang', '0');
-  	$this->db->where('instansi_id',$instansi_id);
+    $this->db->where('cabang.is_delete_cabang', '0');
+    $this->db->where('cabang.instansi_id', $instansi_id);
 
-  	$this->db->order_by('cabang_name');
+    $this->db->order_by('cabang.cabang_name');
 
-  	$sql = $this->db->get('cabang');
-  	if($sql->num_rows() > 0)
-    {
-  		foreach ($sql->result_array() as $row)
-      {
-        $result['']= '- Silahkan Pilih Cabang -';
-        $result[$row['id_cabang']]= ucwords(strtolower($row['cabang_name']));
+    $sql = $this->db->get('cabang');
+    if ($sql->num_rows() > 0) {
+      foreach ($sql->result_array() as $row) {
+        $result[''] = '- Silahkan Pilih Cabang -';
+        $result[$row['id_cabang']] = ucwords(strtoupper($row['cabang_name']));
       }
+    } else {
+      $result['-'] = '- Belum Ada Cabang -';
     }
-    else
-    {
-		  $result['-']= '- Belum Ada Cabang -';
-		}
     return $result;
-	}
+  }
 
   function get_all_combobox_by_instansi($instansi_id)
   {
@@ -81,10 +76,8 @@ class Cabang_model extends CI_Model{
 
     $data = $this->db->get($this->table);
 
-    if($data->num_rows() > 0)
-    {
-      foreach($data->result_array() as $row)
-      {
+    if ($data->num_rows() > 0) {
+      foreach ($data->result_array() as $row) {
         $result[''] = '- Silahkan Pilih Cabang -';
         $result[$row['id_cabang']] = $row['cabang_name'];
       }
@@ -98,10 +91,8 @@ class Cabang_model extends CI_Model{
     $this->db->order_by('cabang_name');
     $data = $this->db->get($this->table);
 
-    if($data->num_rows() > 0)
-    {
-      foreach($data->result_array() as $row)
-      {
+    if ($data->num_rows() > 0) {
+      foreach ($data->result_array() as $row) {
         $result[''] = '- Silahkan Pilih Cabang -';
         $result[$row['id_cabang']] = $row['cabang_name'];
       }
@@ -115,10 +106,8 @@ class Cabang_model extends CI_Model{
     $this->db->order_by('cabang_name');
     $data = $this->db->get($this->table);
 
-    if($data->num_rows() > 0)
-    {
-      foreach($data->result_array() as $row)
-      {
+    if ($data->num_rows() > 0) {
+      foreach ($data->result_array() as $row) {
         $result[''] = '- Silahkan Pilih Cabang -';
         $result[$row['id_cabang']] = $row['cabang_name'];
       }
@@ -132,10 +121,8 @@ class Cabang_model extends CI_Model{
     $this->db->order_by('cabang_name');
     $data = $this->db->get($this->table);
 
-    if($data->num_rows() > 0)
-    {
-      foreach($data->result_array() as $row)
-      {
+    if ($data->num_rows() > 0) {
+      foreach ($data->result_array() as $row) {
         $result[''] = '- Silahkan Pilih Cabang -';
         $result[$row['id_cabang']] = $row['cabang_name'];
       }
@@ -176,7 +163,7 @@ class Cabang_model extends CI_Model{
   {
     $this->db->where('instansi_id', $instansi_id);
     $this->db->where('cabang_name', $cabang_name);
-    
+
     return $this->db->get($this->table)->row();
   }
 
@@ -199,13 +186,13 @@ class Cabang_model extends CI_Model{
     $this->db->insert($this->table, $data);
   }
 
-  function update($id,$data)
+  function update($id, $data)
   {
     $this->db->where($this->id, $id);
     $this->db->update($this->table, $data);
   }
 
-  function soft_delete($id,$data)
+  function soft_delete($id, $data)
   {
     $this->db->where($this->id, $id);
     $this->db->update($this->table, $data);
@@ -216,5 +203,4 @@ class Cabang_model extends CI_Model{
     $this->db->where($this->id, $id);
     $this->db->delete($this->table);
   }
-
 }
