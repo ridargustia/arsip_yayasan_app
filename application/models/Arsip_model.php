@@ -1120,7 +1120,7 @@ class Arsip_model extends CI_Model
         $result[$row['id_arsip']] = $row['arsip_name'];
       }
     } else {
-      $result[''] = '- Semua Arsip Telah Dipinjam/Tidak Ada -';
+      $result[''] = '- Tidak ada arsip tersedia -';
     }
     return $result;
   }

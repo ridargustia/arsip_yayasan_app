@@ -23,8 +23,11 @@
                 echo $this->session->flashdata('message');
             } ?>
             <?php echo validation_errors() ?>
+            <?php echo form_open($action) ?>
             <div class="box box-primary">
-                <?php echo form_open($action) ?>
+                <div class="box-header with-border">
+                    <h3 class="box-title">Arsip Yang Dipesan</h3>
+                </div>
                 <div class="box-body">
                     <?php if (is_grandadmin()) { ?>
                         <div class="row">
@@ -44,7 +47,7 @@
                                 </div>
                             </div>
                         </div>
-                    <?php } elseif (is_masteradmin()) { ?>
+                    <?php } elseif (is_masteradmin() or is_superadmin() or is_admin()) { ?>
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group"><label>Cabang (*)</label>
@@ -57,32 +60,69 @@
                                 </div>
                             </div>
                         </div>
-                    <?php } elseif (is_superadmin()) { ?>
-                        <div class="form-group"><label>Divisi (*)</label>
-                            <?php echo form_dropdown('', $get_all_combobox_divisi, '', $divisi_id) ?>
+                    <?php } ?>
+                    <div class="form-group"><label>Nama Arsip (*)</label>
+                        <?php echo form_dropdown('', array('' => '- Pilih Divisi Dulu -'), '', $arsip_id) ?>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">User Pemesan Arsip</h3>
+                </div>
+                <div class="box-body">
+                    <?php if (is_grandadmin()) { ?>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="form-group"><label>Instansi (*)</label>
+                                    <?php echo form_dropdown('', $get_all_combobox_instansi, '', $instansi_id_pemesan) ?>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group"><label>Cabang (*)</label>
+                                    <?php echo form_dropdown('', array('' => '- Pilih Instansi Dulu -'), '', $cabang_id_pemesan) ?>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group"><label>Divisi (*)</label>
+                                    <?php echo form_dropdown('', array('' => '- Pilih Cabang Dulu -'), '', $divisi_id_pemesan) ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } elseif (is_masteradmin() or is_superadmin() or is_admin()) { ?>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group"><label>Cabang (*)</label>
+                                    <?php echo form_dropdown('', $get_all_combobox_cabang, '', $cabang_id_pemesan) ?>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group"><label>Divisi (*)</label>
+                                    <?php echo form_dropdown('', array('' => '- Pilih Cabang Dulu -'), '', $divisi_id_pemesan) ?>
+                                </div>
+                            </div>
                         </div>
                     <?php } ?>
 
                     <div class="form-group"><label>Nama Pemesan</label>
-                        <?php echo form_input($name) ?>
+                        <?php echo form_dropdown('', array('' => '- Pilih Divisi Dulu -'), '', $user_id) ?>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="form-group"><label>Email</label>
-                                <?php echo form_input($email) ?>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group"><label>No. WhatsApp</label>
-                                <?php echo form_input($no_wa) ?>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="ajax-content" id="showR"></div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Upload Bukti Transfer</h3>
+                </div>
+                <div class="box-body">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Upload Bukti Transfer *</label>
                                 <input type="file" name="file_upload" class="file-upload" required>
+                                <p class="help-block">Ukuran maksimal 2Mb. Ekstensi file yang diijinkan: .jpg, .jpeg, .png, .pdf</p>
                             </div>
                         </div>
                     </div>
@@ -92,8 +132,8 @@
                     <button type="reset" name="button" class="btn btn-danger"><i class="fa fa-refresh"></i> <?php echo $btn_reset ?></button>
                 </div>
                 <!-- /.box-body -->
-                <?php echo form_close() ?>
             </div>
+            <?php echo form_close() ?>
             <!-- /.box -->
         </section>
         <!-- /.content -->
@@ -105,11 +145,22 @@
     <link rel="stylesheet" href="<?php echo base_url('assets/plugins/') ?>datatables-bs/css/dataTables.bootstrap.min.css">
     <script src="<?php echo base_url('assets/plugins/') ?>datatables/js/jquery.dataTables.min.js"></script>
     <script src="<?php echo base_url('assets/plugins/') ?>datatables-bs/js/dataTables.bootstrap.min.js"></script>
+    <!-- Select2 -->
+    <link rel="stylesheet" href="<?php echo base_url('assets/plugins/') ?>select2/dist/css/select2.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/plugins/') ?>select2/dist/css/select2-flat-theme.min.css">
+    <script src="<?php echo base_url('assets/plugins/') ?>select2/dist/js/select2.full.min.js"></script>
+
     <script>
         $(document).ready(function() {
             $('#dataTable').DataTable();
+
+            $("#arsip_id").select2({
+                // placeholder: "- Silahkan Pilih Arsip -",
+                // theme: "classic"
+            });
         });
 
+        // FORM ARSIP DIPESAN--------------------------
         function tampilCabang() {
             instansi_id = document.getElementById("instansi_id").value;
             $.ajax({
@@ -125,13 +176,76 @@
         function tampilDivisi() {
             cabang_id = document.getElementById("cabang_id").value;
             $.ajax({
-                url: "<?php echo base_url(); ?>admin/divisi/pilih_divisi/" + cabang_id + "",
+                url: "<?php echo base_url(); ?>admin/pesanan/pilih_divisi/" + cabang_id + "",
                 success: function(response) {
                     $("#divisi_id").html(response);
                 },
                 dataType: "html"
             });
             return false;
+        }
+
+        function tampilArsip() {
+            divisi_id = document.getElementById("divisi_id").value;
+            $.ajax({
+                url: "<?php echo base_url(); ?>admin/arsip/pilih_arsip/" + divisi_id + "",
+                success: function(response) {
+                    $("#arsip_id").html(response);
+                },
+                dataType: "html"
+            });
+            return false;
+        }
+
+        //FORM PEMESAN ARSIP------------------------------
+        function tampilCabangPemesan() {
+            instansi_id = document.getElementById("instansi_id_pemesan").value;
+            $.ajax({
+                url: "<?php echo base_url(); ?>admin/cabang/pilih_cabang/" + instansi_id + "",
+                success: function(response) {
+                    $("#cabang_id_pemesan").html(response);
+                },
+                dataType: "html"
+            });
+            return false;
+        }
+
+        function tampilDivisiPemesan() {
+            cabang_id = document.getElementById("cabang_id_pemesan").value;
+            $.ajax({
+                url: "<?php echo base_url(); ?>admin/pesanan/pilih_divisi/" + cabang_id + "",
+                success: function(response) {
+                    $("#divisi_id_pemesan").html(response);
+                },
+                dataType: "html"
+            });
+            return false;
+        }
+
+        function tampilUserPemesan() {
+            divisi_id = document.getElementById("divisi_id_pemesan").value;
+            $.ajax({
+                url: "<?php echo base_url(); ?>admin/auth/pilih_user/" + divisi_id + "",
+                success: function(response) {
+                    $("#user_id").html(response);
+                },
+                dataType: "html"
+            });
+            return false;
+        }
+
+        function tampilIdentitasPemesan() {
+            user_id = document.getElementById("user_id").value;
+            $.ajax({
+                type: 'POST',
+                url: "<?php echo base_url(); ?>admin/auth/tampil_identitas/" + user_id + "",
+                beforeSend: function() {
+                    $('#showR').html('<center><h1><i class="fa fa-spin fa-spinner" /></h1></center>');
+                },
+                success: function(msg) {
+                    $('#showR').html(msg);
+                }
+            });
         }
     </script>
 

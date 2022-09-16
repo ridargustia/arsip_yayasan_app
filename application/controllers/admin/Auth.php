@@ -1212,9 +1212,32 @@ class Auth extends CI_Controller
           echo "<div class='text-green'>Email tersedia</div>";
         }
       }
-    }
-    else {
+    } else {
       echo "<div class='text-red'>Wajib diisi</div>";
+    }
+  }
+
+  function tampil_identitas()
+  {
+    $data = $this->db->get_where('users', array('id_users' => $this->uri->segment(4)));
+
+    if ($data->num_rows() != 0) {
+      $this->data['user'] = $data->row();
+
+      $this->data['email'] = [
+        'name'          => 'email',
+        'id'            => 'email',
+        'class'         => 'form-control',
+        'required'      => '',
+      ];
+      $this->data['no_wa'] = [
+        'name'          => 'no_wa',
+        'id'            => 'no_wa',
+        'class'         => 'form-control',
+        'required'      => '',
+      ];
+
+      $this->load->view('back/auth/v_user_identitas', $this->data);
     }
   }
 }

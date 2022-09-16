@@ -47,35 +47,16 @@ class Pesanan extends CI_Controller
 
         if (is_grandadmin()) {
             $this->data['get_all_combobox_instansi']     = $this->Instansi_model->get_all_combobox();
-        } elseif (is_masteradmin()) {
+        } elseif (is_masteradmin() or is_superadmin() or is_admin()) {
             $this->data['get_all_combobox_cabang']       = $this->Cabang_model->get_all_combobox_by_instansi($this->session->instansi_id);
-        } elseif (is_superadmin()) {
-            $this->data['get_all_combobox_divisi']       = $this->Divisi_model->get_all_combobox_by_cabang($this->session->cabang_id);
         }
 
-        $this->data['name'] = [
-            'name'          => 'name',
-            'id'            => 'name',
+        $this->data['arsip_id'] = [
+            'name'          => 'arsip_id',
+            'id'            => 'arsip_id',
             'class'         => 'form-control',
             'autocomplete'  => 'off',
             'required'      => '',
-            'value'         => $this->form_validation->set_value('name'),
-        ];
-        $this->data['email'] = [
-            'name'          => 'email',
-            'id'            => 'email',
-            'class'         => 'form-control',
-            'autocomplete'  => 'off',
-            'required'      => '',
-            'value'         => $this->form_validation->set_value('email'),
-        ];
-        $this->data['no_wa'] = [
-            'name'          => 'no_wa',
-            'id'            => 'no_wa',
-            'class'         => 'form-control',
-            'autocomplete'  => 'off',
-            'required'      => '',
-            'value'         => $this->form_validation->set_value('no_wa'),
         ];
         $this->data['instansi_id'] = [
             'name'          => 'instansi_id',
@@ -95,9 +76,44 @@ class Pesanan extends CI_Controller
             'name'          => 'divisi_id',
             'id'            => 'divisi_id',
             'class'         => 'form-control',
+            'onChange'      => 'tampilArsip()',
+            'required'      => '',
+        ];
+        $this->data['instansi_id_pemesan'] = [
+            'name'          => 'instansi_id_pemesan',
+            'id'            => 'instansi_id_pemesan',
+            'class'         => 'form-control',
+            'onChange'      => 'tampilCabangPemesan()',
+            'required'      => '',
+        ];
+        $this->data['cabang_id_pemesan'] = [
+            'name'          => 'cabang_id_pemesan',
+            'id'            => 'cabang_id_pemesan',
+            'class'         => 'form-control',
+            'onChange'      => 'tampilDivisiPemesan()',
+            'required'      => '',
+        ];
+        $this->data['divisi_id_pemesan'] = [
+            'name'          => 'divisi_id_pemesan',
+            'id'            => 'divisi_id_pemesan',
+            'class'         => 'form-control',
+            'onChange'      => 'tampilUserPemesan()',
+            'required'      => '',
+        ];
+        $this->data['user_id'] = [
+            'name'          => 'user_id',
+            'id'            => 'user_id',
+            'class'         => 'form-control',
+            'onChange'      => 'tampilIdentitasPemesan()',
             'required'      => '',
         ];
 
         $this->load->view('back/pesanan/pesanan_add', $this->data);
+    }
+
+    function pilih_divisi()
+    {
+        $this->data['divisi'] = $this->Divisi_model->get_divisi_by_cabang_combobox($this->uri->segment(4));
+        $this->load->view('back/divisi/v_divisi', $this->data);
     }
 }
