@@ -36,6 +36,8 @@ class Pesanan extends CI_Controller
 
     function index()
     {
+        is_read();
+
         //TODO Tampilkan data (GET)
         $this->data['page_title'] = 'Data ' . $this->data['module'];
 
@@ -50,6 +52,8 @@ class Pesanan extends CI_Controller
 
     function create()
     {
+        is_create();
+
         //TODO Tampilkan form tambah (POST)
         $this->data['page_title'] = 'Tambah Data ' . $this->data['module'];
         $this->data['action']     = 'admin/pesanan/create_action';
@@ -180,6 +184,31 @@ class Pesanan extends CI_Controller
             }
 
             $this->session->set_flashdata('message', '<div class="alert alert-success">Data berhasil disimpan</div>');
+            redirect('admin/pesanan');
+        }
+    }
+
+    function delete($id)
+    {
+        is_delete();
+
+        $delete = $this->Orders_model->get_by_id($id);
+
+        if ($delete) {
+            $data = array(
+                'is_delete'     => '1',
+                'deleted_by'    => $this->session->username,
+                'deleted_at'    => date('Y-m-d H:i:a'),
+            );
+
+            $this->Orders_model->soft_delete($id, $data);
+
+            write_log();
+
+            $this->session->set_flashdata('message', '<div class="alert alert-success">Data berhasil dihapus</div>');
+            redirect('admin/pesanan');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger">Data tidak ditemukan</div>');
             redirect('admin/pesanan');
         }
     }
