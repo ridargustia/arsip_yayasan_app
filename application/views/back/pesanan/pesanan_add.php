@@ -23,7 +23,7 @@
                 echo $this->session->flashdata('message');
             } ?>
             <?php echo validation_errors() ?>
-            <?php echo form_open($action) ?>
+            <?php echo form_open_multipart($action) ?>
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">Arsip Yang Dipesan</h3>
