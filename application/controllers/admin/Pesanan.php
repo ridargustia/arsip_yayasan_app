@@ -213,6 +213,21 @@ class Pesanan extends CI_Controller
         }
     }
 
+    function deleted_list()
+    {
+        is_restore();
+
+        $this->data['page_title'] = 'Recycle Bin ' . $this->data['module'];
+
+        if (is_grandadmin()) {
+            $this->data['get_all_deleted'] = $this->Orders_model->get_all_deleted();
+        } elseif (is_masteradmin() or is_superadmin() or is_admin()) {
+            $this->data['get_all_deleted'] = $this->Orders_model->get_all_deleted_by_instansi();
+        }
+
+        $this->load->view('back/pesanan/pesanan_deleted_list', $this->data);
+    }
+
     function pilih_divisi()
     {
         $this->data['divisi'] = $this->Divisi_model->get_divisi_by_cabang_combobox($this->uri->segment(4));
