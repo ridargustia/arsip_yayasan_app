@@ -1,4 +1,4 @@
-  <footer class="main-footer">    
+  <footer class="main-footer">
     <?php echo $footer->content ?>
   </footer>
 
@@ -14,3 +14,45 @@
   <script src="<?php echo base_url('assets/plugins/') ?>fastclick/lib/fastclick.js"></script>
   <!-- AdminLTE App -->
   <script src="<?php echo base_url('assets/template/back/') ?>dist/js/adminlte.min.js"></script>
+  <!-- SweetAlert -->
+  <script src="<?php echo base_url('assets/plugins/') ?>sweetalert/js/sweetalert2.all.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).on('click', '#delete-button', function(e) {
+      e.preventDefault();
+      const link = $(this).attr('href');
+
+      Swal.fire({
+        title: 'Apakah anda yakin?',
+        text: "Data akan dihapus!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#00a65a',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, hapus!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location = link;
+        }
+      })
+    });
+
+    $(document).on('click', '#delete-button-permanent', function(e) {
+      e.preventDefault();
+      const link = $(this).attr('href');
+
+      Swal.fire({
+        title: 'Apakah anda yakin?',
+        text: "Data akan dihapus secara permanen!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#00a65a',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, hapus!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location = link;
+        }
+      })
+    });
+  </script>

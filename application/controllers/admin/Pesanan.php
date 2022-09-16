@@ -37,6 +37,15 @@ class Pesanan extends CI_Controller
     function index()
     {
         //TODO Tampilkan data (GET)
+        $this->data['page_title'] = 'Data ' . $this->data['module'];
+
+        if (is_grandadmin()) {
+            $this->data['get_all'] = $this->Orders_model->get_all();
+        } elseif (is_masteradmin() or is_superadmin() or is_admin()) {
+            $this->data['get_all'] = $this->Orders_model->get_all_by_instansi();
+        }
+
+        $this->load->view('back/pesanan/pesanan_list', $this->data);
     }
 
     function create()
