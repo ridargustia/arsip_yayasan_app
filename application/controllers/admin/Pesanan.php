@@ -228,6 +228,25 @@ class Pesanan extends CI_Controller
         $this->load->view('back/pesanan/pesanan_deleted_list', $this->data);
     }
 
+    function delete_permanent($id)
+    {
+        is_delete();
+
+        $delete = $this->Orders_model->get_by_id($id);
+
+        if ($delete) {
+            $this->Orders_model->delete($id);
+
+            write_log();
+
+            $this->session->set_flashdata('message', '<div class="alert alert-success">Data berhasil dihapus permanen</div>');
+            redirect('admin/pesanan/deleted_list');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger">Data tidak ditemukan</div>');
+            redirect('admin/pesanan');
+        }
+    }
+
     function restore($id)
     {
         is_restore();
