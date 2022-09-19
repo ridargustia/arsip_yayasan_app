@@ -144,7 +144,7 @@ class Auth_model extends CI_Model
   {
     $this->db->join('instansi', 'users.instansi_id = instansi.id_instansi', 'LEFT');
 
-    $this->db->where('instansi_id', $instansi_id);    
+    $this->db->where('instansi_id', $instansi_id);
 
     $this->db->order_by('name');
 
@@ -163,7 +163,7 @@ class Auth_model extends CI_Model
   {
     $this->db->join('cabang', 'users.cabang_id = cabang.id_cabang');
 
-    $this->db->where('cabang_id', $cabang_id);    
+    $this->db->where('cabang_id', $cabang_id);
 
     $this->db->order_by('name');
 
@@ -180,9 +180,9 @@ class Auth_model extends CI_Model
 
   function get_all_combobox_grandAdmin_by_divisi($divisi_id)
   {
-    $this->db->join('divisi', 'users.divisi_id = divisi.id_divisi');    
+    $this->db->join('divisi', 'users.divisi_id = divisi.id_divisi');
 
-    $this->db->where('divisi_id', $divisi_id);    
+    $this->db->where('divisi_id', $divisi_id);
 
     $this->db->order_by('name');
 
@@ -221,7 +221,7 @@ class Auth_model extends CI_Model
   {
     $this->db->join('cabang', 'users.cabang_id = cabang.id_cabang');
 
-    $this->db->where('cabang_id', $cabang_id);    
+    $this->db->where('cabang_id', $cabang_id);
     $this->db->where('usertype_id <', '4');
     $this->db->where('usertype_id >', '1');
 
@@ -240,11 +240,30 @@ class Auth_model extends CI_Model
 
   function get_all_combobox_by_divisi($divisi_id)
   {
-    $this->db->join('divisi', 'users.divisi_id = divisi.id_divisi');    
+    $this->db->join('divisi', 'users.divisi_id = divisi.id_divisi');
 
     $this->db->where('divisi_id', $divisi_id);
     // $this->db->where('divisi.instansi_id', $this->session->instansi_id);
     $this->db->where('usertype_id', '4');
+
+    $this->db->order_by('name');
+
+    $data = $this->db->get($this->table);
+
+    if ($data->num_rows() > 0) {
+      foreach ($data->result_array() as $row) {
+        $result[''] = '- Silahkan Pilih Users -';
+        $result[$row['id_users']] = $row['name'];
+      }
+      return $result;
+    }
+  }
+
+  function get_all_combobox_pemesan_by_divisi($divisi_id)
+  {
+    $this->db->join('divisi', 'users.divisi_id = divisi.id_divisi');
+
+    $this->db->where('divisi_id', $divisi_id);
 
     $this->db->order_by('name');
 

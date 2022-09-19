@@ -169,6 +169,7 @@ class Pesanan extends CI_Controller
                         'name'              => $user->name,
                         'email'             => $this->input->post('email'),
                         'no_wa'             => $this->input->post('no_wa'),
+                        'user_id'           => $this->input->post('user_id'),
                         'arsip_id'          => $this->input->post('arsip_id'),
                         'instansi_id'       => $user->instansi_id,
                         'cabang_id'         => $user->cabang_id,
@@ -184,6 +185,97 @@ class Pesanan extends CI_Controller
             }
 
             $this->session->set_flashdata('message', '<div class="alert alert-success">Data berhasil disimpan</div>');
+            redirect('admin/pesanan');
+        }
+    }
+
+    function update($id)
+    {
+        is_update();
+
+        $this->data['pesanan'] = $this->Orders_model->get_by_id($id);
+        $this->data['data_arsip'] = $this->Arsip_model->get_by_id($this->data['pesanan']->arsip_id);
+        $this->data['instansi'] = $this->Instansi_model->get_by_id($this->data['pesanan']->instansi_id);
+
+        if ($this->data['pesanan']) {
+            //TODO Tampilkan form tambah (PATCH/PUT)
+            $this->data['page_title'] = 'Update Data ' . $this->data['module'];
+            $this->data['action']     = 'admin/pesanan/update_action';
+
+            if (is_grandadmin()) {
+                $this->data['get_all_combobox_instansi']     = $this->Instansi_model->get_all_combobox();
+                $this->data['get_all_combobox_cabang']       = $this->Cabang_model->get_all_combobox_by_instansi($this->data['data_arsip']->instansi_id);
+                $this->data['get_all_combobox_divisi']       = $this->Divisi_model->get_all_combobox_by_cabang($this->data['data_arsip']->cabang_id);
+                $this->data['get_all_combobox_pemesan_cabang']       = $this->Cabang_model->get_all_combobox_by_instansi($this->data['pesanan']->instansi_id);
+                $this->data['get_all_combobox_pemesan_divisi']       = $this->Divisi_model->get_all_combobox_by_cabang($this->data['pesanan']->cabang_id);
+            } elseif (is_masteradmin() or is_superadmin() or is_admin()) {
+                $this->data['get_all_combobox_cabang']       = $this->Cabang_model->get_all_combobox_by_instansi($this->data['pesanan']->instansi_id);
+                $this->data['get_all_combobox_divisi']       = $this->Divisi_model->get_all_combobox_by_cabang($this->data['pesanan']->cabang_id);
+            }
+
+            $this->data['get_all_combobox_arsip']       = $this->Arsip_model->get_all_combobox_by_divisi($this->data['data_arsip']->divisi_id);
+            $this->data['get_all_combobox_user']       = $this->Auth_model->get_all_combobox_pemesan_by_divisi($this->data['pesanan']->divisi_id);
+
+            $this->data['arsip_id'] = [
+                'name'          => 'arsip_id',
+                'id'            => 'arsip_id',
+                'class'         => 'form-control',
+                'autocomplete'  => 'off',
+                'required'      => '',
+            ];
+            $this->data['instansi_id'] = [
+                'name'          => 'instansi_id',
+                'id'            => 'instansi_id',
+                'class'         => 'form-control',
+                'onChange'      => 'tampilCabang()',
+                'required'      => '',
+            ];
+            $this->data['cabang_id'] = [
+                'name'          => 'cabang_id',
+                'id'            => 'cabang_id',
+                'class'         => 'form-control',
+                'onChange'      => 'tampilDivisi()',
+                'required'      => '',
+            ];
+            $this->data['divisi_id'] = [
+                'name'          => 'divisi_id',
+                'id'            => 'divisi_id',
+                'class'         => 'form-control',
+                'onChange'      => 'tampilArsip()',
+                'required'      => '',
+            ];
+            $this->data['instansi_id_pemesan'] = [
+                'name'          => 'instansi_id_pemesan',
+                'id'            => 'instansi_id_pemesan',
+                'class'         => 'form-control',
+                'onChange'      => 'tampilCabangPemesan()',
+                'required'      => '',
+            ];
+            $this->data['cabang_id_pemesan'] = [
+                'name'          => 'cabang_id_pemesan',
+                'id'            => 'cabang_id_pemesan',
+                'class'         => 'form-control',
+                'onChange'      => 'tampilDivisiPemesan()',
+                'required'      => '',
+            ];
+            $this->data['divisi_id_pemesan'] = [
+                'name'          => 'divisi_id_pemesan',
+                'id'            => 'divisi_id_pemesan',
+                'class'         => 'form-control',
+                'onChange'      => 'tampilUserPemesan()',
+                'required'      => '',
+            ];
+            $this->data['user_id'] = [
+                'name'          => 'user_id',
+                'id'            => 'user_id',
+                'class'         => 'form-control',
+                'onChange'      => 'tampilIdentitasPemesan()',
+                'required'      => '',
+            ];
+
+            $this->load->view('back/pesanan/pesanan_edit', $this->data);
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger">Data tidak ditemukan</div>');
             redirect('admin/pesanan');
         }
     }
@@ -276,5 +368,13 @@ class Pesanan extends CI_Controller
     {
         $this->data['divisi'] = $this->Divisi_model->get_divisi_by_cabang_combobox($this->uri->segment(4));
         $this->load->view('back/divisi/v_divisi', $this->data);
+    }
+
+    function pdf_frame($id)
+    {
+        $this->data['pesanan'] = $this->Orders_model->get_by_id($id);
+        $this->data['instansi'] = $this->Instansi_model->get_by_id($this->data['pesanan']->instansi_id);
+
+        $this->load->view('back/pesanan/pdf_frame', $this->data);
     }
 }
