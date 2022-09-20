@@ -231,8 +231,10 @@ class Pesanan extends CI_Controller
                 $this->data['get_all_combobox_pemesan_cabang']       = $this->Cabang_model->get_all_combobox_by_instansi($this->data['pesanan']->instansi_id);
                 $this->data['get_all_combobox_pemesan_divisi']       = $this->Divisi_model->get_all_combobox_by_cabang($this->data['pesanan']->cabang_id);
             } elseif (is_masteradmin() or is_superadmin() or is_admin()) {
-                $this->data['get_all_combobox_cabang']       = $this->Cabang_model->get_all_combobox_by_instansi($this->data['pesanan']->instansi_id);
-                $this->data['get_all_combobox_divisi']       = $this->Divisi_model->get_all_combobox_by_cabang($this->data['pesanan']->cabang_id);
+                $this->data['get_all_combobox_cabang']       = $this->Cabang_model->get_all_combobox_by_instansi($this->data['data_arsip']->instansi_id);
+                $this->data['get_all_combobox_divisi']       = $this->Divisi_model->get_all_combobox_by_cabang($this->data['data_arsip']->cabang_id);
+                $this->data['get_all_combobox_pemesan_cabang']       = $this->Cabang_model->get_all_combobox_by_instansi($this->data['pesanan']->instansi_id);
+                $this->data['get_all_combobox_pemesan_divisi']       = $this->Divisi_model->get_all_combobox_by_cabang($this->data['pesanan']->cabang_id);
             }
 
             $this->data['get_all_combobox_arsip']       = $this->Arsip_model->get_all_combobox_by_divisi($this->data['data_arsip']->divisi_id);
