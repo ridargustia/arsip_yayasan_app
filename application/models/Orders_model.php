@@ -91,6 +91,19 @@ class Orders_model extends CI_Model
         return $this->db->get($this->table)->result();
     }
 
+    function get_detail($id)
+    {
+        $this->db->join('instansi', 'orders.instansi_id = instansi.id_instansi', 'left');
+        $this->db->join('cabang', 'orders.cabang_id = cabang.id_cabang', 'left');
+        $this->db->join('divisi', 'orders.divisi_id = divisi.id_divisi', 'left');
+        $this->db->join('arsip', 'orders.arsip_id = arsip.id_arsip', 'left');
+
+        $this->db->where($this->id, $id);
+        $this->db->where('orders.is_delete', '0');
+
+        return $this->db->get($this->table)->row();
+    }
+
     function get_by_id($id)
     {
         $this->db->where($this->id, $id);

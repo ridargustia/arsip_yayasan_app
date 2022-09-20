@@ -87,7 +87,7 @@
                         <div class="box-footer">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <button type="submit" name="button" class="btn btn-success" style="width: 100%; font-size: 15px;"><i class="fa fa-check"></i> Kirim</button>
+                                    <button type="submit" name="button" class="btn btn-success" style="width: 100%; font-size: 15px;"><i class="fa fa-check"></i> Kirim Bukti Transfer</button>
                                 </div>
                             </div>
                         </div>

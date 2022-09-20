@@ -50,6 +50,28 @@ class Pesanan extends CI_Controller
         $this->load->view('back/pesanan/pesanan_list', $this->data);
     }
 
+    function detail($id)
+    {
+        $this->data['detail_pesanan'] = $this->Orders_model->get_detail($id);
+
+        if (is_masteradmin() && $this->data['detail_pesanan']->instansi_id != $this->session->instansi_id) {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger">Anda tidak berhak melihat data orang lain</div>');
+            redirect('admin/pesanan');
+        } elseif (is_superadmin() && $this->data['detail_pesanan']->instansi_id != $this->session->instansi_id) {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger">Anda tidak berhak melihat data orang lain</div>');
+            redirect('admin/pesanan');
+        } elseif (is_admin() && $this->data['detail_pesanan']->instansi_id != $this->session->instansi_id) {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger">Anda tidak berhak melihat data orang lain</div>');
+            redirect('admin/pesanan');
+        } elseif ($this->data['detail_pesanan']) {
+            $this->data['page_title']   = 'Detail Pesanan';
+
+            $this->data['instansi'] = $this->Instansi_model->get_by_id($this->data['detail_pesanan']->instansi_id);
+
+            $this->load->view('back/pesanan/pesanan_detail', $this->data);
+        }
+    }
+
     function create()
     {
         is_create();
@@ -490,5 +512,13 @@ class Pesanan extends CI_Controller
         $this->data['instansi'] = $this->Instansi_model->get_by_id($this->data['pesanan']->instansi_id);
 
         $this->load->view('back/pesanan/pdf_frame', $this->data);
+    }
+
+    function ajax_preview_cover($id)
+    {
+        $this->data['pesanan'] = $this->Orders_model->get_by_id($id);
+        $this->data['instansi'] = $this->Instansi_model->get_by_id($this->data['pesanan']->instansi_id);
+
+        $this->load->view('back/pesanan/preview_cover', $this->data);
     }
 }

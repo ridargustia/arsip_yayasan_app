@@ -55,6 +55,7 @@
                                     }
 
                                     //TODO action button
+                                    $detail = '<a href="' . base_url('admin/pesanan/detail/' . $data->id_order) . '" class="btn btn-info" title="Detail Pesanan"><i class="fa fa-search-plus"></i></a>';
                                     $edit = '<a href="' . base_url('admin/pesanan/update/' . $data->id_order) . '" class="btn btn-warning" title="Ubah Pesanan"><i class="fa fa-pencil"></i></a>';
                                     $delete = '<a href="' . base_url('admin/pesanan/delete/' . $data->id_order) . '" id="delete-button" class="btn btn-danger" title="Hapus Pesanan"><i class="fa fa-trash"></i></a>';
                                 ?>
@@ -69,7 +70,7 @@
                                         <?php } ?>
                                         <td style="text-align: center"><?php echo $is_paid ?></td>
                                         <td style="text-align: center"><?php echo $data->created_by_orders ?></td>
-                                        <td style="text-align: center"><?php echo $edit ?> <?php echo $delete ?></td>
+                                        <td style="text-align: center"><?php echo $detail ?> <?php echo $edit ?> <?php echo $delete ?></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
