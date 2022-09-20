@@ -216,6 +216,10 @@ class Pesanan extends CI_Controller
             $this->data['get_all_combobox_arsip']       = $this->Arsip_model->get_all_combobox_by_divisi($this->data['data_arsip']->divisi_id);
             $this->data['get_all_combobox_user']       = $this->Auth_model->get_all_combobox_pemesan_by_divisi($this->data['pesanan']->divisi_id);
 
+            $this->data['id_order'] = [
+                'name'          => 'id_order',
+                'type'          => 'hidden',
+            ];
             $this->data['arsip_id'] = [
                 'name'          => 'arsip_id',
                 'id'            => 'arsip_id',
@@ -272,10 +276,120 @@ class Pesanan extends CI_Controller
                 'onChange'      => 'tampilIdentitasPemesan()',
                 'required'      => '',
             ];
+            $this->data['email'] = [
+                'name'          => 'email',
+                'id'            => 'email',
+                'class'         => 'form-control',
+                'required'      => '',
+            ];
+            $this->data['no_wa'] = [
+                'name'          => 'no_wa',
+                'id'            => 'no_wa',
+                'class'         => 'form-control',
+                'required'      => '',
+            ];
 
             $this->load->view('back/pesanan/pesanan_edit', $this->data);
         } else {
             $this->session->set_flashdata('message', '<div class="alert alert-danger">Data tidak ditemukan</div>');
+            redirect('admin/pesanan');
+        }
+    }
+
+    function update_action()
+    {
+        $this->form_validation->set_rules('email', 'Email', 'valid_email|required');
+        $this->form_validation->set_rules('no_wa', 'No. Telephone/HP/WhatsApp', 'is_numeric|required');
+
+        $this->form_validation->set_message('required', '{field} wajib diisi');
+        $this->form_validation->set_message('valid_email', 'Format {field} salah');
+        $this->form_validation->set_message('is_numeric', '{field} wajib berisi angka');
+
+        $this->form_validation->set_error_delimiters('<div class="alert alert-danger">', '</div>');
+
+        if ($this->form_validation->run() === FALSE) {
+            $this->update($this->input->post('id_order'));
+        } else {
+            $user = $this->Auth_model->get_by_id($this->input->post('user_id'));
+
+            if (is_grandadmin()) {
+                $instansi_id = $this->input->post('instansi_id_pemesan');
+                $cabang_id = $this->input->post('cabang_id_pemesan');
+                $divisi_id = $this->input->post('divisi_id_pemesan');
+            } elseif (is_masteradmin() or is_superadmin() or is_admin()) {
+                $instansi_id = $this->session->instansi_id;
+                $cabang_id = $this->input->post('cabang_id_pemesan');
+                $divisi_id = $this->input->post('divisi_id_pemesan');
+            }
+
+            if (!empty($_FILES['file_upload']['name'])) {
+                $nmfile = strtolower(url_title($user->name)) . date('YmdHis');
+
+                $instansi = $this->Instansi_model->get_by_id($user->instansi_id);
+                $pesanan = $this->Orders_model->get_by_id($this->input->post('id_order'));
+
+                $config['upload_path']      = './assets/images/bukti_tf/' . $instansi->instansi_name;
+
+                if (!is_dir($config['upload_path'])) {
+                    mkdir($config['upload_path'], 0777, TRUE);
+                }
+
+                $dir = "./assets/images/bukti_tf/" . $instansi->instansi_name . "/" . $pesanan->bukti_tf;
+
+                if (is_file($dir)) {
+                    unlink($dir);
+                }
+
+                $config['allowed_types']    = 'jpg|jpeg|png|pdf';
+                $config['max_size']         = 2048; // 2Mb
+                $config['file_name']        = $nmfile;
+
+                $this->load->library('upload', $config);
+
+                if (!$this->upload->do_upload('file_upload')) {
+                    $error = array('error' => $this->upload->display_errors());
+                    $this->session->set_flashdata('message', '<div class="alert alert-danger">' . $error['error'] . '</div>');
+
+                    $this->update($this->input->post('id_order'));
+                } else {
+                    $this->upload->data();
+
+                    $data = array(
+                        'name'            => $user->name,
+                        'email'           => $this->input->post('email'),
+                        'no_wa'           => $this->input->post('no_wa'),
+                        'user_id'         => $this->input->post('user_id'),
+                        'arsip_id'        => $this->input->post('arsip_id'),
+                        'instansi_id'     => $instansi_id,
+                        'cabang_id'       => $cabang_id,
+                        'divisi_id'       => $divisi_id,
+                        'bukti_tf'        => $this->upload->data('file_name'),
+                        'modified_by'     => $this->session->username,
+                    );
+
+                    $this->Orders_model->update($this->input->post('id_order'), $data);
+
+                    write_log();
+                }
+            } else {
+                $data = array(
+                    'name'            => $user->name,
+                    'email'           => $this->input->post('email'),
+                    'no_wa'           => $this->input->post('no_wa'),
+                    'user_id'         => $this->input->post('user_id'),
+                    'arsip_id'        => $this->input->post('arsip_id'),
+                    'instansi_id'     => $instansi_id,
+                    'cabang_id'       => $cabang_id,
+                    'divisi_id'       => $divisi_id,
+                    'modified_by'     => $this->session->username,
+                );
+
+                $this->Orders_model->update($this->input->post('id_order'), $data);
+
+                write_log();
+            }
+
+            $this->session->set_flashdata('message', '<div class="alert alert-success">Data berhasil disimpan</div>');
             redirect('admin/pesanan');
         }
     }

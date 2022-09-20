@@ -108,6 +108,18 @@
                     <div class="form-group"><label>Nama Pemesan</label>
                         <?php echo form_dropdown('', $get_all_combobox_user, $pesanan->user_id, $user_id) ?>
                     </div>
+                    <div class="row" id="showR2">
+                        <div class="col-lg-6">
+                            <div class="form-group"><label>Email</label>
+                                <?php echo form_input($email, $pesanan->email) ?>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group"><label>No. Telephone/HP/WhatsApp</label>
+                                <?php echo form_input($no_wa, $pesanan->no_wa) ?>
+                            </div>
+                        </div>
+                    </div>
                     <div class="ajax-content" id="showR"></div>
                 </div>
                 <!-- /.box-body -->
@@ -133,12 +145,13 @@
                     <div class="row">
                         <div class="col-md-12"><label>Ubah Bukti Transfer:</label>
                             <div class="form-group">
-                                <input type="file" name="file_upload" class="file-upload" required>
+                                <input type="file" name="file_upload" class="file-upload">
                                 <p class="help-block">Ukuran maksimal 2Mb. Ekstensi file yang diijinkan: .jpg, .jpeg, .png, .pdf</p>
                             </div>
                         </div>
                     </div>
                 </div>
+                <?php echo form_input($id_order, $pesanan->id_order) ?>
                 <div class="box-footer">
                     <button type="submit" name="button" class="btn btn-success"><i class="fa fa-save"></i> <?php echo $btn_submit ?></button>
                     <button type="reset" name="button" class="btn btn-danger"><i class="fa fa-refresh"></i> <?php echo $btn_reset ?></button>
@@ -255,6 +268,7 @@
                     $('#showR').html('<center><h1><i class="fa fa-spin fa-spinner" /></h1></center>');
                 },
                 success: function(msg) {
+                    $("#showR2").hide();
                     $('#showR').html(msg);
                 }
             });
