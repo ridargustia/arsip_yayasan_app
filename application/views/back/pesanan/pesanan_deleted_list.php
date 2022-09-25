@@ -24,7 +24,6 @@
             } ?>
 
             <div class="box box-primary">
-                <div class="box-header"><a href="<?php echo $add_action ?>" class="btn btn-primary"><i class="fa fa-plus"></i> <?php echo $btn_add ?></a> </div>
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div class="table-responsive">

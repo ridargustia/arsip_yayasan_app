@@ -84,6 +84,7 @@
                             </div>
                         </div>
                         <?php echo form_input($arsip_id, $arsip->id_arsip) ?>
+                        <?php echo form_input($user_id, $this->session->id_users) ?>
                         <div class="box-footer">
                             <div class="row">
                                 <div class="col-md-12">

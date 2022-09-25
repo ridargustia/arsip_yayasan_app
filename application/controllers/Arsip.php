@@ -152,6 +152,10 @@ class Arsip extends CI_Controller
       'name'          => 'arsip_id',
       'type'          => 'hidden',
     ];
+    $this->data['user_id'] = [
+      'name'          => 'user_id',
+      'type'          => 'hidden',
+    ];
     $this->data['name'] = [
       'name'          => 'name',
       'id'            => 'name',
@@ -221,6 +225,7 @@ class Arsip extends CI_Controller
             'name'              => $this->input->post('name'),
             'email'             => $this->input->post('email'),
             'no_wa'             => $this->input->post('no_wa'),
+            'user_id'           => $this->input->post('user_id'),
             'arsip_id'          => $this->input->post('arsip_id'),
             'instansi_id'       => $this->session->instansi_id,
             'cabang_id'         => $this->session->cabang_id,

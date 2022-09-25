@@ -43,8 +43,12 @@ class Pesanan extends CI_Controller
 
         if (is_grandadmin()) {
             $this->data['get_all'] = $this->Orders_model->get_all();
-        } elseif (is_masteradmin() or is_superadmin() or is_admin()) {
+        } elseif (is_masteradmin()) {
             $this->data['get_all'] = $this->Orders_model->get_all_by_instansi();
+        } elseif (is_superadmin()) {
+            $this->data['get_all'] = $this->Orders_model->get_all_by_cabang();
+        } elseif (is_admin()) {
+            $this->data['get_all'] = $this->Orders_model->get_all_by_divisi();
         }
 
         $this->load->view('back/pesanan/pesanan_list', $this->data);
@@ -66,7 +70,7 @@ class Pesanan extends CI_Controller
         } elseif ($this->data['detail_pesanan']) {
             $this->data['page_title']   = 'Detail Pesanan';
 
-            $this->data['instansi'] = $this->Instansi_model->get_by_id($this->data['detail_pesanan']->instansi_id);
+            // $this->data['instansi'] = $this->Instansi_model->get_by_id($this->data['detail_pesanan']->instansi_id);
 
             $this->load->view('back/pesanan/pesanan_detail', $this->data);
         }
@@ -463,8 +467,15 @@ class Pesanan extends CI_Controller
         is_delete();
 
         $delete = $this->Orders_model->get_by_id($id);
+        $instansi = $this->Instansi_model->get_by_id($delete->instansi_id);
 
         if ($delete) {
+            $dir = "./assets/images/bukti_tf/" . $instansi->instansi_name . "/" . $delete->bukti_tf;
+
+            if (is_file($dir)) {
+                unlink($dir);
+            }
+
             $this->Orders_model->delete($id);
 
             write_log();
@@ -522,5 +533,48 @@ class Pesanan extends CI_Controller
         $this->data['instansi'] = $this->Instansi_model->get_by_id($this->data['pesanan']->instansi_id);
 
         $this->load->view('back/pesanan/preview_cover', $this->data);
+    }
+
+    function konfirmasi_bayar($id)
+    {
+        $detail_pesanan = $this->Orders_model->get_detail($id);
+        $company = $this->Company_model->company_profile();
+        $file_arsip = $this->File_model->get_files_by_arsip_id($detail_pesanan->arsip_id);
+        $instansi = $this->Instansi_model->get_by_id($detail_pesanan->instansi_id);
+
+        $this->Orders_model->update($id, array('is_paid' => 1));
+
+        $this->load->library('PHPMailer_load'); //Load Library PHPMailer
+        $mail = $this->phpmailer_load->load(); // Mendefinisikan Variabel Mail
+        $mail->isSMTP();  // Mengirim menggunakan protokol SMTP
+        $mail->Host = 'smtp.gmail.com'; // Host dari server SMTP
+        $mail->SMTPAuth = true; // Autentikasi SMTP
+        $mail->Username = $company->company_gmail;
+        $mail->Password = 'fpeftxubtlxgmqxt';
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;
+        $mail->setFrom($company->company_gmail); // Sumber email
+        $mail->addAddress($detail_pesanan->email); // Masukkan alamat email dari variabel $email
+        $mail->Subject = "Telusur Arsip"; // Subjek Email
+        $mail->msgHtml("
+            <b>EMAIL INI TERKIRIM SECARA OTOMATIS. JANGAN MENGIRIM / MEMBALAS PESAN KE EMAIL INI.</b>
+            <hr>
+            <b>" . $company->company_name . "</b>
+            <br>Alamat: " . $company->company_address . "
+            <br>No. HP: " . $company->company_phone . "
+            <br>Fax: " . $company->company_fax . "
+            <br>Email: " . $company->company_email . " / " . $company->company_gmail . "
+        "); // Isi email dengan format HTML
+
+        foreach ($file_arsip as $row) {
+            $mail->AddAttachment('assets/file_arsip/' . $instansi->instansi_name . '/' . $row->file_upload, $row->file_upload);
+        }
+
+        if (!$mail->send()) {
+            echo "Mailer Error: " . $mail->ErrorInfo;
+        } else {
+            $this->session->set_flashdata('message', 'Sukses');
+            redirect('admin/pesanan/detail/' . $id);
+        } // Kirim email dengan cek kondisi
     }
 }

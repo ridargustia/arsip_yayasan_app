@@ -106,7 +106,7 @@ class Arsip extends CI_Controller
   function detail($id)
   {
     $this->data['detail_arsip']   = $this->Arsip_model->get_detail($id);
-    $this->data['file_upload']    = $this->File_model->get_by_arsip_id($id);
+    $this->data['file_upload']    = $this->File_model->get_files_by_arsip_id($id);
 
     $instansi                     = $this->Instansi_model->get_by_id($this->data['detail_arsip']->instansi_id);
     $this->data['instansiName']   = $instansi->instansi_name;
@@ -475,7 +475,7 @@ class Arsip extends CI_Controller
     is_update();
 
     $this->data['arsip']                  = $this->Arsip_model->get_by_id($id);
-    $this->data['file_upload']            = $this->File_model->get_by_arsip_id($id);
+    $this->data['file_upload']            = $this->File_model->get_files_by_arsip_id($id);
 
     $instansi                     = $this->Instansi_model->get_by_id($this->data['arsip']->instansi_id);
     $this->data['instansiName']   = $instansi->instansi_name;

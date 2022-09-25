@@ -18,6 +18,21 @@
   <script src="<?php echo base_url('assets/plugins/') ?>sweetalert/js/sweetalert2.all.min.js"></script>
 
   <script type="text/javascript">
+    const flashData = $('.flash-data').data('flashdata');
+    if (flashData === 'Sukses') {
+      Swal.fire({
+        title: flashData,
+        text: 'Pembayaran berhasil dan Arsip sukses dikirim ke email terdaftar',
+        icon: 'success',
+        showClass: {
+          popup: 'animate__animated animate__bounce'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        },
+      });
+    }
+
     $(document).on('click', '#delete-button', function(e) {
       e.preventDefault();
       const link = $(this).attr('href');

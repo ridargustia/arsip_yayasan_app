@@ -93,6 +93,13 @@ class File_model extends CI_Model
 		return $this->db->get($this->table)->row();
 	}
 
+	public function get_files_by_arsip_id($arsip_id)
+	{
+		$this->db->where('arsip_files.arsip_id', $arsip_id);
+
+		return $this->db->get($this->table)->result();
+	}
+
 	public function save($data)
 	{
 		$this->db->insert($this->table, $data);
