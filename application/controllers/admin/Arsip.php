@@ -594,6 +594,13 @@ class Arsip extends CI_Controller
         'autocomplete'  => 'off',
         'required'      => '',
       ];
+      $this->data['price'] = [
+        'name'          => 'price',
+        'id'            => 'price',
+        'class'         => 'form-control',
+        'autocomplete'  => 'off',
+        'required'      => '',
+      ];
       $this->data['masa_retensi'] = [
         'name'          => 'masa_retensi',
         'id'            => 'masa_retensi',
@@ -667,6 +674,7 @@ class Arsip extends CI_Controller
     $this->form_validation->set_rules('baris_id', 'Baris', 'required');
     $this->form_validation->set_rules('arsip_name', 'Nama Arsip', 'trim|required');
     $this->form_validation->set_rules('keterangan', 'Keterangan', 'required');
+    $this->form_validation->set_rules('price', 'Harga', 'required');
 
     $this->form_validation->set_message('required', '{field} wajib diisi');
 
@@ -723,6 +731,7 @@ class Arsip extends CI_Controller
         'no_arsip'                        => $this->input->post('no_arsip'),
         'arsip_name'                      => $this->input->post('arsip_name'),
         'deskripsi_arsip'                 => $this->input->post('deskripsi_arsip'),
+        'harga'                           => $this->input->post('price'),
         'keterangan'                      => $this->input->post('keterangan'),
         'masa_retensi'                    => $masa_retensi,
         'status_retensi'                  => $status_retensi,

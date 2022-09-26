@@ -39,7 +39,7 @@
                                     <?php if (is_grandadmin()) { ?>
                                         <th style="text-align: center">Instansi</th>
                                     <?php } ?>
-                                    <th style="text-align: center">Pembayaran</th>
+                                    <th style="text-align: center">Status</th>
                                     <th style="text-align: center">Created By</th>
                                     <th style="text-align: center">Aksi</th>
                                 </tr>
@@ -49,9 +49,9 @@
                                 foreach ($get_all as $data) {
                                     //TODO Status Pembayaran
                                     if ($data->is_paid == 0) {
-                                        $is_paid = "<button class='btn btn-xs btn-danger'><i class='fa fa-remove'></i> Belum</button> ";
+                                        $is_paid = "<button class='btn btn-xs btn-danger'><i class='fa fa-remove'></i> Belum Verifikasi</button> ";
                                     } elseif ($data->is_paid == 1) {
-                                        $is_paid = "<button class='btn btn-xs btn-success'><i class='fa fa-check'></i> Sudah</button> ";
+                                        $is_paid = "<button class='btn btn-xs btn-success'><i class='fa fa-check'></i> Sudah Verifikasi</button> ";
                                     }
 
                                     //TODO action button

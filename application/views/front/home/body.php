@@ -11,7 +11,7 @@
       <div class="container">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-          <h1>Selamat Datang, <?php echo $get_instansi->instansi_name ?>!</h1>
+          <h1>Selamat Datang di Aplikasi <?php echo $get_instansi->instansi_name ?></h1>
           <ol class="breadcrumb">
             <li><a href="<?php echo base_url() ?>"><i class="fa fa-dashboard"></i> Home</a></li>
           </ol>

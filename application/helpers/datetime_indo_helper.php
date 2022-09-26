@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 function datetime_indo($string)
 {
   setlocale(LC_ALL, 'id_ID');
@@ -49,4 +49,28 @@ function datetime_indonesian($string)
   $pecahkan = explode('-', $tgl);
 
   return $pecahkan[0] . ' ' . $bulan[(int)$pecahkan[1]] . ' ' . $pecahkan[2] . ', Pkl. ' . $time . ' WIB';
+}
+
+function date_indonesian($string)
+{
+  $tgl = date("d-m-Y", strtotime($string));
+
+  $bulan = array(
+    1 =>   'Januari',
+    'Februari',
+    'Maret',
+    'April',
+    'Mei',
+    'Juni',
+    'Juli',
+    'Agustus',
+    'September',
+    'Oktober',
+    'November',
+    'Desember'
+  );
+
+  $pecahkan = explode('-', $tgl);
+
+  return $pecahkan[0] . ' ' . $bulan[(int)$pecahkan[1]] . ' ' . $pecahkan[2];
 }

@@ -1224,6 +1224,12 @@ class Auth extends CI_Controller
     if ($data->num_rows() != 0) {
       $this->data['user'] = $data->row();
 
+      $this->data['name'] = [
+        'name'          => 'name',
+        'id'            => 'name',
+        'class'         => 'form-control',
+        'required'      => '',
+      ];
       $this->data['email'] = [
         'name'          => 'email',
         'id'            => 'email',
@@ -1233,6 +1239,12 @@ class Auth extends CI_Controller
       $this->data['no_wa'] = [
         'name'          => 'no_wa',
         'id'            => 'no_wa',
+        'class'         => 'form-control',
+        'required'      => '',
+      ];
+      $this->data['address'] = [
+        'name'          => 'address',
+        'id'            => 'address',
         'class'         => 'form-control',
         'required'      => '',
       ];

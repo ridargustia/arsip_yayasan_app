@@ -31,10 +31,14 @@
                     <img src="<?php echo base_url('assets/file_arsip/' . $instansiName . '/') . $file_upload->file_upload; ?>" width="100%">
                   <?php } elseif ($ext_file[1] == "pdf") { ?>
                     <iframe src="<?php echo base_url() ?>arsip/pdf_frame/<?php echo $detail_arsip->id_arsip ?>" width="100%" height="300px"></iframe>
+                  <?php } elseif ($file_upload->file_upload == NULL) { ?>
+                    <img src="<?php echo base_url('assets/images/noimage.jpg'); ?>" width="100%">
                   <?php } ?>
-                  <center>
-                    <a href="#" onclick="previewCover(<?php echo $detail_arsip->id_arsip ?>)" title="Preview Cover" class="btn btn-success" style="width: 100%;">Preview</a>
-                  </center>
+                  <?php if ($file_upload->file_upload != NULL) { ?>
+                    <center>
+                      <a href="#" onclick="previewCover(<?php echo $detail_arsip->id_arsip ?>)" title="Preview Cover" class="btn btn-success" style="width: 100%;">Preview</a>
+                    </center>
+                  <?php } ?>
                 </div>
                 <div class="col-sm-9">
                   <table class="table">
@@ -97,12 +101,12 @@
                       <tr>
                         <td>Masa Retensi</td>
                         <td style="width:10px">:</td>
-                        <td class="text-left"><?php echo $detail_arsip->masa_retensi ?></td>
+                        <td class="text-left"><?php echo date_indonesian($detail_arsip->masa_retensi) ?></td>
                       </tr>
                       <tr>
                         <td>Dibuat Pada</td>
                         <td style="width:10px">:</td>
-                        <td class="text-left"><?php echo $detail_arsip->waktu_dibuat ?></td>
+                        <td class="text-left"><?php echo datetime_indonesian($detail_arsip->waktu_dibuat) ?></td>
                       </tr>
                       <tr>
                         <td>Dibuat Oleh</td>

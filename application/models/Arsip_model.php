@@ -1496,7 +1496,7 @@ class Arsip_model extends CI_Model
   function get_detail($id)
   {
     $this->db->select('
-      arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.no_arsip, arsip.deskripsi_arsip, arsip.lokasi_id, arsip.status_retensi,
+      arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.no_arsip, arsip.deskripsi_arsip, arsip.harga, arsip.lokasi_id, arsip.status_retensi,
       arsip.status_file, arsip.is_available, arsip.user_id, arsip.created_by as pembuat_arsip, arsip.created_at as waktu_dibuat, arsip.instansi_id, arsip.cabang_id, arsip.divisi_id,
       arsip.link_gdrive, arsip.masa_retensi, arsip.is_delete,
       users.name as pemilik_arsip,

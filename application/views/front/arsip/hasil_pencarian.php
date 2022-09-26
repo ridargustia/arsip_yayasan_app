@@ -195,14 +195,18 @@
                         if ($ext_file[1] == "jpg" || $ext_file[1] == "PNG" || $ext_file[1] == "jpeg" || $ext_file[1] == "png") {
                         ?>
                           <img src="<?php echo base_url('assets/file_arsip/' . $hasil->instansi_name . '/') . $hasil->file_upload; ?>" width="100%">
+                        <?php } elseif ($hasil->file_upload == NULL) { ?>
+                          <img src="<?php echo base_url('assets/images/noimage.jpg'); ?>" width="100%">
                         <?php } ?>
                         <div class="product-img" style="width: 100%;">
                           <?php if ($ext_file[1] == "pdf") { ?>
                             <iframe src="<?php echo base_url(); ?>arsip/pdf_frame/<?php echo $hasil->id_arsip ?>" width="100%" height="100%"></iframe>
                           <?php } ?>
-                          <center>
-                            <a href="#" onclick="previewCover(<?php echo $hasil->id_arsip ?>)" title="Preview Cover" class="btn btn-success" style="width: 100%;">Preview</a>
-                          </center>
+                          <?php if ($hasil->file_upload != NULL) { ?>
+                            <center>
+                              <a href="#" onclick="previewCover(<?php echo $hasil->id_arsip ?>)" title="Preview Cover" class="btn btn-success" style="width: 100%;">Preview</a>
+                            </center>
+                          <?php } ?>
                         </div>
                       </div>
                       <div class="col-md-10">
@@ -231,7 +235,10 @@
                       <?php echo $is_available ?>
                     </div>
                     <div class="col-sm-4 text-right">
-                      <a href="<?php echo base_url('arsip/detail/' . $hasil->id_arsip) ?>" class="btn btn-sm btn-success"><i class="fa fa-search"></i> Detail</a>
+                      <?php if ($hasil->file_upload != NULL) { ?>
+                        <a href="<?php echo base_url('arsip/form_telusur_arsip/' . $hasil->id_arsip) ?>" class="btn btn-sm btn-success"><i class="fa fa-send"></i> Telusur Arsip</a>
+                      <?php } ?>
+                      <a href="<?php echo base_url('arsip/detail/' . $hasil->id_arsip) ?>" class="btn btn-sm btn-info"><i class="fa fa-search"></i> Detail</a>
                     </div>
                   </div>
                   <hr>

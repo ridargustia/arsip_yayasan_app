@@ -28,7 +28,7 @@
                     ?>
                         <img src="<?php echo base_url('assets/file_arsip/' . $file_upload->instansi_name . '/') . $file_upload->file_upload; ?>" width="100%">
                     <?php } elseif ($ext_file[1] == "pdf") { ?>
-                        <iframe src="<?php echo base_url(); ?>arsip/pdf_frame/<?php echo $id_arsip ?>" width="100%" height="500px"></iframe>
+                        <iframe src="<?php echo base_url(); ?>arsip/pdf_frame/<?php echo $id_arsip ?>" width="100%" height="1050px"></iframe>
                     <?php } ?>
                 </center>
             </div>

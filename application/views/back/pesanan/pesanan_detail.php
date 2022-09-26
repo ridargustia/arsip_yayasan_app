@@ -56,6 +56,11 @@
                                         <td class="text-left"><?php echo $detail_pesanan->no_wa ?></td>
                                     </tr>
                                     <tr>
+                                        <td style="width:200px">Alamat</td>
+                                        <td style="width:10px">:</td>
+                                        <td class="text-left"><?php echo $detail_pesanan->address ?></td>
+                                    </tr>
+                                    <tr>
                                         <td style="width:200px">Nama Arsip Dipinjam</td>
                                         <td style="width:10px">:</td>
                                         <td class="text-left"><?php echo $detail_pesanan->arsip_name ?></td>
@@ -100,9 +105,22 @@
                                         <td class="text-left"><?php echo $detail_pesanan->divisi_name ?></td>
                                     </tr>
                                     <tr>
-                                        <td>Dibuat Pada</td>
+                                        <td>Dipesan Pada Tanggal</td>
                                         <td style="width:10px">:</td>
                                         <td class="text-left"><?php echo datetime_indonesian($detail_pesanan->created_at_orders) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Dikirim Pada Tanggal</td>
+                                        <td style="width:10px">:</td>
+                                        <td class="text-left">
+                                            <?php
+                                            if ($detail_pesanan->verified_at != NULL) {
+                                                echo datetime_indonesian($detail_pesanan->verified_at);
+                                            } else {
+                                                echo '-';
+                                            }
+                                            ?>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Dibuat Oleh</td>

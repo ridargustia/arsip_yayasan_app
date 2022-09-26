@@ -147,6 +147,7 @@ class Arsip extends CI_Controller
     $this->data['action']     = 'arsip/create_order';
 
     $this->data['arsip'] = $this->Arsip_model->get_by_id($id_arsip);
+    $this->data['instansi'] = $this->Instansi_model->get_by_id($this->session->instansi_id);
 
     $this->data['arsip_id'] = [
       'name'          => 'arsip_id',
@@ -162,6 +163,7 @@ class Arsip extends CI_Controller
       'class'         => 'form-control',
       'autocomplete'  => 'off',
       'required'      => '',
+      'value'         => $this->form_validation->set_value('name'),
     ];
     $this->data['email'] = [
       'name'          => 'email',
@@ -169,6 +171,7 @@ class Arsip extends CI_Controller
       'class'         => 'form-control',
       'autocomplete'  => 'off',
       'required'      => '',
+      'value'         => $this->form_validation->set_value('email'),
     ];
     $this->data['no_wa'] = [
       'name'          => 'no_wa',
@@ -176,6 +179,15 @@ class Arsip extends CI_Controller
       'class'         => 'form-control',
       'autocomplete'  => 'off',
       'required'      => '',
+      'value'         => $this->form_validation->set_value('no_wa'),
+    ];
+    $this->data['address'] = [
+      'name'          => 'address',
+      'id'            => 'address',
+      'class'         => 'form-control',
+      'autocomplete'  => 'off',
+      'required'      => '',
+      'value'         => $this->form_validation->set_value('address'),
     ];
 
     $this->load->view('front/arsip/form_telusur_arsip', $this->data);
@@ -186,6 +198,7 @@ class Arsip extends CI_Controller
     $this->form_validation->set_rules('name', 'Nama', 'trim|required');
     $this->form_validation->set_rules('email', 'Email', 'valid_email|required');
     $this->form_validation->set_rules('no_wa', 'No. WhatsApp', 'is_numeric|required');
+    $this->form_validation->set_rules('address', 'Alamat', 'required');
 
     $this->form_validation->set_message('required', '{field} wajib diisi');
     $this->form_validation->set_message('valid_email', 'Format {field} salah');
@@ -225,6 +238,7 @@ class Arsip extends CI_Controller
             'name'              => $this->input->post('name'),
             'email'             => $this->input->post('email'),
             'no_wa'             => $this->input->post('no_wa'),
+            'address'           => $this->input->post('address'),
             'user_id'           => $this->input->post('user_id'),
             'arsip_id'          => $this->input->post('arsip_id'),
             'instansi_id'       => $this->session->instansi_id,

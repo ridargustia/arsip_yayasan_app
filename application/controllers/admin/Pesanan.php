@@ -48,7 +48,7 @@ class Pesanan extends CI_Controller
         } elseif (is_superadmin()) {
             $this->data['get_all'] = $this->Orders_model->get_all_by_cabang();
         } elseif (is_admin()) {
-            $this->data['get_all'] = $this->Orders_model->get_all_by_divisi();
+            $this->data['get_all'] = $this->Orders_model->get_all_by_cabang();
         }
 
         $this->load->view('back/pesanan/pesanan_list', $this->data);
@@ -154,6 +154,8 @@ class Pesanan extends CI_Controller
     {
         $this->form_validation->set_rules('email', 'Email', 'valid_email|required');
         $this->form_validation->set_rules('no_wa', 'No. Telephone/HP/WhatsApp', 'is_numeric|required');
+        $this->form_validation->set_rules('address', 'Alamat', 'required');
+        $this->form_validation->set_rules('name', 'Nama Pemesan', 'required');
 
         $this->form_validation->set_message('required', '{field} wajib diisi');
         $this->form_validation->set_message('valid_email', 'Format {field} salah');
@@ -167,7 +169,7 @@ class Pesanan extends CI_Controller
             $user = $this->Auth_model->get_by_id($this->input->post('user_id'));
 
             if (!empty($_FILES['file_upload']['name'])) {
-                $nmfile = strtolower(url_title($user->name)) . date('YmdHis');
+                $nmfile = strtolower(url_title($this->input->post('name'))) . date('YmdHis');
 
                 $instansi = $this->Instansi_model->get_by_id($user->instansi_id);
 
@@ -192,9 +194,10 @@ class Pesanan extends CI_Controller
                     $this->upload->data();
 
                     $data = array(
-                        'name'              => $user->name,
+                        'name'              => $this->input->post('name'),
                         'email'             => $this->input->post('email'),
                         'no_wa'             => $this->input->post('no_wa'),
+                        'address'           => $this->input->post('address'),
                         'user_id'           => $this->input->post('user_id'),
                         'arsip_id'          => $this->input->post('arsip_id'),
                         'instansi_id'       => $user->instansi_id,
@@ -304,6 +307,12 @@ class Pesanan extends CI_Controller
                 'onChange'      => 'tampilIdentitasPemesan()',
                 'required'      => '',
             ];
+            $this->data['name'] = [
+                'name'          => 'name',
+                'id'            => 'name',
+                'class'         => 'form-control',
+                'required'      => '',
+            ];
             $this->data['email'] = [
                 'name'          => 'email',
                 'id'            => 'email',
@@ -313,6 +322,12 @@ class Pesanan extends CI_Controller
             $this->data['no_wa'] = [
                 'name'          => 'no_wa',
                 'id'            => 'no_wa',
+                'class'         => 'form-control',
+                'required'      => '',
+            ];
+            $this->data['address'] = [
+                'name'          => 'address',
+                'id'            => 'address',
                 'class'         => 'form-control',
                 'required'      => '',
             ];
@@ -328,6 +343,8 @@ class Pesanan extends CI_Controller
     {
         $this->form_validation->set_rules('email', 'Email', 'valid_email|required');
         $this->form_validation->set_rules('no_wa', 'No. Telephone/HP/WhatsApp', 'is_numeric|required');
+        $this->form_validation->set_rules('address', 'Alamat', 'required');
+        $this->form_validation->set_rules('name', 'Nama Pemesan', 'required');
 
         $this->form_validation->set_message('required', '{field} wajib diisi');
         $this->form_validation->set_message('valid_email', 'Format {field} salah');
@@ -351,7 +368,7 @@ class Pesanan extends CI_Controller
             }
 
             if (!empty($_FILES['file_upload']['name'])) {
-                $nmfile = strtolower(url_title($user->name)) . date('YmdHis');
+                $nmfile = strtolower(url_title($this->input->post('name'))) . date('YmdHis');
 
                 $instansi = $this->Instansi_model->get_by_id($user->instansi_id);
                 $pesanan = $this->Orders_model->get_by_id($this->input->post('id_order'));
@@ -383,9 +400,10 @@ class Pesanan extends CI_Controller
                     $this->upload->data();
 
                     $data = array(
-                        'name'            => $user->name,
+                        'name'            => $this->input->post('name'),
                         'email'           => $this->input->post('email'),
                         'no_wa'           => $this->input->post('no_wa'),
+                        'address'         => $this->input->post('address'),
                         'user_id'         => $this->input->post('user_id'),
                         'arsip_id'        => $this->input->post('arsip_id'),
                         'instansi_id'     => $instansi_id,
@@ -401,9 +419,10 @@ class Pesanan extends CI_Controller
                 }
             } else {
                 $data = array(
-                    'name'            => $user->name,
+                    'name'            => $this->input->post('name'),
                     'email'           => $this->input->post('email'),
                     'no_wa'           => $this->input->post('no_wa'),
+                    'address'         => $this->input->post('address'),
                     'user_id'         => $this->input->post('user_id'),
                     'arsip_id'        => $this->input->post('arsip_id'),
                     'instansi_id'     => $instansi_id,
@@ -542,7 +561,11 @@ class Pesanan extends CI_Controller
         $file_arsip = $this->File_model->get_files_by_arsip_id($detail_pesanan->arsip_id);
         $instansi = $this->Instansi_model->get_by_id($detail_pesanan->instansi_id);
 
-        $this->Orders_model->update($id, array('is_paid' => 1));
+        $this->Orders_model->update($id, array(
+            'is_paid'       => 1,
+            'verified_by'   => $this->session->username,
+            'verified_at'   => date('Y-m-d H:i:a'),
+        ));
 
         $this->load->library('PHPMailer_load'); //Load Library PHPMailer
         $mail = $this->phpmailer_load->load(); // Mendefinisikan Variabel Mail
@@ -555,9 +578,9 @@ class Pesanan extends CI_Controller
         $mail->Port = 587;
         $mail->setFrom($company->company_gmail); // Sumber email
         $mail->addAddress($detail_pesanan->email); // Masukkan alamat email dari variabel $email
-        $mail->Subject = "Telusur Arsip"; // Subjek Email
+        $mail->Subject = "Hasil Telusur Arsip"; // Subjek Email
         $mail->msgHtml("
-            <b>EMAIL INI TERKIRIM SECARA OTOMATIS. JANGAN MENGIRIM / MEMBALAS PESAN KE EMAIL INI.</b>
+            <b>TERIMA KASIH TELAH MELAKUKAN PENELUSURAN ARSIP DI LEMBAGA KAMI. MOHON DIGUNAKAN SECARA BIJAK DAN TIDAK DISALAHGUNAKAN.</b>
             <hr>
             <b>" . $company->company_name . "</b>
             <br>Alamat: " . $company->company_address . "

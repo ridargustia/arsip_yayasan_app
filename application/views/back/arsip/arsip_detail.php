@@ -22,14 +22,19 @@
       <div class="box box-primary">
         <div class="box-body">
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <div class="form-group"><label>Nomor Arsip</label>
                 <p><?php echo $detail_arsip->no_arsip ?></p>
               </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <div class="form-group"><label>Instansi</label>
                 <p><?php echo $detail_arsip->instansi_name ?></p>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group"><label>Harga</label>
+                <p><?php echo $detail_arsip->harga ?></p>
               </div>
             </div>
           </div>
@@ -151,7 +156,7 @@
                     <?php } ?>
                   </ol>
                 </div>
-                <?php } elseif ($detail_arsip->status_file == '2' and $detail_arsip->cabang_id == $this->session->cabang_id) { ?>
+              <?php } elseif ($detail_arsip->status_file == '2' and $detail_arsip->cabang_id == $this->session->cabang_id) { ?>
                 <div class="form-group"><label>File</label>
                   <br>
                   <?php if ($file_upload == NULL) {
@@ -166,7 +171,7 @@
                     <?php } ?>
                   </ol>
                 </div>
-                <?php } elseif ($detail_arsip->status_file == '3' and $detail_arsip->divisi_id == $this->session->divisi_id) { ?>
+              <?php } elseif ($detail_arsip->status_file == '3' and $detail_arsip->divisi_id == $this->session->divisi_id) { ?>
                 <div class="form-group"><label>File</label>
                   <br>
                   <?php if ($file_upload == NULL) {
@@ -223,7 +228,7 @@
                   <?php } ?>
                 </ol>
               </div>
-              <?php }
+            <?php }
             // Jika status filenya UMUM (2) maka tampilkan filenya
             elseif ($detail_arsip->status_file == '2' and $detail_arsip->cabang_id == $this->session->cabang_id) {
             ?>
@@ -241,7 +246,7 @@
                   <?php } ?>
                 </ol>
               </div>
-              <?php }
+            <?php }
             // Jika status filenya UMUM (3) maka tampilkan filenya
             elseif ($detail_arsip->status_file == '3' and $detail_arsip->divisi_id == $this->session->divisi_id) {
             ?>

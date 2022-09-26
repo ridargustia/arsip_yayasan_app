@@ -83,6 +83,40 @@ class Instansi extends CI_Controller
       'required'      => '',
       'value'         => $this->form_validation->set_value('active_date'),
     ];
+    $this->data['nama_bank'] = [
+      'name'          => 'nama_bank',
+      'id'            => 'nama_bank',
+      'class'         => 'form-control',
+      'autocomplete'  => 'off',
+      'required'      => '',
+      'value'         => $this->form_validation->set_value('nama_bank'),
+    ];
+    $this->data['nama_bank_value'] = [
+      ''              => '- Pilih Bank -',
+      'BSI'           => 'BSI (Bank Syariah Indonesia)',
+      'Mandiri'       => 'Mandiri',
+      'BNI'           => 'BNI',
+      'BCA'           => 'BCA',
+      'BRI'           => 'BRI',
+      'BTN'           => 'BTN',
+      'Danamon'       => 'Danamon',
+    ];
+    $this->data['atas_nama_rek'] = [
+      'name'          => 'atas_nama_rek',
+      'id'            => 'atas_nama_rek',
+      'class'         => 'form-control',
+      'autocomplete'  => 'off',
+      'required'      => '',
+      'value'         => $this->form_validation->set_value('atas_nama_rek'),
+    ];
+    $this->data['no_rek'] = [
+      'name'          => 'no_rek',
+      'id'            => 'no_rek',
+      'class'         => 'form-control',
+      'autocomplete'  => 'off',
+      'required'      => '',
+      'value'         => $this->form_validation->set_value('no_rek'),
+    ];
 
     $this->load->view('back/instansi/instansi_add', $this->data);
   }
@@ -93,6 +127,9 @@ class Instansi extends CI_Controller
     $this->form_validation->set_rules('instansi_phone', 'No. HP / Telpon', 'trim|required');
     $this->form_validation->set_rules('instansi_address', 'Alamat', 'trim|required');
     $this->form_validation->set_rules('active_date', 'Aktif Sampai', 'trim|required');
+    $this->form_validation->set_rules('nama_bank', 'Nama Bank', 'required');
+    $this->form_validation->set_rules('atas_nama_rek', 'Atas Nama Rekening', 'required');
+    $this->form_validation->set_rules('no_rek', 'No. Rekening', 'required');
 
     $this->form_validation->set_message('required', '{field} wajib diisi');
 
@@ -134,6 +171,9 @@ class Instansi extends CI_Controller
             'instansi_address'    => $this->input->post('instansi_address'),
             'instansi_phone'      => $this->input->post('instansi_phone'),
             'active_date'         => $this->input->post('active_date'),
+            'nama_bank'           => $this->input->post('nama_bank'),
+            'atas_nama_rek'       => $this->input->post('atas_nama_rek'),
+            'no_rek'              => $this->input->post('no_rek'),
             'is_active'           => '1',
             'instansi_img'        => $this->upload->data('file_name'),
             'instansi_img_thumb'  => $nmfile . '_thumb' . $this->upload->data('file_ext'),
@@ -153,6 +193,9 @@ class Instansi extends CI_Controller
           'instansi_address'    => $this->input->post('instansi_address'),
           'instansi_phone'      => $this->input->post('instansi_phone'),
           'active_date'         => $this->input->post('active_date'),
+          'nama_bank'           => $this->input->post('nama_bank'),
+          'atas_nama_rek'       => $this->input->post('atas_nama_rek'),
+          'no_rek'              => $this->input->post('no_rek'),
           'is_active'           => '1',
           'created_by'          => $this->session->username,
         );
@@ -173,7 +216,7 @@ class Instansi extends CI_Controller
 
     $this->data['instansi']     = $this->Instansi_model->get_by_id($id);
 
-    if (is_superadmin() or is_masteradmin() && $this->data['instansi']->id_instansi != $this->session->instansi_id) {
+    if (is_pegawai() or is_admin() or is_superadmin() or is_masteradmin() && $this->data['instansi']->id_instansi != $this->session->instansi_id) {
       $this->session->set_flashdata('message', '<div class="alert alert-danger">Anda tidak berhak mengubah data orang lain</div>');
       redirect('admin/dashboard');
     }
@@ -217,6 +260,37 @@ class Instansi extends CI_Controller
         'autocomplete'  => 'off',
         'required'      => '',
       ];
+      $this->data['nama_bank'] = [
+        'name'          => 'nama_bank',
+        'id'            => 'nama_bank',
+        'class'         => 'form-control',
+        'autocomplete'  => 'off',
+        'required'      => '',
+      ];
+      $this->data['nama_bank_value'] = [
+        ''              => '- Pilih Bank -',
+        'BSI'           => 'BSI (Bank Syariah Indonesia)',
+        'Mandiri'       => 'Mandiri',
+        'BNI'           => 'BNI',
+        'BCA'           => 'BCA',
+        'BRI'           => 'BRI',
+        'BTN'           => 'BTN',
+        'Danamon'       => 'Danamon',
+      ];
+      $this->data['atas_nama_rek'] = [
+        'name'          => 'atas_nama_rek',
+        'id'            => 'atas_nama_rek',
+        'class'         => 'form-control',
+        'autocomplete'  => 'off',
+        'required'      => '',
+      ];
+      $this->data['no_rek'] = [
+        'name'          => 'no_rek',
+        'id'            => 'no_rek',
+        'class'         => 'form-control',
+        'autocomplete'  => 'off',
+        'required'      => '',
+      ];
 
       $this->load->view('back/instansi/instansi_edit', $this->data);
     } else {
@@ -230,6 +304,9 @@ class Instansi extends CI_Controller
     // $this->form_validation->set_rules('instansi_name', 'Nama Instansi', 'trim|required');
     $this->form_validation->set_rules('instansi_phone', 'No. HP / Telpon', 'trim|required');
     $this->form_validation->set_rules('instansi_address', 'Alamat', 'trim|required');
+    $this->form_validation->set_rules('nama_bank', 'Nama Bank', 'required');
+    $this->form_validation->set_rules('atas_nama_rek', 'Atas Nama Rekening', 'required');
+    $this->form_validation->set_rules('no_rek', 'No. Rekening', 'required');
 
     $this->form_validation->set_message('required', '{field} wajib diisi');
 
@@ -289,6 +366,9 @@ class Instansi extends CI_Controller
                 'instansi_address'    => $this->input->post('instansi_address'),
                 'instansi_phone'      => $this->input->post('instansi_phone'),
                 'active_date'         => $this->input->post('active_date'),
+                'nama_bank'           => $this->input->post('nama_bank'),
+                'atas_nama_rek'       => $this->input->post('atas_nama_rek'),
+                'no_rek'              => $this->input->post('no_rek'),
                 'is_active'           => $is_active,
                 'instansi_img'        => $this->upload->data('file_name'),
                 'instansi_img_thumb'  => $nmfile . '_thumb' . $this->upload->data('file_ext'),
@@ -299,6 +379,9 @@ class Instansi extends CI_Controller
                 'instansi_name'       => $this->input->post('instansi_name'),
                 'instansi_address'    => $this->input->post('instansi_address'),
                 'instansi_phone'      => $this->input->post('instansi_phone'),
+                'nama_bank'           => $this->input->post('nama_bank'),
+                'atas_nama_rek'       => $this->input->post('atas_nama_rek'),
+                'no_rek'              => $this->input->post('no_rek'),
                 'instansi_img'        => $this->upload->data('file_name'),
                 'instansi_img_thumb'  => $nmfile . '_thumb' . $this->upload->data('file_ext'),
                 'modified_by'         => $this->session->username,
@@ -311,6 +394,9 @@ class Instansi extends CI_Controller
                 'instansi_phone'      => $this->input->post('instansi_phone'),
                 'active_date'         => $this->input->post('active_date'),
                 'is_active'           => $is_active,
+                'nama_bank'           => $this->input->post('nama_bank'),
+                'atas_nama_rek'       => $this->input->post('atas_nama_rek'),
+                'no_rek'              => $this->input->post('no_rek'),
                 'instansi_img'        => $this->upload->data('file_name'),
                 'instansi_img_thumb'  => $nmfile . '_thumb' . $this->upload->data('file_ext'),
                 'modified_by'         => $this->session->username,
@@ -319,6 +405,9 @@ class Instansi extends CI_Controller
               $data = array(
                 'instansi_address'    => $this->input->post('instansi_address'),
                 'instansi_phone'      => $this->input->post('instansi_phone'),
+                'nama_bank'           => $this->input->post('nama_bank'),
+                'atas_nama_rek'       => $this->input->post('atas_nama_rek'),
+                'no_rek'              => $this->input->post('no_rek'),
                 'instansi_img'        => $this->upload->data('file_name'),
                 'instansi_img_thumb'  => $nmfile . '_thumb' . $this->upload->data('file_ext'),
                 'modified_by'         => $this->session->username,
@@ -346,14 +435,20 @@ class Instansi extends CI_Controller
               'instansi_address'    => $this->input->post('instansi_address'),
               'instansi_phone'      => $this->input->post('instansi_phone'),
               'active_date'         => $this->input->post('active_date'),
-              'is_active'           => $is_active,              
+              'nama_bank'           => $this->input->post('nama_bank'),
+              'atas_nama_rek'       => $this->input->post('atas_nama_rek'),
+              'no_rek'              => $this->input->post('no_rek'),
+              'is_active'           => $is_active,
               'modified_by'         => $this->session->username,
             );
           } else {
             $data = array(
               'instansi_name'       => $this->input->post('instansi_name'),
               'instansi_address'    => $this->input->post('instansi_address'),
-              'instansi_phone'      => $this->input->post('instansi_phone'),              
+              'instansi_phone'      => $this->input->post('instansi_phone'),
+              'nama_bank'           => $this->input->post('nama_bank'),
+              'atas_nama_rek'       => $this->input->post('atas_nama_rek'),
+              'no_rek'              => $this->input->post('no_rek'),
               'modified_by'         => $this->session->username,
             );
           }
@@ -363,13 +458,19 @@ class Instansi extends CI_Controller
               'instansi_address'    => $this->input->post('instansi_address'),
               'instansi_phone'      => $this->input->post('instansi_phone'),
               'active_date'         => $this->input->post('active_date'),
-              'is_active'           => $is_active,              
+              'nama_bank'           => $this->input->post('nama_bank'),
+              'atas_nama_rek'       => $this->input->post('atas_nama_rek'),
+              'no_rek'              => $this->input->post('no_rek'),
+              'is_active'           => $is_active,
               'modified_by'         => $this->session->username,
             );
           } else {
             $data = array(
               'instansi_address'    => $this->input->post('instansi_address'),
-              'instansi_phone'      => $this->input->post('instansi_phone'),              
+              'instansi_phone'      => $this->input->post('instansi_phone'),
+              'nama_bank'           => $this->input->post('nama_bank'),
+              'atas_nama_rek'       => $this->input->post('atas_nama_rek'),
+              'no_rek'              => $this->input->post('no_rek'),
               'modified_by'         => $this->session->username,
             );
           }

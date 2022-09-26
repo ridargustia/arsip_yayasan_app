@@ -233,31 +233,37 @@
               <?php echo form_textarea($deskripsi_arsip, $arsip->deskripsi_arsip) ?>
             </div>
           </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">Harga</label>
+            <div class="col-lg-10">
+              <?php echo form_input($price, $arsip->harga) ?>
+            </div>
+          </div>
 
           <div class="form-group">
             <label class="col-lg-2 control-label">Jenis Arsip Saat Ini</label>
             <div class="col-lg-10">
               <p>
-                <?php 
-                  $this->db->where('arsip_id', $arsip->id_arsip);
-                  $jenis_arsip_result = $this->db->get('arsip_jenis')->result();
-                  $jenis_arsip_id     = array();
+                <?php
+                $this->db->where('arsip_id', $arsip->id_arsip);
+                $jenis_arsip_result = $this->db->get('arsip_jenis')->result();
+                $jenis_arsip_id     = array();
 
-                  foreach ($jenis_arsip_result as $row) {
-                    $jenis_arsip_id[] = $row->jenis_arsip_id;
-                  }
+                foreach ($jenis_arsip_result as $row) {
+                  $jenis_arsip_id[] = $row->jenis_arsip_id;
+                }
 
-                  foreach ($get_all_jenis_arsip as $alljenisArsip) {
-                  ?>
-                    <div class="pretty p-icon p-smooth">
-                      <input type="checkbox" name="jenis_arsip_id[]" value="<?php echo $alljenisArsip->id_jenis ?>" <?php echo ((in_array($alljenisArsip->id_jenis, $jenis_arsip_id)) ? 'checked' : ''); ?>>
-                      <div class="state p-primary">
-                        <i class="icon fa fa-check"></i>
-                        <label><?php echo $alljenisArsip->jenis_name ?></label>
-                      </div>
-                    </div>
-                <?php } ?>
-              </p>    
+                foreach ($get_all_jenis_arsip as $alljenisArsip) {
+                ?>
+              <div class="pretty p-icon p-smooth">
+                <input type="checkbox" name="jenis_arsip_id[]" value="<?php echo $alljenisArsip->id_jenis ?>" <?php echo ((in_array($alljenisArsip->id_jenis, $jenis_arsip_id)) ? 'checked' : ''); ?>>
+                <div class="state p-primary">
+                  <i class="icon fa fa-check"></i>
+                  <label><?php echo $alljenisArsip->jenis_name ?></label>
+                </div>
+              </div>
+            <?php } ?>
+            </p>
             </div>
           </div>
 
@@ -277,14 +283,14 @@
               <ol>
                 <?php foreach ($file_upload as $files) { ?>
                   <li>
-                    <b>FileName:</b> <?php echo $files->file_upload ?><br>                    
-                    <a href="<?php echo base_url('assets/file_arsip/'.$instansiName.'/').$files->file_upload ?>" class="btn btn-sm btn-primary" target="_blank"><i class="fa fa-download"></i> Download/Lihat</a>
+                    <b>FileName:</b> <?php echo $files->file_upload ?><br>
+                    <a href="<?php echo base_url('assets/file_arsip/' . $instansiName . '/') . $files->file_upload ?>" class="btn btn-sm btn-primary" target="_blank"><i class="fa fa-download"></i> Download/Lihat</a>
                     <a href="<?php echo base_url('admin/arsip/delete_files_by_id/' . $files->id) ?>" class="btn btn-sm btn-danger"><i class="fa fa-remove"></i> Hapus</a>
                   </li><br>
                 <?php } ?>
               </ol>
             </div>
-          </div>          
+          </div>
 
           <div class="form-group">
             <label class="col-lg-2 control-label">Upload File Baru</label>
@@ -297,28 +303,36 @@
             <label class="col-lg-2 control-label">Status Akses File</label>
             <div class="col-lg-10">
               <div class="pretty p-icon p-smooth">
-                <input type="radio" name="status_file" value="3" <?php if ($arsip->status_file == '3') {echo "checked";} ?> />
+                <input type="radio" name="status_file" value="3" <?php if ($arsip->status_file == '3') {
+                                                                    echo "checked";
+                                                                  } ?> />
                 <div class="state p-success">
                   <i class="icon fa fa-check"></i>
                   <label>Level Divisi</label>
                 </div>
               </div>
               <div class="pretty p-icon p-smooth">
-                <input type="radio" name="status_file" value="2" <?php if ($arsip->status_file == '2') {echo "checked";} ?> />
+                <input type="radio" name="status_file" value="2" <?php if ($arsip->status_file == '2') {
+                                                                    echo "checked";
+                                                                  } ?> />
                 <div class="state p-success">
                   <i class="icon fa fa-check"></i>
                   <label>Level Cabang</label>
                 </div>
               </div>
               <div class="pretty p-icon p-smooth">
-                <input type="radio" name="status_file" value="1" <?php if ($arsip->status_file == '1') {echo "checked";} ?> required />
+                <input type="radio" name="status_file" value="1" <?php if ($arsip->status_file == '1') {
+                                                                    echo "checked";
+                                                                  } ?> required />
                 <div class="state p-success">
                   <i class="icon fa fa-check"></i>
                   <label>Level Instansi</label>
                 </div>
               </div>
               <div class="pretty p-icon p-smooth">
-                <input type="radio" name="status_file" value="0" <?php if ($arsip->status_file == '0') {echo "checked";} ?> />
+                <input type="radio" name="status_file" value="0" <?php if ($arsip->status_file == '0') {
+                                                                    echo "checked";
+                                                                  } ?> />
                 <div class="state p-success">
                   <i class="icon fa fa-check"></i>
                   <label>Privat</label>
@@ -331,14 +345,18 @@
             <label class="col-lg-2 control-label">Keterangan</label>
             <div class="col-lg-10">
               <div class="pretty p-icon p-smooth">
-                <input type="radio" name="keterangan" value="0" <?php if ($arsip->keterangan == '0') {echo "checked";} ?> required />
+                <input type="radio" name="keterangan" value="0" <?php if ($arsip->keterangan == '0') {
+                                                                  echo "checked";
+                                                                } ?> required />
                 <div class="state p-success">
                   <i class="icon fa fa-check"></i>
                   <label>Permanen</label>
                 </div>
               </div>
               <div class="pretty p-icon p-smooth">
-                <input type="radio" name="keterangan" value="1" <?php if ($arsip->keterangan == '1') {echo "checked";} ?> />
+                <input type="radio" name="keterangan" value="1" <?php if ($arsip->keterangan == '1') {
+                                                                  echo "checked";
+                                                                } ?> />
                 <div class="state p-danger">
                   <i class="icon fa fa-check"></i>
                   <label>Musnah</label>
@@ -382,7 +400,7 @@
 
   <!-- dropzone -->
   <!-- multifile -->
-  <script src="<?php echo base_url('assets/plugins/multifile/') ?>jquery.MultiFile.js" type="text/javascript" language="javascript"></script>  
+  <script src="<?php echo base_url('assets/plugins/multifile/') ?>jquery.MultiFile.js" type="text/javascript" language="javascript"></script>
   <!-- Pretty Checkbox -->
   <link rel="stylesheet" href="<?php echo base_url('assets/plugins/') ?>pretty-checkbox/dist/pretty-checkbox.min.css">
   <!-- Select2 -->
@@ -392,8 +410,19 @@
   <!-- bootstrap datepicker -->
   <link rel="stylesheet" href="<?php echo base_url('assets/plugins/') ?>bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
   <script src="<?php echo base_url('assets/plugins/') ?>bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-  
+  <!-- maskMoney -->
+  <script src="<?php echo base_url('assets/plugins/') ?>maskMoney/jquery.maskMoney.min.js"></script>
+
   <script type="text/javascript">
+    $(document).ready(function() {
+      $('#price').maskMoney({
+        prefix: 'Rp. ',
+        thousands: '.',
+        decimal: ',',
+        precision: 0
+      });
+    });
+
     $(document).ready(function() {
       $("#map_id").select2({
         // placeholder: "Silahkan Pilih Peminjam",
@@ -431,7 +460,7 @@
       });
       return false;
     });
-    
+
     function tampilLokasi() {
       cabang_id = document.getElementById("cabang_id").value;
       $.ajax({

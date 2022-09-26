@@ -105,10 +105,15 @@
                         </div>
                     <?php } ?>
 
-                    <div class="form-group"><label>Nama Pemesan</label>
+                    <div class="form-group"><label>Cari Akun Pemesan</label>
                         <?php echo form_dropdown('', $get_all_combobox_user, $pesanan->user_id, $user_id) ?>
                     </div>
                     <div class="row" id="showR2">
+                        <div class="col-lg-12">
+                            <div class="form-group"><label>Nama Pemesan</label>
+                                <?php echo form_input($name, $pesanan->name) ?>
+                            </div>
+                        </div>
                         <div class="col-lg-6">
                             <div class="form-group"><label>Email</label>
                                 <?php echo form_input($email, $pesanan->email) ?>
@@ -117,6 +122,11 @@
                         <div class="col-lg-6">
                             <div class="form-group"><label>No. Telephone/HP/WhatsApp</label>
                                 <?php echo form_input($no_wa, $pesanan->no_wa) ?>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group"><label>Alamat</label>
+                                <?php echo form_input($address, $pesanan->address) ?>
                             </div>
                         </div>
                     </div>

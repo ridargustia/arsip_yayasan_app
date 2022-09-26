@@ -46,6 +46,23 @@
               <?php echo form_input($active_date, $instansi->active_date) ?>
             </div>
           <?php } ?>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group"><label>Nama Bank</label>
+                <?php echo form_dropdown('', $nama_bank_value, $instansi->nama_bank, $nama_bank) ?>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group"><label>Atas Nama Rekening (*)</label>
+                <?php echo form_input($atas_nama_rek, $instansi->atas_nama_rek) ?>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group"><label>No. Rekening (*)</label>
+                <?php echo form_input($no_rek, $instansi->no_rek) ?>
+              </div>
+            </div>
+          </div>
           <div class="form-group"><label>Logo Saat Ini</label>
             <p><img width="250px" src="<?php echo base_url('assets/images/instansi/' . $instansi->instansi_img_thumb) ?>" /></p>
           </div>

@@ -105,7 +105,7 @@
                         </div>
                     <?php } ?>
 
-                    <div class="form-group"><label>Nama Pemesan</label>
+                    <div class="form-group"><label>Nama Akun Pemesan</label>
                         <?php echo form_dropdown('', array('' => '- Pilih Divisi Dulu -'), '', $user_id) ?>
                     </div>
                     <div class="ajax-content" id="showR"></div>

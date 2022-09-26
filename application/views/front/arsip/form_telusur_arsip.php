@@ -29,9 +29,9 @@
                             <h4><b><?php echo $arsip->harga ?>,00</b></h4>
                             <span>Silahkan transfer ke :</span>
                             <strong>
-                                <span>Bank BSI</span>
-                                <span>A.n. Yayasan</span>
-                                <span>No. Rekening 824-329-323-2</span>
+                                <span>Bank <?php echo $instansi->nama_bank ?></span>
+                                <span>A.n. <?php echo $instansi->atas_nama_rek ?></span>
+                                <span>No. Rekening <?php echo $instansi->no_rek ?></span>
                             </strong>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="control-label">Nama *</label>
-                                        <?php echo form_input($name, $this->session->name) ?>
+                                        <?php echo form_input($name) ?>
                                     </div>
                                 </div>
                             </div>
@@ -56,13 +56,21 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Email *</label>
-                                        <?php echo form_input($email, $this->session->email) ?>
+                                        <?php echo form_input($email) ?>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">No. Telephone/HP/WhatsApp *</label>
-                                        <?php echo form_input($no_wa, $this->session->phone) ?>
+                                        <?php echo form_input($no_wa) ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Alamat *</label>
+                                        <?php echo form_input($address) ?>
                                     </div>
                                 </div>
                             </div>

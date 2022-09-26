@@ -112,7 +112,7 @@ class Orders_model extends CI_Model
 
     function get_detail($id)
     {
-        $this->db->select('orders.id_order, orders.name, orders.email, orders.no_wa, orders.bukti_tf, orders.arsip_id, orders.is_paid, arsip.arsip_name, arsip.no_arsip, arsip.instansi_id, arsip.harga, divisi.divisi_name, cabang.cabang_name, instansi.instansi_name, orders.created_by as created_by_orders, orders.created_at as created_at_orders');
+        $this->db->select('orders.id_order, orders.name, orders.email, orders.no_wa, orders.bukti_tf, orders.arsip_id, orders.is_paid, orders.address, arsip.arsip_name, arsip.no_arsip, arsip.instansi_id, arsip.harga, divisi.divisi_name, cabang.cabang_name, instansi.instansi_name, orders.created_by as created_by_orders, orders.created_at as created_at_orders, orders.verified_at');
 
         $this->db->join('instansi', 'orders.instansi_id = instansi.id_instansi', 'left');
         $this->db->join('cabang', 'orders.cabang_id = cabang.id_cabang', 'left');
