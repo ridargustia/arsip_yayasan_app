@@ -239,6 +239,22 @@
               <?php echo form_input($price, $arsip->harga) ?>
             </div>
           </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">Cover Arsip Saat Ini</label>
+            <div class="col-lg-10">
+              <?php if ($arsip->cover != NULL) { ?>
+                <p><img width="200px" src="<?php echo base_url('assets/images/covers/' . $instansiName . '/' . $arsip->cover) ?>" /></p>
+              <?php } else { ?>
+                <p><img width="200px" src="<?php echo base_url('assets/images/noimage.jpg') ?>" /></p>
+              <?php } ?>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">Upload Cover Arsip Baru</label>
+            <div class="col-lg-10">
+              <input type="file" name="cover" id="cover" required />
+            </div>
+          </div>
 
           <div class="form-group">
             <label class="col-lg-2 control-label">Jenis Arsip Saat Ini</label>
