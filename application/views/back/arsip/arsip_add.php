@@ -242,6 +242,13 @@
           </div>
 
           <div class="form-group">
+            <label class="col-lg-2 control-label">Upload Cover Arsip</label>
+            <div class="col-lg-10">
+              <input type="file" name="cover" id="cover" required />
+            </div>
+          </div>
+
+          <div class="form-group">
             <label class="col-lg-2 control-label">Jenis Arsip *</label>
             <div class="col-lg-10">
               <p>
@@ -674,6 +681,12 @@
           keterangan: {
             required: true,
           },
+          price: {
+            required: true,
+          },
+          cover: {
+            required: true,
+          },
         },
         messages: {
           instansi_id: "<span style='color:red'>Wajib diisi</span>",
@@ -691,6 +704,8 @@
           masa_retensi: "<span style='color:red'>Wajib diisi</span>",
           status_file: "<span style='color:red'>Wajib diisi</span>",
           keterangan: "<span style='color:red'>Wajib diisi</span>",
+          price: "<span style='color:red'>Wajib diisi</span>",
+          cover: "<span style='color:red'>Wajib diisi</span>",
         }
       });
     });
