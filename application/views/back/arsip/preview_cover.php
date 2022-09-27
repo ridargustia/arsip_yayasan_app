@@ -22,13 +22,8 @@
         <div class="modal-content" style="min-width: 100px;">
             <div class="modal-header" style='text-align:center'>
                 <center>
-                    <?php
-                    $ext_file = explode(".", $file_upload->file_upload);
-                    if ($ext_file[1] == "jpg" || $ext_file[1] == "PNG" || $ext_file[1] == "jpeg" || $ext_file[1] == "png") {
-                    ?>
-                        <img src="<?php echo base_url('assets/file_arsip/' . $file_upload->instansi_name . '/') . $file_upload->file_upload; ?>" width="100%">
-                    <?php } elseif ($ext_file[1] == "pdf") { ?>
-                        <iframe src="<?php echo base_url(); ?>arsip/pdf_frame/<?php echo $id_arsip ?>" width="100%" height="1050px"></iframe>
+                    <?php if ($arsip->cover != NULL) { ?>
+                        <img src="<?php echo base_url('assets/images/covers/' . $arsip->instansi_name . '/') . $arsip->cover; ?>" width="100%">
                     <?php } ?>
                 </center>
             </div>

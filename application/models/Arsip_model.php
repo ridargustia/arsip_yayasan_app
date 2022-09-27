@@ -80,7 +80,7 @@ class Arsip_model extends CI_Model
 
   function get_cover_by_id($id_arsip)
   {
-    $this->db->select('arsip.id_arsip, arsip_files.file_upload, instansi.instansi_name');
+    $this->db->select('arsip.id_arsip, arsip.cover, arsip_files.file_upload, instansi.instansi_name');
 
     $this->db->join('arsip_files', 'arsip.id_arsip = arsip_files.arsip_id', 'LEFT');
     $this->db->join('instansi', 'arsip.instansi_id = instansi.id_instansi', 'LEFT');
@@ -94,7 +94,7 @@ class Arsip_model extends CI_Model
   function get_all_front()
   {
     $this->db->select('
-      arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.deskripsi_arsip, arsip.no_arsip, arsip.lokasi_id, arsip.status_retensi, arsip.status_file, arsip.is_available, arsip.masa_retensi, arsip.is_delete, arsip.keterangan,
+      arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.deskripsi_arsip, arsip.no_arsip, arsip.lokasi_id, arsip.status_retensi, arsip.status_file, arsip.is_available, arsip.masa_retensi, arsip.is_delete, arsip.keterangan, arsip.cover,
       users.username,
       baris.baris_name,
       rak.rak_name,
@@ -173,7 +173,7 @@ class Arsip_model extends CI_Model
   function get_all_by_instansi()
   {
     $this->db->select('
-      arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.deskripsi_arsip, arsip.no_arsip, arsip.lokasi_id, arsip.status_retensi, arsip.status_file, arsip.is_available, arsip.masa_retensi, arsip.is_delete, arsip.keterangan,
+      arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.deskripsi_arsip, arsip.no_arsip, arsip.lokasi_id, arsip.status_retensi, arsip.status_file, arsip.is_available, arsip.masa_retensi, arsip.is_delete, arsip.keterangan, arsip.cover,
       users.username,
       baris.baris_name,
       rak.rak_name,
@@ -1401,7 +1401,7 @@ class Arsip_model extends CI_Model
   {
     $this->db->select('
       arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.no_arsip, arsip.deskripsi_arsip, arsip.instansi_id, arsip.cabang_id, arsip.divisi_id, arsip.lokasi_id,
-      arsip.status_file, arsip.user_id, arsip.created_at as waktu_dibuat, arsip.masa_retensi, arsip.link_gdrive,
+      arsip.status_file, arsip.user_id, arsip.created_at as waktu_dibuat, arsip.masa_retensi, arsip.link_gdrive, arsip.cover,
       baris.baris_name,
       box.box_name,
       instansi.instansi_name,
@@ -1571,7 +1571,7 @@ class Arsip_model extends CI_Model
   function cari_all_arsip_by_instansi_with_searchFormNull_and_instansiIdNotNull($instansi_id)
   {
     $this->db->select('
-      arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.deskripsi_arsip, arsip.no_arsip, arsip.lokasi_id,
+      arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.deskripsi_arsip, arsip.no_arsip, arsip.lokasi_id, arsip.cover,
       baris.baris_name,
       rak.rak_name,
       box.box_name,
@@ -1615,7 +1615,7 @@ class Arsip_model extends CI_Model
   function cari_all_arsip_by_instansi_with_searchFormNotNull_and_instansiIdNull($search_form)
   {
     $this->db->select('
-      arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.deskripsi_arsip, arsip.no_arsip, arsip.lokasi_id,
+      arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.deskripsi_arsip, arsip.no_arsip, arsip.lokasi_id, arsip.cover,
       baris.baris_name,
       rak.rak_name,
       box.box_name,
@@ -1657,7 +1657,7 @@ class Arsip_model extends CI_Model
   function cari_all_arsip_by_instansi_with_searchFormNotNull($search_form, $instansi_id)
   {
     $this->db->select('
-      arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.deskripsi_arsip, arsip.no_arsip, arsip.lokasi_id,
+      arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.deskripsi_arsip, arsip.no_arsip, arsip.lokasi_id, arsip.cover,
       baris.baris_name,
       rak.rak_name,
       box.box_name,
@@ -1703,7 +1703,7 @@ class Arsip_model extends CI_Model
   function get_all_by_instansi_with_searchFormNull_and_cabangNotNull($cabang_id)
   {
     $this->db->select('
-      arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.deskripsi_arsip, arsip.no_arsip, arsip.lokasi_id,
+      arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.deskripsi_arsip, arsip.no_arsip, arsip.lokasi_id, arsip.cover,
       baris.baris_name,
       rak.rak_name,
       box.box_name,
@@ -1743,7 +1743,7 @@ class Arsip_model extends CI_Model
   function get_all_by_instansi_with_searchFormNotNull_and_cabangNull($search_form)
   {
     $this->db->select('
-      arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.deskripsi_arsip, arsip.no_arsip, arsip.lokasi_id,
+      arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.deskripsi_arsip, arsip.no_arsip, arsip.lokasi_id, arsip.cover,
       baris.baris_name,
       rak.rak_name,
       box.box_name,
@@ -1786,7 +1786,7 @@ class Arsip_model extends CI_Model
   function get_all_by_instansi_with_searchFormNotNull_and_cabangNotNull($search_form, $cabang_id)
   {
     $this->db->select('
-      arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.deskripsi_arsip, arsip.no_arsip, arsip.lokasi_id,
+      arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.deskripsi_arsip, arsip.no_arsip, arsip.lokasi_id, arsip.cover,
       baris.baris_name,
       rak.rak_name,
       box.box_name,
@@ -1832,7 +1832,7 @@ class Arsip_model extends CI_Model
   function get_all_by_instansi_with_searchFormNull_and_divisiNotNull($divisi_id)
   {
     $this->db->select('
-      arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.deskripsi_arsip, arsip.no_arsip, arsip.lokasi_id,
+      arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.deskripsi_arsip, arsip.no_arsip, arsip.lokasi_id, arsip.cover,
       baris.baris_name,
       rak.rak_name,
       box.box_name,
@@ -1872,7 +1872,7 @@ class Arsip_model extends CI_Model
   function get_all_by_instansi_with_searchFormNotNull_and_divisiNull($search_form)
   {
     $this->db->select('
-      arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.deskripsi_arsip, arsip.no_arsip, arsip.lokasi_id,
+      arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.deskripsi_arsip, arsip.no_arsip, arsip.lokasi_id, arsip.cover,
       baris.baris_name,
       rak.rak_name,
       box.box_name,
@@ -1915,7 +1915,7 @@ class Arsip_model extends CI_Model
   function get_all_by_instansi_with_searchFormNotNull_and_divisiNotNull($search_form, $divisi_id)
   {
     $this->db->select('
-      arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.deskripsi_arsip, arsip.no_arsip, arsip.lokasi_id,
+      arsip.id_arsip, arsip.user_id, arsip.arsip_name, arsip.deskripsi_arsip, arsip.no_arsip, arsip.lokasi_id, arsip.cover,
       baris.baris_name,
       rak.rak_name,
       box.box_name,
