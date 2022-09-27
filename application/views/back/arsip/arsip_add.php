@@ -242,7 +242,7 @@
           </div>
 
           <div class="form-group">
-            <label class="col-lg-2 control-label">Upload Cover Arsip</label>
+            <label class="col-lg-2 control-label">Upload Cover Arsip *</label>
             <div class="col-lg-10">
               <input type="file" name="cover" id="cover" required />
             </div>
@@ -339,13 +339,9 @@
           <ul>
             <li>* Wajib diisi</li>
             <li>Jenis File yang boleh diupload:
-              <br><b>TEXT</b>: txt, pdf, ppt, pptx, xls, xlsx, doc, docx.
-              <br><b>AUDIO</b>: mp3, flac, wav, m4a.
-              <br><b>VIDEO</b>: mp4, flv.
-              <br><b>FOTO</b>: jpg, jpeg, png.
-              <br><b>COMPRESSION</b>: zip, rar.
+              <br><b>TEXT</b>: pdf.
+              <br><b>GAMBAR</b>: jpg, jpeg, png.
             </li>
-            <li>Disarankan kalau filenya banyak, lebih baik buat dalam format <b>zip</b> atau <b>rar</b></li>
           </ul>
         </div>
         <div class="box-footer">
