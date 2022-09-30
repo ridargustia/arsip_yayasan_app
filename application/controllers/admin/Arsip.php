@@ -629,6 +629,7 @@ class Arsip extends CI_Controller
         'id'            => 'masa_retensi',
         'class'         => 'form-control',
         'autocomplete'  => 'off',
+        'required'      => '',
       ];
       $this->data['link_gdrive'] = [
         'name'          => 'link_gdrive',
@@ -696,6 +697,9 @@ class Arsip extends CI_Controller
     $this->form_validation->set_rules('map_id', 'Map', 'required');
     $this->form_validation->set_rules('baris_id', 'Baris', 'required');
     $this->form_validation->set_rules('arsip_name', 'Nama Arsip', 'trim|required');
+    $this->form_validation->set_rules('no_arsip', 'No Arsip', 'required');
+    $this->form_validation->set_rules('deskripsi_arsip', 'Deskripsi Arsip', 'required');
+    $this->form_validation->set_rules('masa_retensi', 'Masa Retensi', 'required');
     $this->form_validation->set_rules('keterangan', 'Keterangan', 'required');
     $this->form_validation->set_rules('price', 'Harga', 'required');
 
@@ -869,6 +873,103 @@ class Arsip extends CI_Controller
           $this->session->set_flashdata('message', '<div class="alert alert-success alert">Data berhasil disimpan</div>');
           redirect(base_url('admin/arsip'));
         }
+      } else {
+        $data = array(
+          'instansi_id'                     => $instansi_id,
+          'cabang_id'                       => $cabang_id,
+          'divisi_id'                       => $divisi_id,
+          'user_id'                         => $user_id,
+          'lokasi_id'                       => $this->input->post('lokasi_id'),
+          'rak_id'                          => $this->input->post('rak_id'),
+          'box_id'                          => $this->input->post('box_id'),
+          'map_id'                          => $this->input->post('map_id'),
+          'baris_id'                        => $this->input->post('baris_id'),
+          'no_arsip'                        => $this->input->post('no_arsip'),
+          'arsip_name'                      => $this->input->post('arsip_name'),
+          'deskripsi_arsip'                 => $this->input->post('deskripsi_arsip'),
+          'harga'                           => $this->input->post('price'),
+          'keterangan'                      => $this->input->post('keterangan'),
+          'masa_retensi'                    => $masa_retensi,
+          'status_retensi'                  => $status_retensi,
+          'status_file'                     => $this->input->post('status_file'),
+          'modified_by'                     => $this->session->userdata('username'),
+        );
+
+        // eksekusi query UPDATE
+        $this->Arsip_model->update($this->input->post('id_arsip'), $data);
+
+        write_log();
+
+        $instansi     = $this->Instansi_model->get_by_id($instansi_id);
+        $instansiName = $instansi->instansi_name;
+
+        // kalau upload foto tambahan
+        if (!empty($_FILES['file_upload']['name'])) {
+          $filesCount = count($_FILES['file_upload']['name']);
+
+          for ($i = 0; $i < $filesCount; $i++) {
+            // File upload configuration
+            // atur lokasi upload berdasarkan nama instansi
+            $config2['upload_path'] = './assets/file_arsip/' . $instansiName;
+            if (!is_dir($config2['upload_path'])) {
+              mkdir($config2['upload_path'], 0777, TRUE);
+            }
+
+            $config2['allowed_types']  = 'jpg|jpeg|png|pdf';
+
+            $_FILES['file']['name']       = $_FILES['file_upload']['name'][$i];
+            $_FILES['file']['type']       = $_FILES['file_upload']['type'][$i];
+            $_FILES['file']['tmp_name']   = $_FILES['file_upload']['tmp_name'][$i];
+            $_FILES['file']['error']      = $_FILES['file_upload']['error'][$i];
+            $_FILES['file']['size']       = $_FILES['file_upload']['size'][$i];
+
+            // Load and initialize upload library
+            $this->load->library('upload', $config2);
+            $this->upload->initialize($config2);
+
+            // Upload file to server
+            if (!$this->upload->do_upload('file')) {
+              //file gagal diupload -> kembali ke form tambah
+              $error = array('error' => $this->upload->display_errors());
+              $this->session->set_flashdata('message', '<div class="col-lg-12"><div class="alert alert-danger alert">' . $error['error'] . '</div></div>');
+
+              $this->update($this->input->post('id_arsip'));
+            } else {
+              // Uploaded file data
+              $fileData = $this->upload->data();
+
+              $datas = array(
+                'arsip_id'        => $this->input->post('id_arsip'),
+                'file_upload'     => $fileData['file_name'],
+                'created_by'      => $this->session->userdata('username'),
+              );
+
+              // Insert files data into the database
+              $this->Arsip_model->insert_files($datas);
+            }
+          }
+        }
+
+        if (!empty($this->input->post('jenis_arsip_id'))) {
+          $this->db->where('arsip_id', $this->input->post('id_arsip'));
+          $this->db->delete('arsip_jenis');
+
+          $jenis_arsip_id = count($this->input->post('jenis_arsip_id'));
+
+          for ($i_jenis_arsip_id = 0; $i_jenis_arsip_id < $jenis_arsip_id; $i_jenis_arsip_id++) {
+            $datas_jenis_arsip_id[$i_jenis_arsip_id] = array(
+              'arsip_id'          => $this->input->post('id_arsip'),
+              'jenis_arsip_id'    => $this->input->post('jenis_arsip_id[' . $i_jenis_arsip_id . ']'),
+            );
+
+            $this->db->insert('arsip_jenis', $datas_jenis_arsip_id[$i_jenis_arsip_id]);
+
+            write_log();
+          }
+        }
+
+        $this->session->set_flashdata('message', '<div class="alert alert-success alert">Data berhasil disimpan</div>');
+        redirect(base_url('admin/arsip'));
       }
     }
   }

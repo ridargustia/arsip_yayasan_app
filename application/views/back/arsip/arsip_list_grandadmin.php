@@ -36,12 +36,12 @@
                   <th style="text-align: center">Instansi</th>
                   <th style="text-align: center">Cabang</th>
                   <th style="text-align: center">Divisi</th>
-                                    
+
                   <th style="text-align: center">Status Peminjaman</th>
                   <th style="text-align: center">Status Akses</th>
-                  <th style="text-align: center">Status Retensi</th>                  
+                  <th style="text-align: center">Status Retensi</th>
                   <th style="text-align: center">Keterangan</th>
-                  
+
                   <th style="text-align: center">Aksi</th>
                 </tr>
               </thead>
@@ -79,12 +79,12 @@
                     $keterangan = "Permanen";
                   } elseif ($data->keterangan == '1') {
                     $keterangan = "Musnah";
-                  } else{
+                  } else {
                     $keterangan = "-";
                   }
-                  
+
                   $edit   = '<a href="' . base_url('admin/arsip/update/' . $data->id_arsip) . '" class="btn btn-sm btn-warning" title="Ubah Arsip"><i class="fa fa-pencil"></i></a>';
-                  $delete = '<a href="' . base_url('admin/arsip/delete/' . $data->id_arsip) . '" onClick="return confirm(\'Are you sure?\');" class="btn btn-sm btn-danger" title="Hapus Arsip"><i class="fa fa-trash"></i></a>';                    
+                  $delete = '<a href="' . base_url('admin/arsip/delete/' . $data->id_arsip) . '" onClick="return confirm(\'Are you sure?\');" class="btn btn-sm btn-danger" title="Hapus Arsip"><i class="fa fa-trash"></i></a>';
                   $detail = '<a href="' . base_url('admin/arsip/detail/' . $data->id_arsip) . '" class="btn btn-sm bg-purple" title="Tampilkan Arsip"><i class="fa fa-search-plus"></i></a>';
                 ?>
                   <tr>
@@ -94,18 +94,18 @@
                     <td style="text-align: center"><?php echo $data->instansi_name ?></td>
                     <td style="text-align: center"><?php echo $data->cabang_name ?></td>
                     <td style="text-align: center"><?php echo $data->divisi_name ?></td>
-                                       
+
                     <td style="text-align: center"><?php echo $is_available ?></td>
                     <td style="text-align: center"><?php echo $status_file ?></td>
                     <td style="text-align: center"><?php echo $status_retensi ?></td>
                     <td style="text-align: center"><?php echo $keterangan ?></td>
-                    
-                    <td style="text-align: center"><?php echo $detail . ' ';
-                                                    echo $edit . ' ';
-                                                    echo $delete; ?></td>
+
+                    <td style="text-align: center; width:50px;"><?php echo $detail . ' ';
+                                                                echo $edit . ' ';
+                                                                echo $delete; ?></td>
                   </tr>
                 <?php } ?>
-                </tbody>
+              </tbody>
             </table>
           </div>
         </div>
