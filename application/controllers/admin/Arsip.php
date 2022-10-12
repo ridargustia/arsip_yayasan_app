@@ -61,6 +61,27 @@ class Arsip extends CI_Controller
     }
   }
 
+  function split_pdf($dir_arsip, $dir_cover, $nmfile)
+  {
+    require_once('vendor/setasign/fpdf/fpdf.php');
+    require_once('vendor/setasign/fpdi/src/autoload.php');
+
+    $pdf            = new setasign\Fpdi\Fpdi();
+    $pageCount      = $pdf->setSourceFile($dir_arsip);
+    $file = pathinfo($dir_arsip, PATHINFO_FILENAME);
+
+    //TODO Split each page into a new PDF
+    for ($i = 1; $i <= 1; $i++) {
+      $newPdf = new setasign\Fpdi\Fpdi();
+      $newPdf->addPage();
+      $newPdf->setSourceFile($dir_arsip);
+      $newPdf->useTemplate($newPdf->importPage($i));
+
+      $newFilename = sprintf('%s/' . $nmfile . '.pdf', $dir_cover, $file, $i);
+      $newPdf->output($newFilename, 'F');
+    }
+  }
+
   function aktif()
   {
     is_read();
@@ -364,132 +385,137 @@ class Arsip extends CI_Controller
         $masa_retensi = $this->input->post('masa_retensi');
       }
 
-      if ($_FILES['cover']['error'] <> 4) {
+      $data = array(
+        'instansi_id'                     => $instansi_id,
+        'cabang_id'                       => $cabang_id,
+        'divisi_id'                       => $divisi_id,
+        'user_id'                         => $user_id,
+        'lokasi_id'                       => $this->input->post('lokasi_id'),
+        'rak_id'                          => $this->input->post('rak_id'),
+        'baris_id'                        => $this->input->post('baris_id'),
+        'box_id'                          => $this->input->post('box_id'),
+        'map_id'                          => $this->input->post('map_id'),
+        'no_arsip'                        => $this->input->post('no_arsip'),
+        'arsip_name'                      => $this->input->post('arsip_name'),
+        'deskripsi_arsip'                 => $this->input->post('deskripsi_arsip'),
+        'harga'                           => $this->input->post('price'),
+        'keterangan'                      => $this->input->post('keterangan'),
+        'masa_retensi'                    => $masa_retensi,
+        'status_file'                     => $this->input->post('status_file'),
+        'is_available'                    => '1',
+        'created_by'                      => $this->session->userdata('username'),
+      );
+
+      // eksekusi query INSERT
+      $this->Arsip_model->insert($data);
+
+      $arsip_id = $this->db->insert_id();
+
+      write_log();
+
+      $instansi = $this->Instansi_model->get_by_id($instansi_id);
+      $instansiName = $instansi->instansi_name;
+      $fileData = NULL;
+
+      //TODO kalau upload file arsip
+      if (!empty($_FILES['file_upload']['name'])) {
+
+        $filesCount = count($_FILES['file_upload']['name']);
+
+        for ($i = 0; $i < $filesCount; $i++) {
+          // File upload configuration
+          // atur lokasi upload berdasarkan nama instansi
+          $config2['upload_path'] = './assets/file_arsip/' . $instansiName;
+          if (!is_dir($config2['upload_path'])) {
+            mkdir($config2['upload_path'], 0777, TRUE);
+          }
+
+          $config2['allowed_types']  = 'jpg|jpeg|png|pdf';
+
+          $_FILES['file']['name']       = $_FILES['file_upload']['name'][$i];
+          $_FILES['file']['type']       = $_FILES['file_upload']['type'][$i];
+          $_FILES['file']['tmp_name']   = $_FILES['file_upload']['tmp_name'][$i];
+          $_FILES['file']['error']      = $_FILES['file_upload']['error'][$i];
+          $_FILES['file']['size']       = $_FILES['file_upload']['size'][$i];
+
+          // Load and initialize upload library
+          $this->load->library('upload', $config2);
+          $this->upload->initialize($config2);
+
+          // Upload file to server
+          if (!$this->upload->do_upload('file')) {
+            //file gagal diupload -> kembali ke form tambah
+            $error = array('error' => $this->upload->display_errors());
+            $this->session->set_flashdata('message', '<div class="col-lg-12"><div class="alert alert-danger alert">' . $error['error'] . '</div></div>');
+
+            $json = 'failed';
+            header('Content-Type: application/json');
+            echo json_encode($error['error']);
+          } else {
+            // Uploaded file data
+            $fileData = $this->upload->data();
+
+            $datas = array(
+              'arsip_id'        => $arsip_id,
+              'file_upload'     => $fileData['file_name'],
+              'created_by'      => $this->session->userdata('username'),
+            );
+
+            // Insert files data into the database
+            $this->Arsip_model->insert_files($datas);
+          }
+        }
+
+        //TODO Get data file arsip by id (hanya data tunggal)
+        $file_upload = $this->File_model->get_by_arsip_id($arsip_id);
+
+        //TODO Ambil file dari direktori
+        $dir_arsip = FCPATH . 'assets/file_arsip/' . $instansiName . '/' . $file_upload->file_upload;
+        //TODO Inisialisasi direktori penyimpanan file cover
+        $dir_cover = FCPATH . 'assets/images/covers/' . $instansiName;
+        //TODO Inisialisasi nama file cover
         $nmfile = strtolower(url_title($this->input->post('arsip_name'))) . date('YmdHis');
 
-        $instansi = $this->Instansi_model->get_by_id($instansi_id);
+        //TODO Pecah string menjadi array dengan pemisah titik (.)
+        $ext_file = explode(".", $file_upload->file_upload);
+        //TODO Hitung jumlah array untuk diambil array terakhir
+        $countArray = count($ext_file) - 1;
 
-        $config['upload_path']      = './assets/images/covers/' . $instansi->instansi_name;
-        if (!is_dir($config['upload_path'])) {
-          mkdir($config['upload_path'], 0777, TRUE);
-        }
-        $config['allowed_types']    = 'jpg|jpeg|png';
-        $config['max_size']         = 2048; // 2Mb
-        $config['file_name']        = $nmfile;
+        //TODO Cek ekstensi file
+        if ($ext_file[$countArray] == 'jpg' || $ext_file[$countArray] == 'jpeg' || $ext_file[$countArray] == 'png' || $ext_file[$countArray] == 'PNG') {
+          //TODO Update data arsip
+          $this->Arsip_model->update($arsip_id, array('cover' => $file_upload->file_upload));
+        } elseif ($ext_file[$countArray] == 'pdf') {
+          //TODO Simpan hasil split file arsip pdf
+          $this->split_pdf($dir_arsip, $dir_cover, $nmfile);
 
-        $this->load->library('upload', $config);
-
-        if (!$this->upload->do_upload('cover')) {
-          $error = array('error' => $this->upload->display_errors());
-          $this->session->set_flashdata('message', '<div class="alert alert-danger">' . $error['error'] . '</div>');
-
-          $this->create();
-        } else {
-          $this->upload->data();
-
-          $data = array(
-            'instansi_id'                     => $instansi_id,
-            'cabang_id'                       => $cabang_id,
-            'divisi_id'                       => $divisi_id,
-            'user_id'                         => $user_id,
-            'lokasi_id'                       => $this->input->post('lokasi_id'),
-            'rak_id'                          => $this->input->post('rak_id'),
-            'baris_id'                        => $this->input->post('baris_id'),
-            'box_id'                          => $this->input->post('box_id'),
-            'map_id'                          => $this->input->post('map_id'),
-            'no_arsip'                        => $this->input->post('no_arsip'),
-            'arsip_name'                      => $this->input->post('arsip_name'),
-            'deskripsi_arsip'                 => $this->input->post('deskripsi_arsip'),
-            'harga'                           => $this->input->post('price'),
-            'cover'                           => $this->upload->data('file_name'),
-            'keterangan'                      => $this->input->post('keterangan'),
-            'masa_retensi'                    => $masa_retensi,
-            'status_file'                     => $this->input->post('status_file'),
-            'is_available'                    => '1',
-            'created_by'                      => $this->session->userdata('username'),
-          );
-
-          // eksekusi query INSERT
-          $this->Arsip_model->insert($data);
-
-          $arsip_id = $this->db->insert_id();
-
-          write_log();
-
-          $instansiName = $instansi->instansi_name;
-
-          // kalau upload file tambahan
-          if (!empty($_FILES['file_upload']['name'])) {
-            $filesCount = count($_FILES['file_upload']['name']);
-
-            for ($i = 0; $i < $filesCount; $i++) {
-              // File upload configuration
-              // atur lokasi upload berdasarkan nama instansi
-              $config2['upload_path'] = './assets/file_arsip/' . $instansiName;
-              if (!is_dir($config2['upload_path'])) {
-                mkdir($config2['upload_path'], 0777, TRUE);
-              }
-
-              $config2['allowed_types']  = 'jpg|jpeg|png|pdf';
-
-              $_FILES['file']['name']       = $_FILES['file_upload']['name'][$i];
-              $_FILES['file']['type']       = $_FILES['file_upload']['type'][$i];
-              $_FILES['file']['tmp_name']   = $_FILES['file_upload']['tmp_name'][$i];
-              $_FILES['file']['error']      = $_FILES['file_upload']['error'][$i];
-              $_FILES['file']['size']       = $_FILES['file_upload']['size'][$i];
-
-              // Load and initialize upload library
-              $this->load->library('upload', $config2);
-              $this->upload->initialize($config2);
-
-              // Upload file to server
-              if (!$this->upload->do_upload('file')) {
-                //file gagal diupload -> kembali ke form tambah
-                $error = array('error' => $this->upload->display_errors());
-                $this->session->set_flashdata('message', '<div class="col-lg-12"><div class="alert alert-danger alert">' . $error['error'] . '</div></div>');
-
-                $json = 'failed';
-                header('Content-Type: application/json');
-                echo json_encode($error['error']);
-              } else {
-                // Uploaded file data
-                $fileData = $this->upload->data();
-
-                $datas = array(
-                  'arsip_id'        => $arsip_id,
-                  'file_upload'     => $fileData['file_name'],
-                  'created_by'      => $this->session->userdata('username'),
-                );
-
-                // Insert files data into the database
-                $this->Arsip_model->insert_files($datas);
-              }
-            }
-          }
-
-          if (!empty($this->input->post('jenis_arsip_id'))) {
-            $jenis_arsip_id = count($this->input->post('jenis_arsip_id'));
-
-            for ($i_jenis_arsip_id = 0; $i_jenis_arsip_id < $jenis_arsip_id; $i_jenis_arsip_id++) {
-              $datas_jenis_arsip_id[$i_jenis_arsip_id] = array(
-                'arsip_id'          => $arsip_id,
-                'jenis_arsip_id'    => $this->input->post('jenis_arsip_id[' . $i_jenis_arsip_id . ']'),
-              );
-
-              $this->db->insert('arsip_jenis', $datas_jenis_arsip_id[$i_jenis_arsip_id]);
-
-              write_log();
-            }
-          }
-
-          if ($fileData['file_name'] != NULL) {
-            $json = 'success';
-            header('Content-Type: application/json');
-            echo json_encode($json);
-          }
-          $this->session->set_flashdata('message', '<div class="alert alert-success alert">Data berhasil disimpan</div>');
+          //TODO Update data arsip
+          $this->Arsip_model->update($arsip_id, array('cover' => $nmfile . '.pdf'));
         }
       }
+
+      //TODO JENIS ARSIP
+      if (!empty($this->input->post('jenis_arsip_id'))) {
+        $jenis_arsip_id = count($this->input->post('jenis_arsip_id'));
+
+        for ($i_jenis_arsip_id = 0; $i_jenis_arsip_id < $jenis_arsip_id; $i_jenis_arsip_id++) {
+          $datas_jenis_arsip_id[$i_jenis_arsip_id] = array(
+            'arsip_id'          => $arsip_id,
+            'jenis_arsip_id'    => $this->input->post('jenis_arsip_id[' . $i_jenis_arsip_id . ']'),
+          );
+
+          $this->db->insert('arsip_jenis', $datas_jenis_arsip_id[$i_jenis_arsip_id]);
+
+          write_log();
+        }
+      }
+
+      if ($fileData['file_name'] != NULL) {
+        $json = 'success';
+        header('Content-Type: application/json');
+        echo json_encode($json);
+      }
+      $this->session->set_flashdata('message', '<div class="alert alert-success alert">Data berhasil disimpan</div>');
     }
   }
 

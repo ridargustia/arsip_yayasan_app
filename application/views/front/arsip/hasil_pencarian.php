@@ -190,16 +190,26 @@
                   <li class="item">
                     <div class="row">
                       <div class="col-md-2">
-                        <?php if ($hasil->cover != NULL) { ?>
-                          <a href="#" onclick="previewCover(<?php echo $hasil->id_arsip ?>)">
-                            <img src="<?php echo base_url('assets/images/covers/' . $hasil->instansi_name . '/') . $hasil->cover; ?>" width="100%">
-                          </a>
-                        <?php } else { ?>
+                        <?php
+                        $ext_file = explode(".", $hasil->cover);
+                        $countArray = count($ext_file) - 1;
+
+                        if ($ext_file[$countArray] == "jpg" || $ext_file[$countArray] == "PNG" || $ext_file[$countArray] == "jpeg" || $ext_file[$countArray] == "png") {
+                        ?>
+                          <img src="<?php echo base_url('assets/file_arsip/' . $hasil->instansi_name . '/') . $hasil->file_upload; ?>" width="100%">
+                        <?php } elseif ($hasil->cover == NULL) { ?>
                           <img src="<?php echo base_url('assets/images/noimage.jpg'); ?>" width="100%">
                         <?php } ?>
 
                         <div class="product-img" style="width: 100%;">
-
+                          <?php if ($ext_file[$countArray] == "pdf") { ?>
+                            <iframe src="<?php echo base_url(); ?>arsip/pdf_frame/<?php echo $hasil->id_arsip ?>" width="100%" height="100%"></iframe>
+                          <?php } ?>
+                          <?php if ($hasil->cover != NULL) { ?>
+                            <center>
+                              <a href="#" onclick="previewCover(<?php echo $hasil->id_arsip ?>)" title="Preview Cover" class="btn btn-success" style="width: 100%;">Preview</a>
+                            </center>
+                          <?php } ?>
                         </div>
                       </div>
                       <div class="col-md-10">
