@@ -30,7 +30,7 @@
                     ?>
                         <img src="<?php echo base_url('assets/file_arsip/' . $arsip->instansi_name . '/') . $arsip->cover; ?>" width="100%">
                     <?php } elseif ($ext_file[$countArray] == "pdf") { ?>
-                        <iframe src="<?php echo base_url(); ?>arsip/pdf_frame/<?php echo $id_arsip ?>" width="100%" height="1050px"></iframe>
+                        <iframe src="<?php echo base_url(); ?>arsip/pdf_frame/<?php echo $id_arsip ?>" width="100%" height="500px"></iframe>
                     <?php } ?>
                 </center>
             </div>

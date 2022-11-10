@@ -1769,7 +1769,7 @@ class Arsip_model extends CI_Model
     $this->db->join('jenis_arsip', 'arsip_jenis.jenis_arsip_id = jenis_arsip.id_jenis', 'LEFT');
 
     $this->db->like('arsip_name', $search_form);
-    // $this->db->or_like('deskripsi_arsip', $search_form);
+    $this->db->or_like('deskripsi_arsip', $search_form);
 
     $this->db->where('arsip.instansi_id', $this->session->instansi_id);
     $this->db->where('arsip.is_delete', '0');

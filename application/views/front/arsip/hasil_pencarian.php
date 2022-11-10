@@ -197,18 +197,24 @@
                         if ($ext_file[$countArray] == "jpg" || $ext_file[$countArray] == "PNG" || $ext_file[$countArray] == "jpeg" || $ext_file[$countArray] == "png") {
                         ?>
                           <img src="<?php echo base_url('assets/file_arsip/' . $hasil->instansi_name . '/') . $hasil->file_upload; ?>" width="100%">
+
+                          <?php if ($hasil->cover != NULL) { ?>
+                            <center>
+                              <a href="#" onclick="previewCover(<?php echo $hasil->id_arsip ?>)" title="Preview Cover" class="btn btn-success" style="width: 100%;">Preview</a>
+                            </center>
+                          <?php } ?>
                         <?php } elseif ($hasil->cover == NULL) { ?>
                           <img src="<?php echo base_url('assets/images/noimage.jpg'); ?>" width="100%">
                         <?php } ?>
 
                         <div class="product-img" style="width: 100%;">
                           <?php if ($ext_file[$countArray] == "pdf") { ?>
-                            <iframe src="<?php echo base_url(); ?>arsip/pdf_frame/<?php echo $hasil->id_arsip ?>" width="100%" height="100%"></iframe>
-                          <?php } ?>
-                          <?php if ($hasil->cover != NULL) { ?>
-                            <center>
-                              <a href="#" onclick="previewCover(<?php echo $hasil->id_arsip ?>)" title="Preview Cover" class="btn btn-success" style="width: 100%;">Preview</a>
-                            </center>
+                            <iframe src="<?php echo base_url(); ?>arsip/pdf_frame_thumbnail/<?php echo $hasil->id_arsip ?>" width="100%" height="100%"></iframe>
+                            <?php if ($hasil->cover != NULL) { ?>
+                              <center>
+                                <a href="<?php echo base_url('assets/file_arsip/' . $hasil->instansi_name . '/' . $hasil->file_upload) ?>" title="Preview Cover" class="btn btn-success" target="_blank" style="width: 100%;">Preview</a>
+                              </center>
+                            <?php } ?>
                           <?php } ?>
                         </div>
                       </div>

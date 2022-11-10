@@ -125,6 +125,14 @@ class Arsip extends CI_Controller
     }
   }
 
+  function pdf_frame_thumbnail($id_arsip)
+  {
+    $this->data['arsip'] = $this->Arsip_model->get_by_id_front($id_arsip);
+    $this->data['file_upload'] = $this->File_model->get_by_arsip_id($id_arsip);
+
+    $this->load->view('front/arsip/pdf_frame_thumbnail', $this->data);
+  }
+
   function pdf_frame($id_arsip)
   {
     $this->data['arsip'] = $this->Arsip_model->get_by_id_front($id_arsip);
