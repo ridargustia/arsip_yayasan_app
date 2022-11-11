@@ -273,14 +273,29 @@ class Arsip extends CI_Controller
       'required'      => '',
       'value'         => $this->form_validation->set_value('arsip_name'),
     ];
-    $this->data['deskripsi_arsip'] = [
-      'name'          => 'deskripsi_arsip',
-      'id'            => 'deskripsi_arsip',
+    $this->data['ibu_name'] = [
+      'name'          => 'ibu_name',
+      'id'            => 'ibu_name',
       'class'         => 'form-control',
-      'rows'          => '5',
       'autocomplete'  => 'off',
       'required'      => '',
-      'value'         => $this->form_validation->set_value('deskripsi_arsip'),
+      'value'         => $this->form_validation->set_value('ibu_name'),
+    ];
+    $this->data['anak_name'] = [
+      'name'          => 'anak_name',
+      'id'            => 'anak_name',
+      'class'         => 'form-control',
+      'autocomplete'  => 'off',
+      'required'      => '',
+      'value'         => $this->form_validation->set_value('anak_name'),
+    ];
+    $this->data['birthdate_anak'] = [
+      'name'          => 'birthdate_anak',
+      'id'            => 'birthdate_anak',
+      'class'         => 'form-control',
+      'autocomplete'  => 'off',
+      'required'      => '',
+      'value'         => $this->form_validation->set_value('birthdate_anak'),
     ];
     $this->data['price'] = [
       'name'          => 'price',
@@ -334,7 +349,9 @@ class Arsip extends CI_Controller
     $this->form_validation->set_rules('baris_id', 'Baris', 'required');
     $this->form_validation->set_rules('no_arsip', 'Nomor Arsip', 'trim|required');
     $this->form_validation->set_rules('arsip_name', 'Nama Arsip', 'trim|required');
-    $this->form_validation->set_rules('deskripsi_arsip', 'Deskripsi Arsip', 'trim|required');
+    $this->form_validation->set_rules('ibu_name', 'Nama Ibu', 'trim|required');
+    $this->form_validation->set_rules('anak_name', 'Nama Anak', 'trim|required');
+    $this->form_validation->set_rules('birthdate_anak', 'Tanggal Lahir Anak', 'required');
     $this->form_validation->set_rules('price', 'Harga', 'required');
     $this->form_validation->set_rules('masa_retensi', 'Masa Retensi', 'required');
     $this->form_validation->set_rules('status_file', 'Status File', 'required');
@@ -385,6 +402,8 @@ class Arsip extends CI_Controller
         $masa_retensi = $this->input->post('masa_retensi');
       }
 
+      $deskripsi_arsip = 'Arsip dengan nama Ibu ' . $this->input->post('ibu_name') . ' yang merupakan ibu dari anak ' . $this->input->post('anak_name') . ' yang lahir pada tanggal ' . date_indonesian($this->input->post('birthdate_anak'));
+
       $data = array(
         'instansi_id'                     => $instansi_id,
         'cabang_id'                       => $cabang_id,
@@ -397,7 +416,7 @@ class Arsip extends CI_Controller
         'map_id'                          => $this->input->post('map_id'),
         'no_arsip'                        => $this->input->post('no_arsip'),
         'arsip_name'                      => $this->input->post('arsip_name'),
-        'deskripsi_arsip'                 => $this->input->post('deskripsi_arsip'),
+        'deskripsi_arsip'                 => $deskripsi_arsip,
         'harga'                           => $this->input->post('price'),
         'keterangan'                      => $this->input->post('keterangan'),
         'masa_retensi'                    => $masa_retensi,

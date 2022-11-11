@@ -228,9 +228,23 @@
           </div>
 
           <div class="form-group">
-            <label class="col-lg-2 control-label">Deskripsi *</label>
+            <label class="col-lg-2 control-label">Nama Ibu *</label>
             <div class="col-lg-10">
-              <?php echo form_textarea($deskripsi_arsip) ?>
+              <?php echo form_input($ibu_name) ?>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-2 control-label">Nama Anak *</label>
+            <div class="col-lg-10">
+              <?php echo form_input($anak_name) ?>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-2 control-label">Tanggal Lahir Anak *</label>
+            <div class="col-lg-10">
+              <?php echo form_input($birthdate_anak) ?>
             </div>
           </div>
 
@@ -466,6 +480,13 @@
 
   <script type="text/javascript">
     $('#masa_retensi').datepicker({
+      autoclose: true,
+      format: 'yyyy-mm-dd',
+      zIndexOffset: 9999,
+      todayHighlight: true,
+    });
+
+    $('#birthdate_anak').datepicker({
       autoclose: true,
       format: 'yyyy-mm-dd',
       zIndexOffset: 9999,
